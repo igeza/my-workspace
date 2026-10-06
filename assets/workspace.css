@@ -630,6 +630,15 @@
 }
 .mn-item__act:hover { background: var(--border-disabled); }
 .mn-item__act .rmx-icon { width: 20px; height: 20px; }
+/* Tooltip: names the icon straight away, below it and right-aligned so it stays inside the tile. */
+.mn-item__act { position: relative; }
+.mn-item__act::after {
+  content: attr(data-tip); position: absolute; z-index: 3; top: calc(100% + 6px); right: -4px;
+  padding: 4px var(--spacing-xs); border-radius: var(--radius-sm); white-space: nowrap; pointer-events: none;
+  background: var(--container-secondary-dark); color: var(--text-ondark); font: var(--type-label-s-regular);
+  opacity: 0; transition: opacity .1s;
+}
+.mn-item__act:hover::after, .mn-item__act:focus-visible::after { opacity: 1; }
 .mn-item__body {
   padding-left: 28px; font: var(--type-label-m-regular); color: var(--text-primary);
   white-space: pre-wrap;
