@@ -66,7 +66,7 @@
 .pd-chk .rmx-check__box { width: 14px; height: 14px; } .pd-chk .rmx-icon { width: 12px; height: 12px; }
 
 .pd-table { width: 100%; border-collapse: collapse; font: var(--type-label-s-regular); color: var(--text-secondary); }
-.pd-table th { padding: 4px 6px; text-align: left; font: var(--type-label-s-semibold); letter-spacing: .02em; border-bottom: 1px solid var(--border-secondary); }
+.pd-table th { padding: 4px 6px; text-align: left; font: var(--type-label-s-semibold); letter-spacing: .02em; border-bottom: 1px solid var(--border-primary); }
 .pd-table td { padding: 4px 6px; border-bottom: 1px solid var(--border-disabled); }
 .pd-table tbody tr:nth-child(even) { background: var(--container-tertiary); }
 .pd-table .r { text-align: right; }
@@ -98,3 +98,9 @@
 .pd-rail .rmx-icon { width: 20px; height: 20px; }
 .pd { padding-right: calc(40px + var(--spacing-md)); }
 .pd.is-issue { padding-right: calc(40px + var(--spacing-xl)); }
+
+/* A tile whose content is a register runs it edge to edge: no tile padding, and the header row's divider is neutral, not blue. */
+.pd-tile__body:has(> .pd-table) { padding: 0; gap: 0; }
+.pd-tile__body:has(> .pd-table) > .pd-seg { margin: var(--spacing-xs) var(--spacing-sm); }
+.pd-tile__body:has(> .pd-table) .pd-table th:first-child, .pd-tile__body:has(> .pd-table) .pd-table td:first-child { padding-left: var(--spacing-md); }
+.pd-tile__body:has(> .pd-table) .pd-table th:last-child, .pd-tile__body:has(> .pd-table) .pd-table td:last-child { padding-right: var(--spacing-md); }

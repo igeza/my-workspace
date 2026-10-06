@@ -2,6 +2,7 @@
 .is-issue .pd-in { height: 36px; padding: 0 var(--spacing-xs); } .is-issue .pd-in__v, .is-issue .pd-f__l { font: var(--type-label-m-regular); }
 .is-issue .pd-in .rmx-icon { width: 20px; height: 20px; }
 .is-issue .pd-tile__body { gap: var(--spacing-md); padding: var(--spacing-md); }
+.is-issue .pd-tile__body:has(> .pd-table) { padding: 0; gap: 0; }
 .is-issue .pd-tile .rmx-tile__header { min-height: 36px; border-bottom: 2px solid var(--border-secondary); }
 .is-issue .pd-tile__title { font: var(--type-label-m-semibold); }
 .is-issue .pd-act { font: var(--type-label-m-regular); } .is-issue .pd-act--dim { color: var(--text-disabled); }
