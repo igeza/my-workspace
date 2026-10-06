@@ -15,7 +15,7 @@ Run it: `python3 dev-server.py 3000 .` then open http://localhost:3000, or see t
 - Open (n) and Dismissed tabs. Dismissed has a search field and a "6 of 27 Mentions" footer.
 - The kebab on each mention: Quick Response (opens Add Response Note), Dismiss (open mentions) or Reopen (dismissed ones), and Details. Details opens the task's details over the workspace for a task mention, and Note Details for the others.
 - The blue record name opens the record's page: the specific task on the Tasks screen, the tenant on Tenant Details, the prospect on Prospect Details (`screens/prospect.html`, from RMX Pages node 3784:54067; name, account and email follow the mention, everything else is the frame's sample data). Owners and issues have no screen yet, so they open their History / Notes overlay.
-- Clicking elsewhere on a mention also opens Add Response Note.
+- Clicking a mention opens its Details over the workspace (same as the kebab's Details).
 - At 1024px and below, a row of icon buttons picks which single tile shows (Figma "My Workspace - Mobile").
 - The user is Charlie.
 

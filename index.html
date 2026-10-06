@@ -663,12 +663,12 @@
        (the task on the Tasks register, the tenant on Tenant Details). Records
        without a page yet fall back to their History / Notes overlay. */
     if (rec) { if (m.href) return; e.preventDefault(); if (window.RMXHistory) RMXHistory.open(rec.getAttribute('data-mn-rec')); return; }
-    openNote(m);
+    openDetails(m);
   });
   list.addEventListener('keydown', function (e) {
     if ((e.key !== 'Enter' && e.key !== ' ') || e.target.closest('a,button')) return;
     var item = e.target.closest('.mn-item'); if (!item) return;
-    e.preventDefault(); openNote(byId(item.getAttribute('data-mn-id')));
+    e.preventDefault(); openDetails(byId(item.getAttribute("data-mn-id")));
   });
 
   /* ---------- Add Response Note ---------- */
