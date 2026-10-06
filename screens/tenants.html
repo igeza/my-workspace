@@ -142,6 +142,7 @@ a:hover { text-decoration:underline; }
 .context-bar .title{font-size:18px;font-weight:400;line-height:24px;color:#fff;display:flex;align-items:center;gap:8px;}
 .context-bar .actions{display:flex;align-items:center;gap:0;}
 .context-bar .material-symbols-outlined{color:#fff;font-size:20px;cursor:pointer;}
+.nav-panel{display:none !important;}
 .page-shell{display:flex;gap:16px;padding:16px;max-width:1920px;margin:0 auto;align-items:stretch;flex:1;min-height:0;width:100%;box-sizing:border-box;}
 #viewDetails,#viewRegister{display:flex;flex-direction:column;flex:1;min-height:0;}
 
@@ -934,7 +935,7 @@ a:hover { text-decoration:underline; }
 
 <!-- ============================== CONTEXT BAR ============================== -->
 <div class="context-bar">
-  <div class="title" id="pageTitle">Tenant Register</div>
+  <div class="title" id="pageTitle">Tenants</div>
   <div class="actions">
     <div class="iconbtn" title="Print"><svg class="material-symbols-outlined"><use href="#print"></use></svg></div>
     <div class="iconbtn" title="Refresh"><svg class="material-symbols-outlined"><use href="#autorenew"></use></svg></div>
@@ -1985,13 +1986,13 @@ function switchView(name){
   document.getElementById("viewRegister").hidden = name !== "register";
   document.getElementById("viewDetails").hidden = name !== "details";
   const title = document.getElementById("pageTitle");
-  title.textContent = name === "details" ? "Tenants" : "Tenant Register";
+  title.textContent = name === "details" ? "Tenant Detail" : "Tenants";
   /* On Tenant Details the context-bar title is the way back out, the click
      target a breadcrumb would be in Express. On the register it is just a
      label, so the affordance and the handler both come off. */
   const onDetails = name === "details";
   title.classList.toggle("is-back", onDetails);
-  title.title = onDetails ? "Back to Tenant Register" : "";
+  title.title = onDetails ? "Back to Tenants" : "";
   title.onclick = onDetails ? function(){ switchView("register"); } : null;
 }
 
@@ -3814,9 +3815,21 @@ function renderDetail(t){
   document.getElementById("tEmContact").textContent = d.emContact;
   document.getElementById("tEmPhone").textContent = d.emPhone;
 
-  document.getElementById("historyRows").innerHTML = d.history.map(h =>
-    '<tr><td>'+h.date+'</td><td>'+h.type+'</td><td>'+h.note+'</td></tr>'
+  /* Marcia Clark is the tenant My Mentions points at: the mention is her newest note, typed Note. */
+  const histRows = d.history.slice();
+  if (t.name === "Marcia Clark") {
+    const now = new Date();
+    histRows.unshift({ date: pad2(now.getMonth()+1)+"/"+pad2(now.getDate())+"/"+String(now.getFullYear()).slice(2), type: "Note", user: "Erin Caldwell",
+      note: "@Charlie she\u2019s adding a roommate within six months and wants the steps in writing." });
+  }
+  document.getElementById("historyRows").innerHTML = histRows.map((h, i) =>
+    '<tr data-i="'+i+'"><td>'+h.date+'</td><td>'+h.type+'</td><td>'+h.note+'</td></tr>'
   ).join("");
+  /* The overlay and the tile show the same notes. */
+  window.__tenantRec = { key: "tenant-"+t.account, kind: "Tenant", name: t.name,
+    items: [{icon:"properties", text:t.property}, {icon:"units", text:t.unit||""}, {icon:"mail-outline", text:t.email}, {icon:"call", text:t.phone}],
+    status: {label: "Current"}, balance: "0.00",
+    notes: histRows.map(h => ({ type: h.type, date: h.date+" 9:00 AM", category: "<Unassigned>", user: h.user || "Charlie", note: h.note, files: [] })) };
 
   document.getElementById("transactionRows").innerHTML = d.transactions.map(x =>
     '<tr><td>'+x.date+'</td><td>'+(x.ref||"")+'</td><td>'+x.desc+'</td>'
@@ -4259,13 +4272,17 @@ d_renderAll();
    Added 2026-09-14 with the Tenants / Tenant Register menu links. ---- */
 if (new URLSearchParams(location.search).get("view") === "details") window.__showDetails();
 /* Arriving from a mention (?note=1): the tenant's History / Notes overlay opens over Tenant Details, with the mention in it. */
+document.getElementById("historyRows").addEventListener("click", function (e) {
+  const tr = e.target.closest("tr"); if (!tr || !window.RMXHistory || !window.__tenantRec) return;
+  RMXHistory.open(window.__tenantRec, { noteOnly: true, noteIndex: +tr.getAttribute("data-i") });
+});
 window.addEventListener("load", function () {
-  if (new URLSearchParams(location.search).get("note") === "1" && window.RMXHistory) RMXHistory.open("tenant-marcia-clark");
+  if (new URLSearchParams(location.search).get("note") === "1" && window.RMXHistory && window.__tenantRec) RMXHistory.open(window.__tenantRec);
   document.documentElement.classList.remove("rmx-arriving");
 });
 
 </script>
 
 <script src="../assets/history-notes.js?v=34af3ae1"></script>
-<script src="../assets/megamenu.js?v=455072c3"></script>
+<script src="../assets/megamenu.js?v=e5501e01"></script>
 </body></html>

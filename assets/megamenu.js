@@ -109,8 +109,7 @@
      says which of its screens exist by setting a map BEFORE this script:
 
        <script>window.RMX_MEGAMENU_LINKS = {
-         'Tenants': 'screens/tenants.html?view=details',
-         'Tenant Register': 'screens/tenants.html',
+         'Tenants': 'screens/tenants.html',
          'Tasks': 'screens/tasks.html'
        };</script>
        <script src="assets/megamenu.js"></script>
@@ -133,7 +132,7 @@
         /* Two entries into one screen: 'Tenants' lands on Tenant Details (the
            record, with the list in its left rail), 'Tenant Register' on the
            full register. Same file, told apart by ?view=. */
-        { title: 'General', items: ['Tenants', 'Tenant Register', 'Prospects', 'Units', 'Properties', 'Unit Types', 'Assets', 'Violations', 'Merge Prospects'] },
+        { title: 'General', items: ['Tenants', 'Prospects', 'Units', 'Properties', 'Unit Types', 'Assets', 'Violations', 'Merge Prospects'] },
         { title: 'Leasing', items: ['Screenings', 'Applications', 'Application Templates', 'Renewal Increases', 'Prospect Leasing Board', 'Create Renewal Offers', 'Lease Renewal Register', 'Lease Renewal Board', 'Export Minnesota CRP'] },
         { title: 'Short Term Rentals', items: ['STR Reservations', 'Check-ins', 'Find Reservation'] },
         { title: 'Online Listing', items: ['Listings'] },
