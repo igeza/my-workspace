@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><meta name="rmx-skill" content="4.0.0"><meta name="rmx-tokens" content="39c8f4c0ebcf"><style>:root{color-scheme:light}html{height:100%;overflow:hidden}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413;height:100vh;display:flex;flex-direction:column;overflow-y:auto}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style><link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><meta name="rmx-skill" content="4.0.0"><meta name="rmx-tokens" content="39c8f4c0ebcf"><style>:root{color-scheme:light}html{height:100%;overflow:hidden}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413;height:100vh;display:flex;flex-direction:column;overflow-y:auto}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style><style>html.rmx-arriving body{visibility:hidden}</style><script>if(/[?&]note=1/.test(location.search)){document.documentElement.classList.add("rmx-arriving");setTimeout(function(){document.documentElement.classList.remove("rmx-arriving")},2000);}</script><link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"></head><body>
 <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden" xmlns="http://www.w3.org/2000/svg">
 <!-- App bar glyphs, harvested verbatim from assets/icons.svg so this page's
      header is the same component as index.html and screens/tasks.html.
@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="../assets/type.css?v=e816b046">
 <link rel="stylesheet" href="../assets/rmx.css?v=7eee26a9">
 <link rel="stylesheet" href="../assets/megamenu.css?v=f106987c">
+<link rel="stylesheet" href="../assets/history-notes.css?v=97ce8fdb">
 <style>
 /* The appbar is authored at the 1920px display width; every screen that uses
    it caps that to the viewport. index.html does it in workspace.css and
@@ -4257,8 +4258,14 @@ d_renderAll();
    Purely additive: nothing that worked before behaves differently.
    Added 2026-09-14 with the Tenants / Tenant Register menu links. ---- */
 if (new URLSearchParams(location.search).get("view") === "details") window.__showDetails();
+/* Arriving from a mention (?note=1): the tenant's History / Notes overlay opens over Tenant Details, with the mention in it. */
+window.addEventListener("load", function () {
+  if (new URLSearchParams(location.search).get("note") === "1" && window.RMXHistory) RMXHistory.open("tenant-marcia-clark");
+  document.documentElement.classList.remove("rmx-arriving");
+});
 
 </script>
 
+<script src="../assets/history-notes.js?v=34af3ae1"></script>
 <script src="../assets/megamenu.js?v=455072c3"></script>
 </body></html>
