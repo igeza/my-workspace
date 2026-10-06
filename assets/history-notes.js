@@ -497,7 +497,7 @@ function renderNotes(){
         '<td class="c-type" title="' + esc(n.type) + '">' + esc(n.type) + '</td>' +
         '<td class="c-date">' + esc(n.date) + '</td>' +
         '<td class="c-note" title="' + esc(n.note) + '">' +
-          '<span class="hn-note-cell">' + noteAvatar(n.user, n.type) + clip +
+          '<span class="hn-note-cell">' + clip +
           '<span class="hn-note-body">' + withMentions(n.note) + '</span></span></td>' +
         '<td class="c-cat">' + esc(n.category) + '</td>' +
         '<td class="c-user" title="' + esc(n.user) + '">' + esc(n.user) + '</td>' +
