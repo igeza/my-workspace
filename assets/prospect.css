@@ -105,4 +105,4 @@
 .pd-tile__body:has(> .pd-table) .pd-table th:first-child, .pd-tile__body:has(> .pd-table) .pd-table td:first-child { padding-left: var(--spacing-md); }
 .pd-tile__body:has(> .pd-table) .pd-table th:last-child, .pd-tile__body:has(> .pd-table) .pd-table td:last-child { padding-right: var(--spacing-md); }
 
-#pdNotes tr { cursor: pointer; } #pdNotes tr:hover td { background: var(--container-tertiary); }
+#pdNotes tr { cursor: pointer; } #pdNotes tr:hover td { background: var(--border-disabled) !important; }
