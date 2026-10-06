@@ -305,6 +305,8 @@ a:hover { text-decoration:underline; }
    border to read as a register rather than a floating block. Overrides the
    16px on .tile-body for table tiles only; the non-table tiles keep it. */
 .tile-body.mini-table-wrap{padding:0;}
+/* History / Notes grows with its rows instead of scrolling inside the tile. */
+.tile-body.mini-table-wrap:has(#historyRows){max-height:none;overflow-y:visible;overflow-x:auto;}
 .mini-table{min-width:520px;}
 .rc-group-row td{background:#fff!important;font-size:12px;font-weight:600;color:var(--rmx-navy);padding:8px 8px 4px;border-bottom:none;}
 .rc-group-row .material-symbols-outlined{font-size:16px;vertical-align:-3px;color:var(--text-primary);}
