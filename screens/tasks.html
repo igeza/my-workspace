@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style><link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style><style>html.rmx-arriving body{visibility:hidden}</style><script>if(/[?&](open|new)=/.test(location.search)&&!/[?&]embed=1/.test(location.search)){document.documentElement.classList.add("rmx-arriving");setTimeout(function(){document.documentElement.classList.remove("rmx-arriving")},2000);}</script><link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png"></head><body>
 <!-- RMX icons for the app bar + Context Bar only, the same 9 symbols used on
      every other screen in this prototype, copied from assets/icons.svg (not
      hand-drawn). The rest of this page's icons stay Material Symbols; see
@@ -3697,6 +3697,8 @@ document.addEventListener('DOMContentLoaded', function(){
      tile has to arrive at Task Details already complete, and opening the modal
      inline meant opening it from the shipped data. Emma's call, 2026-09-11. */
   openFromQueryParam();
+  /* Arriving with a task to open: the page stays hidden until its modal is up, so the register never flashes first. */
+  requestAnimationFrame(function(){ document.documentElement.classList.remove('rmx-arriving'); });
 });
 
 // Arrived from My Workspace's My Tasks preview, open that task's details
