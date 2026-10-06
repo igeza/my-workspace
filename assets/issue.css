@@ -37,3 +37,18 @@
 .is-cb { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--icon-disabled); border-radius: 2px; background: var(--container-primary); vertical-align: middle; }
 .is-wo__f { text-align: right; padding: var(--spacing-xs); background: var(--container-tertiary); font: var(--type-label-s-regular); color: var(--text-disabled); }
 .is-notes { min-height: 0; }
+
+/* Context Bar: the name field carries a dim search glyph, and Print is a white split button (frame 1752:26603). */
+.is-ctxname { display: inline-flex; align-items: center; gap: var(--spacing-xs); height: 32px; min-width: 236px; margin-left: var(--spacing-xs); padding: 0 var(--spacing-xs);
+  background: rgba(0, 0, 0, .12); border-radius: var(--radius-sm); font: var(--type-label-m-regular); font-style: normal; color: var(--text-ondark); }
+.is-ctxname .rmx-icon { width: 16px; height: 16px; color: rgba(255, 255, 255, .45); }
+.is-print { height: 28px; background: var(--container-primary); border-radius: var(--radius-sm); }
+.is-print .rmx-split__main { background: var(--container-primary); color: var(--text-link); padding: 0 var(--spacing-sm); font: var(--type-label-m-regular); }
+.is-print .rmx-split__caret { background: var(--container-primary); color: var(--text-link); border-left: 1px solid var(--border-primary); }
+.is-print .rmx-icon { color: var(--text-link); }
+/* Page gutters and gaps as drawn: 24 at the edges, 20 between the two columns. */
+.pd.is-issue { padding: var(--spacing-md) calc(40px + var(--spacing-xl)) var(--spacing-md) var(--spacing-xl); }
+.is-grid { gap: var(--spacing-md) 20px; }
+.is-issue .pd-tile .rmx-tile__header { min-height: 36px; padding: 0 var(--spacing-md); }
+.is-issue .pd-table tbody tr { height: 36px; }
+.is-issue .pd-table th { padding: 6px 8px; } .is-issue .pd-table td { padding: 4px 8px; }

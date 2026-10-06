@@ -90,3 +90,11 @@
 .pd-pet__m { font: var(--type-label-s-regular); color: var(--text-secondary); }
 .pd-dl { display: grid; grid-template-columns: 1fr 1fr; margin: 0; font: var(--type-label-s-regular); color: var(--text-secondary); }
 .pd-dl dt, .pd-dl dd { margin: 0; padding: 4px 6px; border-top: 1px solid var(--border-disabled); }
+
+/* Action Bar rail down the right edge (40px, navy), as drawn on the Prospect and Issue frames. */
+.pd-rail { position: fixed; top: 88px; right: 0; bottom: 0; z-index: 30; width: 40px; display: flex; flex-direction: column; align-items: center; gap: var(--spacing-md); padding-top: var(--spacing-md);
+  background: var(--component-main-header); }
+.pd-rail button { display: inline-flex; padding: 0; border: 0; background: none; color: var(--text-ondark); cursor: pointer; }
+.pd-rail .rmx-icon { width: 20px; height: 20px; }
+.pd { padding-right: calc(40px + var(--spacing-md)); }
+.pd.is-issue { padding-right: calc(40px + var(--spacing-xl)); }
