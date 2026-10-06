@@ -352,6 +352,7 @@ function hnDate(daysAgo, time){
 function knownNames(){
   return taggableUsers().map(function(u){ return u.name; })
     .concat(['Charlie'])
+    .filter(function(n, i, a){ return a.indexOf(n) === i; })
     .sort(function(a,b){ return b.length - a.length; });
 }
 /* Every "@token" a note can carry, longest first so "@Charlie Little" is not
@@ -378,6 +379,10 @@ function mentionTokens(users){
     if (u.uname) out.push({ token: u.uname, label: mentionLabel(u.uname, u.name), mine: !!u.me });
   });
   out.push({ token: 'Charlie', label: '@Charlie' });
+  /* One entry per spelling: the signed-in user is both a taggable user and the
+     built-in alias, and two entries for the same word wrap its chip twice. */
+  var seen = {};
+  out = out.filter(function(t){ var k = t.token.toLowerCase(); if (seen[k]) return false; seen[k] = 1; return true; });
   return out.sort(function(a, b){ return b.token.length - a.token.length; });
 }
 /* A tag is a lozenge wherever it is drawn -- orange when it tags you, blue when
