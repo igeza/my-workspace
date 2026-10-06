@@ -9,7 +9,10 @@
 <link rel="stylesheet" href="../assets/type.css?v=e816b046">
 <link rel="stylesheet" href="../assets/rmx.css?v=7eee26a9">
 <link rel="stylesheet" href="../assets/proto.css?v=93c42d60">
+<link rel="stylesheet" href="../assets/history-notes.css?v=97ce8fdb">
 <link rel="stylesheet" href="../assets/prospect.css?v=39e20934">
+<style>html.rmx-arriving body{visibility:hidden}</style>
+<script>if(/[?&]note=1/.test(location.search)){document.documentElement.classList.add("rmx-arriving");setTimeout(function(){document.documentElement.classList.remove("rmx-arriving")},2000);}</script>
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 </head>
 <body class="rmx">
@@ -97,14 +100,15 @@
 <section class="rmx-tile pd-tile pd-c6" data-rmx-component="Tile"><header class="rmx-tile__header "><span class="pd-tile__title">Pets</span><span class="rmx-tile__actions"><a href="#" class="pd-act" data-rmx-todo="Cancel is not built in this prototype">Cancel</a><svg class="rmx-icon pd-ext"><use href="#open-in-new"></use></svg></span></header><div class="pd-tile__body"><div class="pd-pet"><span class="pd-pet__ph"></span><div><a href="#" data-rmx-todo="Pet details are not built in this prototype">Her Majesty</a><div class="pd-pet__m">12 &nbsp; Medium Dog</div></div></div><dl class="pd-dl"><dt>Breed</dt><dd>Corgi</dd><dt>Color</dt><dd>Cream and Orange</dd><dt>Weight</dt><dd>Mm</dd><dt>Description</dt><dd></dd></dl></div></section>
 </div>
 </main>
+<script src="../assets/history-notes.js?v=34af3ae1"></script>
 <script src="../assets/app.js?v=7be399e0"></script>
 <script>
 (function () {
   var P = {
     'nicole-brandt': {name:'Nicole Brandt', ini:'NB', acct:'517', mail:'nbrandt@example.com',
-      note:['Mention', '@Charlie Nicole wants the quote repriced with the covered parking space included. Can you add it?']},
+      who:'Kelsey Warner', note:['Mention', '@Charlie Nicole wants the quote repriced with the covered parking space included. Can you add it?']},
     'renee-vogel':   {name:'Renee Vogel',   ini:'RV', acct:'518', mail:'rvogel@example.com',
-      note:['Mention', '@Charlie She really just wants a dog park, and nothing at Flagstone fits. Can you move the lead to Brookside?']}
+      who:'Derek Shaw', note:['Mention', '@Charlie She really just wants a dog park, and nothing at Flagstone fits. Can you move the lead to Brookside?']}
   };
   var p = P[new URLSearchParams(location.search).get('id')];
   if (p) {
@@ -121,7 +125,17 @@
     }
     var d = new Date(), t = ('0' + (d.getMonth() + 1)).slice(-2) + '/' + ('0' + d.getDate()).slice(-2) + '/' + d.getFullYear();
     document.getElementById('pdNotes').insertAdjacentHTML('afterbegin', '<tr><td>' + t + '</td><td>' + p.note[0] + '</td><td>' + p.note[1] + '</td></tr>');
+    /* Arriving from a mention (?note=1): the prospect's History / Notes overlay opens over the page, with the mention in it. */
+    if (new URLSearchParams(location.search).get('note') === '1' && window.RMXHistory) {
+      var two = function (n) { return ('0' + n).slice(-2); };
+      RMXHistory.open({key: 'prospect-' + p.acct, kind: 'Prospect', name: p.name,
+        items: [{icon: 'properties', text: 'Riverview Apartments'}, {icon: 'units', text: '1B'}, {icon: 'mail-outline', text: p.mail}, {icon: 'call', text: '513-555-1235'}],
+        notes: [{type: 'Mention', date: two(d.getMonth() + 1) + '/' + two(d.getDate()) + '/' + String(d.getFullYear()).slice(2) + ' 9:00 AM', category: 'Leasing', user: p.who, note: p.note[1], files: []},
+                {type: 'Lease Renewal Offer', date: '02/25/26 12:00 PM', category: '<Unassigned>', user: 'Charlie', note: 'Lease Renewal Offer: Offer Declined', files: []},
+                {type: 'Text Message', date: '02/25/26 11:00 AM', category: '<Unassigned>', user: 'Charlie', note: 'The signable document for tenant is waiting to be signed.', files: []}]});
+    }
   }
+  window.addEventListener('load', function () { document.documentElement.classList.remove('rmx-arriving'); });
   document.addEventListener('click', function (e) {
     var c = e.target.closest('[data-pd-check]'); if (!c) return;
     e.preventDefault(); c.setAttribute('data-checked', String(c.getAttribute('data-checked') !== 'true'));
