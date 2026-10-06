@@ -441,14 +441,6 @@
 
 <iframe class="mn-taskframe" id="mnTaskFrame" title="Task Details" hidden></iframe>
 
-<!-- Per-mention menu (Dropdown Menu 2248:3661). Dismiss shows on open mentions, Reopen on dismissed ones. -->
-<div class="mn-menu" id="mnMenu" hidden role="menu" data-rmx-component="Dropdown Menu">
-  <button type="button" role="menuitem" data-mn-act="dismiss">Dismiss</button>
-  <button type="button" role="menuitem" data-mn-act="reopen">Reopen</button>
-  <button type="button" role="menuitem" data-mn-act="details">Details</button>
-  <button type="button" role="menuitem" data-mn-act="quick">Quick Response</button>
-</div>
-
 <!-- Add Response Note, Dialog Overlay (Figma "Add Response Note" 2251:3875, updated 2026-10) -->
 <div class="mn-scrim" id="mnNote" hidden>
   <section class="mn-dialog" role="dialog" aria-modal="true" aria-labelledby="mnNoteTitle" data-rmx-component="Dialog Overlay">
@@ -602,7 +594,6 @@
               ? '<button type="button" class="mn-item__act" title="Dismiss" aria-label="Dismiss" data-mn-dismiss><svg class="rmx-icon"><use href="#check"></use></svg></button>'
               : '<button type="button" class="mn-item__act" title="Reopen" aria-label="Reopen" data-mn-reopen><svg class="rmx-icon"><use href="#refresh"></use></svg></button>') +
           '</span>' +
-          '<button type="button" class="mn-item__menu" aria-label="Mention options" data-mn-menu><svg class="rmx-icon"><use href="#more-vert"></use></svg></button>' +
         '</div>' +
         '<div class="mn-item__body">@' + ME + ' ' + m.body + '</div>' +
         '<div class="mn-item__time">' + m.when + '</div>' +
@@ -630,33 +621,6 @@
   tile.querySelector('[data-mn-search]').addEventListener('input', function (e) {
     query = e.target.value.trim().toLowerCase(); render();
   });
-
-  /* ---------- per-mention menu ---------- */
-  var menu = document.getElementById('mnMenu'), menuFor = null;
-  function closeMenu(){ menu.hidden = true; menuFor = null; }
-  function openMenu(btn, m) {
-    menuFor = m;
-    menu.querySelector('[data-mn-act="reopen"]').hidden = m.state !== 'dismissed';
-    menu.querySelector('[data-mn-act="dismiss"]').hidden = m.state !== 'open';
-    var r = btn.getBoundingClientRect();
-    menu.hidden = false;
-    menu.style.top = Math.min(r.bottom + 4, window.innerHeight - menu.offsetHeight - 8) + 'px';
-    menu.style.left = Math.max(8, r.right - menu.offsetWidth) + 'px';
-  }
-  menu.addEventListener('click', function (e) {
-    var a = e.target.closest('[data-mn-act]'); if (!a || !menuFor) return;
-    var act = a.getAttribute('data-mn-act'), m = menuFor;
-    closeMenu();
-    if (act === 'reopen') { m.state = 'open'; render(); }
-    if (act === 'dismiss') { m.state = 'dismissed'; render(); }
-    if (act === 'quick') openNote(m);
-    if (act === 'details') openDetails(m);
-  });
-  document.addEventListener('click', function (e) {
-    if (!menu.hidden && !e.target.closest('#mnMenu') && !e.target.closest('[data-mn-menu]')) closeMenu();
-  });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
-  window.addEventListener('scroll', closeMenu, true);
 
   /* ---------- Details ----------
      A task mention opens that task's details over the workspace (the Tasks
@@ -694,8 +658,6 @@
     if (e.target.closest('[data-mn-quick]')) { openNote(m); return; }
     if (e.target.closest('[data-mn-dismiss]')) { m.state = 'dismissed'; render(); return; }
     if (e.target.closest('[data-mn-reopen]')) { m.state = 'open'; render(); return; }
-    var menuBtn = e.target.closest('[data-mn-menu]');
-    if (menuBtn) { e.stopPropagation(); menu.hidden ? openMenu(menuBtn, m) : closeMenu(); return; }
     var rec = e.target.closest('[data-mn-rec]');
     /* The blue record name opens that record's page where the prototype has one
        (the task on the Tasks register, the tenant on Tenant Details). Records

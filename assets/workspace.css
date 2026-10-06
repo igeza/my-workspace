@@ -630,31 +630,12 @@
 }
 .mn-item__act:hover { background: var(--border-disabled); }
 .mn-item__act .rmx-icon { width: 20px; height: 20px; }
-.mn-item__menu {
-  flex: none; display: inline-flex; width: 20px; height: 20px; padding: 0; border: 0;
-  background: none; color: var(--text-link); cursor: pointer;
-}
 .mn-item__body {
   padding-left: 28px; font: var(--type-label-m-regular); color: var(--text-primary);
   white-space: pre-wrap;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
 .mn-empty { margin: var(--spacing-xl) 0; text-align: center; font: var(--type-paragraph-s-regular); color: var(--text-disabled); }
-
-/* Dropdown Menu (2248:3661) */
-.mn-menu {
-  position: fixed; z-index: 600; min-width: 196px; width: max-content; overflow: hidden;
-  background: var(--container-primary); border-radius: 4px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, .15);
-}
-.mn-menu[hidden] { display: none; }
-.mn-menu > button {
-  display: flex; align-items: center; width: 100%; height: 36px; padding: var(--spacing-xs);
-  border: 0; background: none; cursor: pointer; text-align: left;
-  font: var(--type-paragraph-s-regular); color: var(--text-link); white-space: nowrap;
-}
-.mn-menu > button:hover { background: var(--container-tertiary); }
-.mn-menu > button[hidden] { display: none; }
 
 /* Add Response Note: Dialog Overlay, 492 wide, sitting near the top of the page (frame 2251:3875). */
 .mn-scrim {
@@ -771,4 +752,3 @@
 /* Task Details over the workspace: the Tasks screen in ?embed=1 mode, whose own scrim is the whole visible surface. */
 .mn-taskframe { position: fixed; inset: 0; z-index: 590; width: 100%; height: 100%; border: 0; background: transparent; }
 .mn-taskframe[hidden] { display: none; }
-.mn-menu > button[hidden] { display: none; }
