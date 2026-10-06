@@ -68,3 +68,29 @@
 .is-issue .pd-table th { font: var(--type-label-s-semibold); letter-spacing: .08em; } .is-issue .pd-table td { font: var(--type-label-m-regular); }
 .is-issue .pd-seg button { font: var(--type-label-s-regular); padding: 4px 14px; }
 .is-issue .pd-tile__title { font: var(--type-label-m-semibold); }
+
+/* Prospect Details shares these sizes: 14px text, 36px fields, as the frames draw them. */
+.is-issue .pd-score__l1, .is-issue .pd-score__l2, .is-issue .pd-score__r > div { font: var(--type-label-m-regular); }
+.is-issue .pd-score__l1 b { font: var(--type-label-m-semibold); font-size: 16px; }
+.is-issue .pd-score__l2 .rmx-icon { width: 20px; height: 20px; }
+.is-issue .pd-av--sm { width: 32px; height: 32px; }
+.is-issue .pd-contact, .is-issue .pd-contact b, .is-issue .pd-box, .is-issue .pd-dl, .is-issue .pd-addr, .is-issue .pd-pet__m, .is-issue .pd-status, .is-issue .pd-slider__v, .is-issue .pd-follow { font-size: 14px; line-height: 20px; }
+.is-issue .pd-h3 { font: var(--type-label-m-semibold); }
+.is-issue .pd-btn { height: 36px; font: var(--type-label-m-regular); padding: 0 var(--spacing-md); }
+.is-issue .pd-ta { height: 96px; font: var(--type-label-m-regular); }
+.is-issue .pd-phone .rmx-icon, .is-issue .pd-sq .rmx-icon { width: 20px; height: 20px; }
+.is-issue .pd-sq { width: 36px; height: 36px; }
+.is-issue .pd-dl dt, .is-issue .pd-dl dd { padding: 8px 12px; }
+.is-issue .pd-ctx__name, .is-issue .pd-ctx__pager, .is-issue .pd-ctx__chip { font: var(--type-label-m-regular); }
+.is-issue .pd-ctx__name { height: 32px; }
+.is-issue .pd-slider { margin: 12px 0; } .is-issue .pd-slider__thumb { width: 14px; height: 14px; top: -6px; }
+.is-issue .pd-row { gap: var(--spacing-md); }
+.is-issue .pd-tile__body > .pd-f { gap: 4px; }
+.is-issue .pd-pet__ph { width: 80px; height: 80px; }
+.is-issue .pd-chk .rmx-check__box { width: 20px; height: 20px; }
+
+/* Everything that was still 12px: table headers, tabs, the toggle and the context bar chips. */
+.is-issue .pd-table th { font: var(--type-label-m-semibold); letter-spacing: .06em; }
+.is-issue .pd-tabs button, .is-issue .pd-seg button { font: var(--type-label-m-semibold); }
+.is-issue .pd-seg button[aria-pressed="false"] { font-weight: 400; }
+.pd-ctx__name, .pd-ctx__pager, .pd-ctx__chip { font: var(--type-label-m-regular); }
