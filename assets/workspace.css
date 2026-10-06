@@ -620,7 +620,16 @@
 .mn-item__what { flex: 1; min-width: 0; font: var(--type-label-m-regular); color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mn-item__rec { color: var(--text-link); text-decoration: none; }
 .mn-item__rec:hover { text-decoration: underline; }
-.mn-item__time { flex: none; font: var(--type-label-s-regular); color: var(--text-primary); }
+.mn-item__time { padding-left: 28px; font: var(--type-label-s-regular); color: var(--text-primary); }
+/* Quick Response and Dismiss (Reopen on dismissed ones) appear top right when the row is hovered or has focus. */
+.mn-item__acts { flex: none; display: none; align-items: center; gap: var(--spacing-xxs); }
+.mn-item:hover .mn-item__acts, .mn-item:focus-within .mn-item__acts { display: inline-flex; }
+.mn-item__act {
+  display: inline-flex; width: 24px; height: 24px; padding: 2px; margin: -2px 0; border: 0; border-radius: var(--radius-sm);
+  background: none; color: var(--text-link); cursor: pointer;
+}
+.mn-item__act:hover { background: var(--border-disabled); }
+.mn-item__act .rmx-icon { width: 20px; height: 20px; }
 .mn-item__menu {
   flex: none; display: inline-flex; width: 20px; height: 20px; padding: 0; border: 0;
   background: none; color: var(--text-link); cursor: pointer;
