@@ -22,4 +22,4 @@ Run it: `python3 dev-server.py 3000 .` then open http://localhost:3000, or see t
 ## Not in this starter
 - The mega menu. The app bar button does nothing yet. `check.mjs --fix` added `megamenu.js/css` to `assets/` but `index.html` doesn't load them.
 - Announcements and My Training start hidden, as in the original; the links at bottom right bring them back.
-- "Open in New Tab" and the tile menu (kebab in the header) are inert; the design doesn't say what they open.
+- The tile menu (kebab in the header) is inert; the design doesn't say what it contains.
