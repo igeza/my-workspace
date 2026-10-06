@@ -1,0 +1,39 @@
+/* Issue Details, Figma RMX Pages 5XEzI94nmZsWE7rQQ7OIHP node 1752:26603. Builds on prospect.css. */
+.is-issue .pd-in { height: 36px; padding: 0 var(--spacing-xs); } .is-issue .pd-in__v, .is-issue .pd-f__l { font: var(--type-label-m-regular); }
+.is-issue .pd-in .rmx-icon { width: 20px; height: 20px; }
+.is-issue .pd-tile__body { gap: var(--spacing-md); padding: var(--spacing-md); }
+.is-issue .pd-tile .rmx-tile__header { min-height: 36px; border-bottom: 2px solid var(--border-secondary); }
+.is-issue .pd-tile__title { font: var(--type-label-m-semibold); }
+.is-issue .pd-act { font: var(--type-label-m-regular); } .is-issue .pd-act--dim { color: var(--text-disabled); }
+.is-issue .pd-tile .rmx-tile__header .pd-seg { margin-left: var(--spacing-xs); }
+.is-issue .pd-table { font: var(--type-label-m-regular); } .is-issue .pd-table th { font: var(--type-label-s-semibold); }
+.is-ctxname { font-style: normal; min-width: 240px; }
+.is-print { height: 28px; } .is-print .rmx-icon { width: 20px; height: 20px; }
+.pd-ctx .rmx-contextbar__trailing { gap: var(--spacing-md); }
+.is-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-md); align-items: start; }
+.is-grid > .is-w { grid-column: 1 / -1; } .is-grid > .is-wo { grid-column: 1; width: 64%; min-width: 320px; }
+@media (max-width: 1000px) { .is-grid { grid-template-columns: 1fr; } .is-grid > .is-wo { width: 100%; } }
+.is-col { align-self: stretch; display: flex; flex-direction: column; gap: var(--spacing-md); min-width: 0; }
+.is-col > .is-fill { flex: 1; }
+.is-chips { display: flex; gap: var(--spacing-xs); flex-wrap: wrap; }
+.is-neutral { background: var(--container-tertiary); } .is-neutral::before { display: none; }
+.is-issue .rmx-lozenge::before { display: none; }
+.is-ta { min-height: 56px; padding: var(--spacing-xs); background: var(--component-input-default); border: 1px solid var(--border-primary); border-radius: var(--radius-sm); font: var(--type-label-m-regular); color: var(--text-secondary); }
+.is-ta--res { min-height: 76px; } .is-reorder { width: 20px; height: 20px; vertical-align: middle; color: var(--text-link); }
+.is-lock { color: var(--text-link); }
+.is-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-md); }
+.is-card { display: flex; flex-direction: column; gap: var(--spacing-sm); padding: var(--spacing-sm); background: var(--container-primary); border: 1px solid var(--border-primary); border-radius: var(--radius-sm); }
+.is-card__h { display: flex; align-items: center; gap: var(--spacing-xs); font: var(--type-heading-s-regular); color: var(--text-primary); }
+.is-card__h > .rmx-icon { width: 28px; height: 28px; color: var(--text-primary); } .is-card__h > span:first-of-type { flex: 1; }
+.is-plus { display: inline-flex; align-items: center; padding: 0 var(--spacing-xs); border: 1px solid var(--icon-primary); border-radius: 12px; font: var(--type-label-s-regular); color: var(--text-link); }
+.is-plus .rmx-icon { width: 16px; height: 16px; }
+.is-link { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--spacing-xs); }
+.is-link a { display: block; color: var(--text-link); text-decoration: none; font: var(--type-label-m-regular); } .is-link small { display: block; font: italic 12px/16px Roboto, sans-serif; color: var(--text-disabled); }
+.is-link__a { display: inline-flex; gap: 4px; color: var(--icon-primary); } .is-link__a .rmx-icon { width: 16px; height: 16px; }
+.is-pager { display: flex; justify-content: center; align-items: center; gap: var(--spacing-xs); font: var(--type-label-m-regular); color: var(--text-secondary); }
+.is-checks { display: flex; gap: var(--spacing-md); flex-wrap: wrap; }
+.is-issue .pd-chk { font: var(--type-label-m-regular); } .is-issue .pd-chk .rmx-check__box { width: 20px; height: 20px; } .is-issue .pd-chk .rmx-icon { width: 16px; height: 16px; }
+.is-sq { height: 36px; width: 36px; } .is-sq .rmx-icon { width: 20px; height: 20px; }
+.is-cb { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--icon-disabled); border-radius: 2px; background: var(--container-primary); vertical-align: middle; }
+.is-wo__f { text-align: right; padding: var(--spacing-xs); background: var(--container-tertiary); font: var(--type-label-s-regular); color: var(--text-disabled); }
+.is-notes { min-height: 0; }
