@@ -830,7 +830,8 @@ function toast(msg){
     renderScoreboard();
     renderNotes();
     if (!opts.noteOnly) document.getElementById('hnOverlay').hidden = false;
-    if (opts.addNote || opts.noteOnly) openNote(null);
+    if (typeof opts.noteIndex === 'number') openNote(opts.noteIndex);
+    else if (opts.addNote || opts.noteOnly) openNote(null);
   }
   function closeOverlay() {
     var el = document.getElementById('hnOverlay');

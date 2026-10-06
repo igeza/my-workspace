@@ -2,7 +2,7 @@
 
 The My Workspace page from [emmalanghammer/my-workspace](https://github.com/emmalanghammer/my-workspace), with all five tiles (My Mentions, My Favorites, My Reports, Announcements, My Training) and the History / Notes overlay that Mentions opens.
 
-Run it: `python3 dev-server.py 3000 .` then open http://localhost:3000
+Run it: `python3 dev-server.py 3000 .` then open http://localhost:3000, or see the live copy at https://igeza.github.io/my-workspace/
 
 ## What's here
 - `index.html`: app bar, context bar, welcome text, the five tiles, and the hidden-tile links.
@@ -10,15 +10,16 @@ Run it: `python3 dev-server.py 3000 .` then open http://localhost:3000
 - `assets/history-notes.{js,css}`: the overlay each mention opens. Records are in `ENTITIES`; a mention points at one with `data-ws-entity`.
 - `assets/*` foundation files were refreshed with the RMX skill's `check.mjs --fix` (RMX skill 4.5.2).
 
-## My Mentions redesign
-From the Figma file "My Mentions Tile" (section In Zeplin, node 2224:2888):
-- Mentions is the third tile. Header has a crossed-eye (hides the tile; an "@ My Mentions" link in the bottom-right bar brings it back) and the tile menu.
-- Search, Open (n) / Dismissed tabs, and a menu on each mention: Reopen (dismissed only), Remove From My Mentions, Open in New Tab.
-- Clicking a mention opens **Add Response Note** (Add Note, Add & Dismiss, Cancel). Clicking the blue record name opens that record's History / Notes.
-- The user is Charlie now (was Riley).
+## My Mentions (from the Figma file "My Mentions Tile", section In Zeplin)
+- Mentions is the third tile. Its crossed-eye hides it; Favorites and Reports then grow to half the row each and an "@ My Mentions" link joins Announcements and My Training at the bottom right.
+- Open (n) and Dismissed tabs. Dismissed has a search field and a "6 of 27 Mentions" footer.
+- The kebab on each mention: Quick Response (opens Add Response Note), Dismiss (open mentions) or Reopen (dismissed ones), and Details. Details opens the task's details over the workspace for a task mention, and Note Details for the others.
+- The blue record name opens the record's page: the specific task on the Tasks screen, the tenant on Tenant Details. Prospects, owners and issues have no screen yet, so they open their History / Notes overlay.
+- Clicking elsewhere on a mention also opens Add Response Note.
+- At 1024px and below, a row of icon buttons picks which single tile shows (Figma "My Workspace - Mobile").
+- The user is Charlie.
 
 ## Not in this starter
-- Tasks and Tenants screens. The Favorites links to them are inert (`data-rmx-todo`). The task mention opens as an overlay; set `TASKS_URL` in `index.html` once a Tasks screen exists.
 - The mega menu. The app bar button does nothing yet. `check.mjs --fix` added `megamenu.js/css` to `assets/` but `index.html` doesn't load them.
 - Announcements and My Training start hidden, as in the original; the links at bottom right bring them back.
 - "Open in New Tab" and the tile menu (kebab in the header) are inert; the design doesn't say what they open.

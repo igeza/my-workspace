@@ -1,0 +1,535 @@
+/* ============================================================
+   screens/my-workspace-original.html, prototype-local layer
+   ------------------------------------------------------------
+   Every number here was measured off ONE Figma frame:
+   RMX Pages (fileKey 5XEzI94nmZsWE7rQQ7OIHP) → page "General
+   Pages" → section "Workspace" → frame "My Workspace",
+   node 4969:70308, read 2026-09-10. Node ids are cited per rule.
+
+   Nothing is chosen, and nothing is carried over from
+   workspace.css (which styles the Splashy v2 redesign and
+   deliberately departs from the shipped page in several places).
+   A developer handed this deletes it and keeps rmx.css.
+
+   Colour, spacing, radius and type come from tokens.css and
+   type.css. The three exceptions are marked UNBOUND and are
+   logged in PROTOTYPE.md, they are values the Figma frame
+   itself carries with no variable behind them.
+   ============================================================ */
+
+/* ---- the page ---------------------------------------------
+   Main Content (4969:70316): VERTICAL, gap 24, padding 32/64,
+   1px border-primary on the bottom edge only. The ground is the
+   RMX_Background component instance (4969:70309) sitting behind
+   it, exported to a data URI in original-art.css.            */
+.ows-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xl);                 /* 24 */
+  padding: var(--spacing-2xl) 64px;       /* 32 / 64 */
+  border-bottom: 1px solid var(--border-primary);
+  min-height: calc(100vh - 88px);
+  /* The ground art is a 1920x844 band. Sized to the element it would be
+     stretched to whatever the page is tall -- on a long page that magnifies it
+     until it reads as flat colour, which is what it was doing. Attached to the
+     viewport instead, it stays the size the frame draws it at, edge to edge
+     and flush under the Context Bar, however far the page scrolls. Emma's
+     call, 2026-09-11. */
+  background-color: var(--container-primary);
+  background-image: var(--art-workspace-ground);
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* ---- welcome ----------------------------------------------
+   Welcome Text (4969:70317): VERTICAL, gap 8, both lines
+   centred. Heading/L/Regular over Heading/M/Regular.          */
+.ows-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);                 /* 8 */
+  text-align: center;
+}
+
+.ows-welcome__greeting,
+.ows-welcome__line {
+  margin: 0;
+  /* Both lines are #575353 in the Figma frame (4969:70317). That hex is
+     bound to no variable and no colour style, so there is no token for
+     it; --text-primary is the near miss at #666666. Literal by request,
+     see PROTOTYPE.md. */
+  color: #575353;
+}
+
+/* ---- the tile row -----------------------------------------
+   Tile Row (4969:70320): HORIZONTAL, gap 16, 1792 wide, tiles
+   580 tall at 558 / 558 / 314 / 314. The row is centre-aligned
+   in the frame, so on a wider window the tiles keep their
+   widths rather than stretching, hence the max-widths.       */
+.ows-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);                 /* 16 */
+  width: 100%;
+  max-width: 1792px;
+}
+
+/* ---- Tile, Style=Workspace --------------------------------
+   4969:70323 and siblings: background-tile, 1px border-primary,
+   radius 4, effect style dropshadow-md, VERTICAL, no padding.
+   Its three parts are the 4px Overline, the 44px header, and
+   the content slot.                                           */
+.rmx-tile[data-ows-tile] {
+  height: 580px;
+  box-shadow:
+    1px 2px 12px rgba(76, 76, 76, .10),
+    0 4px 10px rgba(76, 76, 76, .10),
+    0 -2px 20px rgba(76, 76, 76, .08);    /* dropshadow-md */
+  overflow: hidden;
+}
+
+.rmx-tile[data-ows-tile="wide"]   { flex: 1 1 558px; max-width: 558px; }
+.rmx-tile[data-ows-tile="narrow"] { flex: 1 1 314px; max-width: 314px; }
+
+/* Overline (I…;4075:109743): a 4px frame carrying a 4px top
+   stroke. Blue on Favorites, green on Reports, notice on
+   Announcements, attention on My Training: four real border
+   tokens, one per tile, exactly as the frame has them.
+
+   Border/border-success (#a8d48f) and Border/border-notice
+   (#f79b4d) are real Foundations variables, both read straight
+   off the Overline's bound stroke, but tokens.css does not
+   carry either yet. They are written as var() with the measured
+   value as the fallback rather than added to tokens.css, so a
+   `check.mjs --fix` refresh of the foundation cannot silently
+   un-colour two tiles. Raise it so tokens.css gains them. */
+.ows-overline {
+  flex: none;
+  height: 4px;
+}
+
+.ows-overline[data-accent="secondary"] { background: var(--border-secondary); }
+.ows-overline[data-accent="success"]   { background: var(--border-success, #a8d48f); }
+.ows-overline[data-accent="notice"]    { background: var(--border-notice, #f79b4d); }
+.ows-overline[data-accent="attention"] { background: var(--border-attention); }
+
+/* _Tile Headers, Header Style=Workspace (I…;7331:5299):
+   44px, HORIZONTAL, space-between, padding 8/16, title
+   Web/Heading/M/Regular in text-primary, one 20px trailing
+   Material Icon in Color=Brand. No bottom rule, the Content
+   header's 2px border-secondary belongs to a different variant
+   and rmx.css's .rmx-tile__header encodes that one. */
+.rmx-tile[data-ows-tile] > .rmx-tile__header {
+  flex: none;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  height: 44px;
+  min-height: 0;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-bottom: 0;
+}
+
+/* rmx.css's .rmx-tile__title is the Content header's 14/600 navy, and it
+   loads after type.css, so it wins over the type class on the element. The
+   Workspace variant's own style is Web/Heading/M/Regular in text-primary. */
+.rmx-tile[data-ows-tile] .rmx-tile__title {
+  /* Web/Heading/M/Regular in text-primary, which is what the library and the
+     RMX Pages frame both say: every tile title on Main Content (4969:70323
+     and its three siblings) is Heading/M/Regular, 20/28, bound to
+     Text/text-primary. This screen drew 16/600 navy instead from 2026-09-10
+     to 2026-09-22, following production; Emma reversed that on 2026-09-22,
+     pointing at the frame. Item 4 is now settled on the design's side. */
+  font: var(--type-heading-m-regular);
+  color: var(--text-primary);
+}
+
+/* Icon/icon-tertiary, not icon-brand. The tile header's trailing kebab is
+   chrome, not an interactive accent: blue reads as a link sitting beside the
+   title and pulls the eye off the tile's own content. Emma's call,
+   2026-09-11; matches the My Mentions header, which is .ws-iconbtn and was
+   already tertiary. */
+[data-ows-tile-action] {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--icon-tertiary);
+  cursor: pointer;
+}
+
+/* content slot (I…;10590:12725): VERTICAL, gap 16, padding 16.
+   In the frame the content is taller than the slot and clips,
+   that is this page scrolling, so the slot scrolls here.
+
+   My Favorites is the one tile whose content sits 24 from the
+   right rather than 16 (its content measures 518 in a 558 tile;
+   My Reports measures 526 in the same width, and both narrow
+   tiles inset 16). Kept per-tile rather than averaged. */
+.rmx-tile[data-ows-tile] > .rmx-tile__body {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.rmx-tile[data-ows-tile] > [data-ows-inset="24"] {
+  padding-right: var(--spacing-xl);
+}
+
+/* ---- menu areas (My Favorites, My Reports) ----------------
+   _My Favorites Content / _My Reports Content: HORIZONTAL,
+   gap 16, two columns; each column VERTICAL, gap 8.           */
+.ows-areas {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+.ows-areas__col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* Card, Color Bar?=false (…;3915:90610 and siblings):
+   container-primary, radius 4, dropshadow-sm. Its Row is
+   HORIZONTAL, gap 16, padding 8/16. */
+.ows-card {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--container-primary);
+  border-radius: var(--radius-sm);
+  box-shadow:
+    2px 2px 12px rgba(76, 76, 76, .08),
+    0 4px 15px rgba(76, 76, 76, .08),
+    0 -1px 20px rgba(76, 76, 76, .02);    /* dropshadow-sm */
+}
+
+/* Icon Wrapper: 42 square, radius 4, padding 6, holding a 32px
+   Flexible Icon (Icon Set=Express, Size=X-Large, Color=White).
+   The four fills are icon tokens, one per area, as measured. */
+.ows-card__icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  color: var(--icon-ondark);
+}
+
+.ows-card__icon > svg { flex: none; width: 32px; height: 32px; }
+
+.ows-card__icon[data-accent="success"]   { background: var(--icon-success); }
+.ows-card__icon[data-accent="attention"] { background: var(--icon-attention); }
+.ows-card__icon[data-accent="notice"]    { background: var(--icon-notice); }
+.ows-card__icon[data-accent="primary"]   { background: var(--icon-brand); }
+
+.ows-card__col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding-block: var(--spacing-xs);
+}
+
+/* Title: Web/Paragraph/S/SemiBold in text-primary, grey, not
+   navy. That is what the frame measures. */
+.ows-card__title { color: var(--text-primary); }
+
+/* Every menu entry is Button Type=Action text, 16px tall, its
+   label Web/Label/M/Regular in text-link. No underline, in
+   either state, Emma's rule, 2026-09-10. */
+.ows-page .rmx-text--link,
+.ows-hidden .rmx-text--link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  align-self: flex-start;
+  max-width: 100%;
+  line-height: 16px;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* rmx.css underlines .rmx-text--link on hover. Blue action text carries no
+   underline in either state, Emma's rule, 2026-09-10. */
+.ows-page .rmx-text--link:hover,
+.ows-hidden .rmx-text--link:hover { text-decoration: none; }
+
+/* ---- Announcements ----------------------------------------
+   _Announcements Content: VERTICAL, gap 8. A Row of two
+   Web/Label/S/Regular action-text links, then the cards.      */
+.ows-annlinks {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+/* Announcement Dashboard Card, the same Card component, its
+   content slot at gap 8, padding 8/12. */
+.ows-ann {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--container-primary);
+  border-radius: var(--radius-sm);
+  box-shadow:
+    2px 2px 12px rgba(76, 76, 76, .08),
+    0 4px 15px rgba(76, 76, 76, .08),
+    0 -1px 20px rgba(76, 76, 76, .02);    /* dropshadow-sm */
+}
+
+.ows-ann__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.ows-ann__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+  min-width: 0;
+}
+
+.ows-ann__title { color: var(--text-secondary); }
+.ows-ann__date  { color: var(--text-disabled); }
+
+/* Lozenge State=Success, Size=24, Type=Status, Background?=True
+  , but with its fill overridden in the frame to #195ca4, which
+   no Foundations variable carries. UNBOUND: kept because the
+   badge reads dark blue on the shipped page and State=Success
+   would render it green. Logged in PROTOTYPE.md.
+
+   The badge measures 47 x 20 in the frame with 4/8 padding
+   around a 16px label, 20 is the height that wins, so it is
+   set here and the vertical padding left to the flex centring. */
+.rmx-lozenge[data-ows-new] {
+  flex: none;
+  height: 20px;
+  padding-block: 0;
+  background: #195ca4;                    /* UNBOUND, frame value */
+  color: var(--text-inverse);
+  line-height: 1;
+}
+
+/* Type=Status carries no dot. rmx.css draws one on every Lozenge. */
+.rmx-lozenge[data-ows-new]::before { display: none; }
+
+/* Artwork: 258 x 102.494 with a cropped image fill. The crop is
+   baked into the asset, so this only has to hold the box. */
+.ows-ann__art {
+  width: 100%;
+  aspect-ratio: 258 / 102.494;
+  border-radius: var(--radius-sm);
+  background-color: var(--background-ui-secondary);
+  background-image: var(--art-announcement);
+  background-size: cover;
+  background-position: center;
+}
+
+.ows-ann__body {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.ows-ann__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+}
+
+/* ---- My Training ------------------------------------------
+   My Training Content is itself a Card; its content slot
+   carries a second white surface with effect style
+   dropshadow-lg, VERTICAL, gap 16, padding 24/12/32/12,
+   centre-aligned. The frame gives that inner surface a 5px
+   radius, which no token backs: radius-sm here, logged.      */
+.ows-training {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl) var(--spacing-sm) var(--spacing-2xl);
+  background: var(--container-primary);
+  border-radius: var(--radius-sm);
+  box-shadow:
+    1px 2px 12px rgba(76, 76, 76, .14),
+    0 10px 10px rgba(76, 76, 76, .15),
+    0 -2px 20px rgba(76, 76, 76, .06),
+    0 0 5px rgba(76, 76, 76, .05);        /* dropshadow-lg */
+  text-align: center;
+}
+
+/* RMU Logo: 144 x 40.5. The lockup is the real image asset out
+   of the frame (image hash 4eed47e8…), not type set to look
+   like it. */
+.ows-training__logo {
+  width: 144px;
+  height: 40.5px;
+  background-image: var(--art-rmu-lockup);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.ows-training__copy {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.ows-training__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);                 /* 12 */
+  width: 100%;
+}
+
+/* Input Field Style=Express measures container-primary, not the
+   component-input-default fill rmx.css gives every input. The
+   override is scoped to this card. Its placeholder is a Text
+   Placeholder Style=Regular in the frame, upright, not the
+   italic RMX placeholder. */
+.ows-training .rmx-field { width: 100%; }
+
+.ows-training .rmx-field__box {
+  background: var(--container-primary);
+  color: var(--text-primary);
+}
+
+.ows-training .rmx-field__box > input::placeholder {
+  font-style: normal;
+  color: var(--text-disabled);
+}
+
+.ows-training .rmx-field__box > svg { color: var(--icon-tertiary); }
+
+/* Button Type=Primary with its fill overridden to
+   Icon/icon-attention in the frame, a real token, so bound. */
+.rmx-btn[data-ows-cta] { background: var(--icon-attention); }
+
+/* ---- the two hidden-tile links ----------------------------
+   Hidden Tiles (4969:70392): HORIZONTAL, gap 16, pinned to the
+   bottom right. Each is Button Type=Action text with a leading
+   20px Material Icon in Color=Brand and a Web/Label/M/Regular
+   label in text-secondary, navy label, blue glyph.           */
+.ows-hidden {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  width: 100%;
+  max-width: 1792px;
+  margin-top: auto;
+  padding-top: var(--spacing-2xl);
+}
+
+.ows-hidden [data-ows-hidden] { color: var(--text-secondary); }
+.ows-hidden [data-ows-hidden] > svg { color: var(--icon-brand); }
+
+/* ---- the two bars -----------------------------------------
+   Header and Context Bar are authored at Display/Display (1920)
+   and rmx.css carries that width literally, so any window
+   narrower than that scrolls sideways. Letting the two bars
+   take the window width is the components' own overflow:clip
+   behaviour rather than a new design, the Command Launch field
+   gives up width first, then Company Code. There is no compact
+   Header variant in the library; see "Worth raising". */
+.rmx-appbar,
+.rmx-contextbar {
+  width: 100%;
+  max-width: var(--display-display);
+}
+
+/* Command Launch is 454 by design and shrinks rather than
+   overflowing the clipped bar. Same line as workspace.css. */
+.rmx-appbar__search { width: min(454px, 100%); }
+
+/* The Context Bar's trailing item here is a Button Type=Action
+   text, whose label the frame sets in Web/Label/M/Regular on
+   Text/text-OnDark. rmx.css puts no type on that button, so it
+   otherwise renders at the browser's 13.33px button default,
+   the one off-ramp type size on this screen. Worth raising. */
+.rmx-contextbar__trailing button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: var(--type-label-m-regular);
+  color: var(--text-ondark);
+  cursor: pointer;
+}
+
+/* Below about 760 the three columns cannot all hold their
+   contents and the Company Code block starts overlapping the
+   Command Launch field, so the bar drops the two things it can
+   lose, Company Code, then the icon cluster: and lets the
+   logo scale inside its column. THIS IS NOT A DESIGN: it is the
+   smallest set of changes that stops the component visibly
+   breaking, and it is the same stopgap screens/my-workspace.html
+   applies. A compact Header variant would replace all of it. */
+@media (max-width: 760px) {
+  .rmx-appbar__code { display: none; }
+}
+
+@media (max-width: 620px) {
+  .rmx-appbar__icons { display: none; }
+  .rmx-appbar__logo { width: 100%; max-width: 175px; height: auto; }
+}
+
+/* ---- narrower windows -------------------------------------
+   The frame is authored at one width (1920) and has no
+   responsive variant, so this is the prototype's own
+   behaviour, not the design's: the row wraps and the gutter
+   drops. Said out loud in PROTOTYPE.md.                       */
+@media (max-width: 1200px) {
+  .ows-page { padding-inline: var(--spacing-2xl); }
+}
+
+@media (max-width: 900px) {
+  .ows-page { padding-inline: var(--spacing-md); }
+  .rmx-tile[data-ows-tile] { height: auto; max-height: 580px; }
+  .rmx-tile[data-ows-tile="wide"],
+  .rmx-tile[data-ows-tile="narrow"] { flex-basis: 100%; max-width: 100%; }
+  .ows-areas { flex-wrap: wrap; }
+  .ows-areas__col { flex-basis: 100%; }
+}
+
+/* ---------- prototype navigation strip ----------
+   Not RMX, and not part of the harvested frame anatomy above. This screen is
+   a reference baseline, RMX Pages' production frame, not the proposal: so
+   it lives unlinked from the main flow and only needs a way back to
+   index.html, which is where the proposal lives. Kept in this file's own
+   namespace since everything else on this screen is ows-*. */
+.ows-protonav {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  height: 28px;
+  padding: 0 var(--spacing-md);
+  background: var(--container-tertiary);
+  border-bottom: 1px solid var(--border-primary);
+  font: var(--type-label-s-regular);
+  color: var(--text-primary);
+}
+.ows-protonav > span { font-weight: 600; color: var(--text-secondary); }
+.ows-protonav > a { margin-left: auto; }

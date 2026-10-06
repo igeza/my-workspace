@@ -105,8 +105,9 @@
   overflow: hidden;
 }
 
-/* Figma "My Mentions Tile - Open": three wide tiles, 586.5 each in a 1792 row. */
-.rmx-tile[data-ows-tile="wide"]   { flex: 1 1 520px; max-width: 587px; }
+/* Figma "My Mentions Tile - Open": three wide tiles, 586.5 each in a 1792 row. With Mentions
+   hidden ("Collapsed") Favorites and Reports grow to 888 each, so the wide tiles have no max-width. */
+.rmx-tile[data-ows-tile="wide"]   { flex: 1 1 520px; }
 .rmx-tile[data-ows-tile="narrow"] { flex: 1 1 314px; max-width: 314px; }
 .ows-overline {
   flex: none;
@@ -580,11 +581,12 @@
 /* Search: Input Field Style=Express, blue border, white fill (2243:9984). */
 .mn-search {
   flex: none; display: flex; align-items: center; gap: var(--spacing-xs);
-  margin: var(--spacing-xs) var(--spacing-md);
+  margin: var(--spacing-xs) var(--spacing-md) 0;
   height: 36px; padding: var(--spacing-xs);
   background: var(--component-input-secondary);
   border: 1px solid var(--border-secondary); border-radius: var(--radius-sm);
 }
+.mn-search[hidden] { display: none; }
 .mn-search > svg { flex: none; color: var(--text-link); }
 .mn-search input {
   flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
@@ -706,3 +708,38 @@
   padding: var(--spacing-xs) var(--spacing-md);
   background: var(--background-footer); border-top: 1px solid var(--border-primary);
 }
+
+/* Dismissed shows one line per mention, Open shows two (frame "My Mentions Tile - Dismissed"). */
+.mn-list--dismissed .mn-item__body { -webkit-line-clamp: 1; }
+.mn-foot {
+  flex: none; padding: var(--spacing-xxs) var(--spacing-md); text-align: right;
+  font: var(--type-label-s-regular); color: var(--text-disabled);
+}
+.mn-foot[hidden] { display: none; }
+
+/* Hidden-tile links carry the Mentions glyph in navy, same as the other two. */
+.ows-hidden [data-ows-hidden] > svg[class] { flex: none; }
+
+/* Tablet and below, Figma "My Workspace - Mobile" (1024): a row of icon buttons picks the one tile
+   shown, centered. The hidden-tile links go away because the picker replaces them. */
+.ows-tabnav { display: none; }
+@media (max-width: 1024px) {
+  .ows-tabnav {
+    display: flex; justify-content: center; flex-wrap: wrap; gap: var(--spacing-md);
+  }
+  .ows-tabnav button {
+    display: flex; flex-direction: column; align-items: center; gap: var(--spacing-xxs);
+    padding: 0; border: 0; background: none; cursor: pointer;
+    font: var(--type-label-m-regular); color: var(--text-secondary);
+  }
+  .ows-tabnav button[aria-pressed="true"] .rmx-icon { color: var(--icon-primary); }
+  .ows-row { justify-content: center; }
+  .ows-row > .rmx-tile { display: none !important; }
+  .ows-row > .rmx-tile.is-sel { display: flex !important; max-width: 587px; }
+  .ows-hidden { display: none !important; }
+}
+
+/* Task Details over the workspace: the Tasks screen in ?embed=1 mode, whose own scrim is the whole visible surface. */
+.mn-taskframe { position: fixed; inset: 0; z-index: 590; width: 100%; height: 100%; border: 0; background: transparent; }
+.mn-taskframe[hidden] { display: none; }
+.mn-menu > button[hidden] { display: none; }

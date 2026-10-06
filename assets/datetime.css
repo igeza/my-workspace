@@ -1,0 +1,113 @@
+/* ============================================================
+   Date & Time pickers
+   ------------------------------------------------------------
+   The calendar is the real RMX `Date Picker` component,
+   Style=Calendar (RMX Components 157:2396), 288px wide, 8px
+   gutters over 16px, a 32px day cell with 8px padding, alternate
+   rows on --component/input-default, the selected day a 32x36
+   --container/secondary block at --radius/xs, and a Today /
+   Clear footer under a 272px divider.
+
+   The time list is NOT a component: RMX has no Time Picker (the
+   Date & Time page carries Date Pickers and their sub-parts and
+   nothing else, see PROTOTYPE.md item 29). It is composed from
+   the documented dropdown pattern instead, an input-shaped
+   trigger plus a floating white panel, rather than invented as
+   a new control.
+
+   Paired with assets/datetime.js. Everything is dt-prefixed
+   because these panels land in a host screen that has its own
+   .btn, .chkbox and calendar icons.
+   ============================================================ */
+
+.dt-panel {
+  position: fixed;
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs, 8px);
+  align-items: center;
+  padding: var(--spacing-md, 16px) var(--spacing-xs, 8px);
+  background: var(--container-primary, #fff);
+  border: 1px solid var(--border-primary, #cedbe7);
+  border-radius: var(--radius-sm, 4px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, .15);
+  font-family: 'Roboto', sans-serif;
+}
+.dt-panel[hidden] { display: none !important; }
+.dt-panel * { box-sizing: border-box; }
+
+/* ---- calendar ---- */
+.dt-cal { width: 288px; }
+.dt-cal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-xs, 8px);
+  width: 100%;
+}
+.dt-cal__month { font: 600 14px 'Roboto', sans-serif; color: var(--text-secondary, #13314c); white-space: nowrap; }
+.dt-nav {
+  width: 24px; height: 24px;
+  flex: none;
+  display: flex; align-items: center; justify-content: center;
+  border: 0; padding: 0; background: none;
+  color: var(--text-secondary, #13314c);
+  cursor: pointer;
+}
+.dt-nav svg { width: 24px; height: 24px; fill: currentColor; }
+.dt-cal__grid { display: flex; flex-direction: column; gap: var(--spacing-xxs, 4px); }
+.dt-cal__row { display: flex; gap: var(--spacing-xs, 8px); }
+/* Alternate day rows carry the input-default ground, the component's own
+   striping, which is why this one register-ish grid is striped when RMX
+   registers never are. */
+.dt-cal__row--alt { background: var(--component-input-default, #f5f8fa); }
+.dt-cal__row--head { border-bottom: 1px solid var(--border-primary, #cedbe7); }
+.dt-cell {
+  width: 32px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xs, 8px);
+  font: 400 14px/20px 'Roboto', sans-serif;
+  color: var(--text-secondary, #13314c);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-xs, 2px);
+  cursor: pointer;
+}
+.dt-cal__row--head .dt-cell { font-weight: 600; cursor: default; }
+.dt-cell--muted { color: var(--text-disabled, #b3b3b3); }
+.dt-cell:not(.dt-cell--sel):not(.dt-cal__row--head .dt-cell):hover { background: var(--background-hover, #ebf1f5); }
+.dt-cell--sel {
+  height: 36px;
+  background: var(--container-secondary, #008dd5);
+  color: var(--container-primary, #fff);
+  font-weight: 600;
+}
+.dt-cal__divider { width: 272px; height: 1px; background: var(--border-primary, #cedbe7); }
+.dt-cal__buttons { display: flex; align-items: flex-start; justify-content: space-between; padding: 0 var(--spacing-xs, 8px); width: 100%; }
+.dt-cal__buttons button {
+  border: 0; background: none; padding: 0;
+  font: 400 14px 'Roboto', sans-serif;
+  color: var(--text-link, #008dd5);
+  border-radius: var(--radius-sm, 4px);
+  cursor: pointer;
+}
+
+/* ---- time list ---- */
+.dt-time { width: 140px; max-height: 280px; overflow-y: auto; padding: var(--spacing-xs, 8px) 0; gap: 0; align-items: stretch; }
+.dt-time button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0; background: none;
+  padding: var(--spacing-xs, 8px) var(--spacing-sm, 12px);
+  font: 400 14px 'Roboto', sans-serif;
+  color: var(--text-secondary, #13314c);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dt-time button:hover { background: var(--background-hover, #ebf1f5); }
+.dt-time button[aria-selected="true"] { font-weight: 600; background: var(--component-input-default, #f5f8fa); }
