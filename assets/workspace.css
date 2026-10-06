@@ -608,11 +608,13 @@
 
 /* Mentions Tile Content (2243:9992): 24 between mentions, 16 around. */
 .rmx-tile[data-ows-tile] > .mn-list {
-  display: flex; flex-direction: column; gap: var(--spacing-xl);
-  padding: var(--spacing-md); flex: 1 1 auto;
+  display: flex; flex-direction: column; gap: 0;
+  padding: var(--spacing-xs) 0; flex: 1 1 auto;
 }
-.mn-item { display: flex; flex-direction: column; gap: var(--spacing-xs); cursor: pointer; border-radius: var(--radius-sm); }
-.mn-item:focus-visible { outline: 2px solid var(--border-secondary); outline-offset: 4px; }
+.mn-item { display: flex; flex-direction: column; gap: var(--spacing-xs); padding: 12px var(--spacing-md); cursor: pointer; }
+/* The whole row, edge to edge, lights up on hover. */
+.mn-item:hover, .mn-item:focus-visible { background: var(--container-tertiary); }
+.mn-item:focus-visible { outline: 2px solid var(--border-secondary); outline-offset: -2px; }
 .mn-item__head { display: flex; align-items: center; gap: var(--spacing-xxs); min-width: 0; }
 .mn-item__who { flex: none; font: var(--type-label-m-semibold); color: var(--text-secondary); }
 .mn-item__what { flex: 1; min-width: 0; font: var(--type-label-m-regular); color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
