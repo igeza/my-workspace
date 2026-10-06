@@ -11,11 +11,11 @@
 .is-ctxname { font-style: normal; min-width: 240px; }
 .is-print { height: 28px; } .is-print .rmx-icon { width: 20px; height: 20px; }
 .pd-ctx .rmx-contextbar__trailing { gap: var(--spacing-md); }
-.is-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-md); align-items: start; }
+.is-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-md); align-items: stretch; }
 .is-grid > .is-w { grid-column: 1 / -1; } .is-grid > .is-wo { grid-column: 1; width: 64%; min-width: 320px; }
 @media (max-width: 1000px) { .is-grid { grid-template-columns: 1fr; } .is-grid > .is-wo { width: 100%; } }
-.is-col { align-self: stretch; display: flex; flex-direction: column; gap: var(--spacing-md); min-width: 0; }
-.is-col > .is-fill { flex: 1; }
+.is-cell { display: flex; flex-direction: column; gap: var(--spacing-md); min-width: 0; }
+.is-cell > .is-fill { flex: 1; }
 .is-chips { display: flex; gap: var(--spacing-xs); flex-wrap: wrap; }
 .is-neutral { background: var(--container-tertiary); } .is-neutral::before { display: none; }
 .is-issue .rmx-lozenge::before { display: none; }
@@ -53,3 +53,18 @@
 .is-issue .pd-tile .rmx-tile__header { min-height: 36px; padding: 0 var(--spacing-md); }
 .is-issue .pd-table tbody tr { height: 36px; }
 .is-issue .pd-table th { padding: 6px 8px; } .is-issue .pd-table td { padding: 4px 8px; }
+
+/* Sizes as drawn on the frame: 14px text throughout, bigger link cards, 24px glyphs. */
+.is-issue .rmx-lozenge { font: var(--type-label-m-regular); padding: 2px var(--spacing-xs); height: 24px; }
+.is-issue .pd-tile__body { gap: var(--spacing-md); }
+.is-card { min-height: 162px; gap: var(--spacing-sm); }
+.is-card__h { font: var(--type-heading-m-regular); } .is-card__h > .rmx-icon { width: 32px; height: 32px; }
+.is-plus { font: var(--type-label-m-regular); padding: 0 var(--spacing-xs); height: 20px; }
+.is-link { min-height: 34px; } .is-link a { font: var(--type-label-m-regular); } .is-link small { font: italic 12px/16px Roboto, sans-serif; }
+.is-link__a { gap: 6px; } .is-link__a .rmx-icon { width: 20px; height: 20px; }
+.is-pager { font: var(--type-label-m-regular); } .is-pager .rmx-icon { width: 20px; height: 20px; }
+.is-ta { font: var(--type-label-m-regular); min-height: 56px; } .is-fill > .pd-tile__body > .is-ta--res { flex: 1; min-height: 76px; }
+.is-issue .pd-act { font: var(--type-label-m-regular); } .is-issue .pd-act .rmx-icon, .is-issue .pd-ext { width: 20px; height: 20px; }
+.is-issue .pd-table th { font: var(--type-label-s-semibold); letter-spacing: .08em; } .is-issue .pd-table td { font: var(--type-label-m-regular); }
+.is-issue .pd-seg button { font: var(--type-label-s-regular); padding: 4px 14px; }
+.is-issue .pd-tile__title { font: var(--type-label-m-semibold); }
