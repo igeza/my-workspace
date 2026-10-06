@@ -1,0 +1,294 @@
+/* ============================================================
+   History / Notes, an overlay, not a page
+   ------------------------------------------------------------
+   Built from two frames in RMX-Pages and nothing else:
+     * History Notes Overlay   4628:44305
+     * Note Details Dialog     3779:60444
+
+   It opens over whatever screen you were on, which is what it
+   is: Emma's call, 2026-09-10: "the history notes is an
+   overlay on the workspace not a page." Paired with
+   assets/history-notes.js, which carries the markup, the
+   records and the behaviour, so a screen gets the whole thing
+   by adding two lines. Same arrangement as
+   assets/megamenu.{css,js}.
+
+   Two rules this file lives by, because a host screen includes
+   it: nothing may be styled outside the overlay (no bare
+   `body`, `*` or `a` rules), and every glyph id is hn-prefixed,
+   since `call` and `mail` would otherwise collide with a host
+   screen's own harvested icons.
+   ============================================================ */
+
+/* The overlay carries its own scrim -- the screen underneath is still there. */
+/* The overlay is one size whatever record it opens -- Emma's call,
+   2026-09-10: "the history/notes overlay should be the same height and width
+   across different ones, and the register inside should fill the height." A
+   record with two notes and one with forty are the same shape, and the
+   register takes up the slack rather than the overlay shrinking to fit its
+   contents. The chain of flex:1 + min-height:0 below is what lets the
+   register scroll inside a fixed frame instead of stretching it. */
+.hn-overlay { position: fixed; inset: 0; z-index: 520; display: flex; align-items: stretch; justify-content: center; padding: 24px; overflow: hidden; background: rgba(19, 49, 76, .45); }
+.hn-overlay .hn { flex: 1; width: 100%; max-width: 1561px; min-height: 0; box-shadow: var(--hn-shadow-lg); }
+@media (max-width: 899px) { .hn-overlay { padding: 12px; } }
+
+/* Icons are harvested SVG symbols, never an icon font by ligature -- when
+   this overlay first landed on My Workspace (which does not load Material
+   Symbols) every glyph rendered as its own name, which is exactly the failure
+   the skill warns about. The sprite ships inside history-notes.js. */
+.hn-ico { width: 20px; height: 20px; flex: none; fill: currentColor; vertical-align: middle; }
+.hn-attach { width: 16px; height: 16px; color: var(--icon-muted); vertical-align: -3px; margin-right: 4px; }
+
+/* Scoped resets, in place of the global ones a standalone page could afford. */
+.hn-overlay, .hn-overlay *, .hn-scrim, .hn-scrim * { box-sizing: border-box; }
+.hn-overlay, .hn-scrim { font-family: 'Roboto', sans-serif; font-size: 14px; line-height: 20px; color: var(--text-primary); }
+.hn-overlay a, .hn-scrim a { text-decoration: none; }
+.hn-overlay .hn-ico,
+.hn-scrim .hn-ico,
+.hn-toast .hn-ico { width:20px;height:20px; vertical-align: middle; user-select: none; }
+/* ============================================================
+   Local tokens, the same block the Tasks screen carries, so the
+   two sibling screens cannot drift. Values are Foundations'.
+   ============================================================ */
+:root {
+  --rmx-blue: #008dd5; --rmx-blue-hover: #0071aa; --rmx-navy: #13314c;
+  --rmx-hairline: #cedbe7; --rmx-green: #6eb744; --rmx-red: #eb343c;
+  --text-primary: #666666; --text-secondary: var(--rmx-navy); --text-link: var(--rmx-blue);
+  --text-disabled: #b3b3b3; --icon-muted: #666666; --icon-disabled: #b3b3b3;
+  --bg-page: #f3f4f8; --bg-surface: #ffffff; --bg-subtle: #f5f8fa; --bg-hover: #ebf1f5;
+  --bg-disabled: #f2f2f2;
+  --lozenge-success: #e2f1da;
+  --register-header: #737373; --register-hairline: #ebf1f5;
+  --border-scoreboard: #425a70;   /* Border/border-scoreboard, off the frame */
+  --r-xs: 2px; --r-sm: 4px; --r-md: 8px;
+  /* dropshadow-lg, all four layers, read off the Foundations definition. */
+  --hn-shadow-lg:
+    1px 2px 12px 1px rgba(76,76,76,.14),
+    0 10px 10px -5px rgba(76,76,76,.15),
+    0 -2px 20px -10px rgba(76,76,76,.06),
+    0 0 5px -10px rgba(76,76,76,.05);
+  --hn-shadow-toast: 0 3px 6px rgba(0,0,0,.25);
+  /* Register column widths, off the frame's own Column nodes */
+  --hc-type: 146px; --hc-date: 146px; --hc-note: 580px; --hc-cat: 210px; --hc-user: 88px; --hc-kebab: 32px;
+}
+
+/* ---- page ---- */
+
+/* ============================================================
+   History Notes Overlay, 4628:44305
+   Container is background-ui-primary with a hairline and a 4px
+   radius; the header, the Scoreboard, the filter rows, the
+   register and the count all sit inside it.
+   ============================================================ */
+.hn { background:var(--bg-page); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); display:flex; flex-direction:column; max-width:1561px; margin:0 auto; overflow:hidden; }
+.hn__header { flex:none; }
+.hn__header { display:flex; align-items:center; justify-content:space-between; gap:8px; height:48px; padding:8px 16px; background:var(--bg-surface); border-bottom:1px solid var(--rmx-hairline); }
+/* 14px SemiBold in text-primary, not the 20px navy the Note Details dialog
+   uses. Two different Overlay Header variants; both are as authored. */
+.hn__title { font-size:14px; font-weight:600; color:var(--text-primary); white-space:nowrap; }
+.hn__header-icons { display:flex; align-items:center; gap:8px; flex:none; }
+.hn__header-icons .hn-ico { width:24px;height:24px; color:var(--rmx-blue); cursor:pointer; }
+.hn__body { flex:1; min-height:0; display:flex; flex-direction:column; gap:16px; padding:16px; overflow-y:auto; }
+
+/* ---- Scoreboard ---- */
+.hn-score { flex:none; display:flex; align-items:stretch; min-height:64px; }
+.hn-score__bar { width:24px; flex:none; background:var(--border-scoreboard); border-radius:var(--r-sm) 0 0 var(--r-sm); }
+.hn-score__content { flex:1; min-width:0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; padding:16px 32px; background:var(--bg-surface); border:1px solid var(--rmx-hairline); border-left:0; border-radius:0 var(--r-sm) var(--r-sm) 0; }
+.hn-score__lead { display:flex; align-items:center; flex-wrap:wrap; gap:40px; min-width:0; }
+.hn-score__name { font-size:16px; line-height:24px; font-weight:600; color:var(--text-secondary); white-space:nowrap; }
+.hn-score__items { display:flex; align-items:center; flex-wrap:wrap; gap:24px; }
+.hn-score__item { display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-secondary); white-space:nowrap; }
+.hn-score__item svg { width:20px; height:20px; flex:none; color:var(--rmx-blue); fill:currentColor; }
+.hn-score__trail { display:flex; align-items:center; gap:24px; }
+.hn-score__balance { display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-secondary); white-space:nowrap; }
+.hn-score__balance b { font-weight:600; }
+.hn-lozenge { display:inline-flex; align-items:center; gap:8px; height:24px; padding:0 8px; border-radius:var(--r-sm); font-size:14px; color:var(--rmx-navy); white-space:nowrap; }
+.hn-lozenge--success { background:var(--lozenge-success); }
+.hn-lozenge__dot { width:8px; height:8px; border-radius:50%; background:var(--rmx-green); flex:none; }
+
+/* ---- filter rows ---- */
+.hn-filters { flex:none; display:flex; align-items:flex-end; flex-wrap:wrap; gap:16px; }
+.hn-field { display:flex; flex-direction:column; gap:4px; min-width:0; }
+/* Filter labels are text-label (#008dd5) in the frame, not the #666 that
+   labels a form field inside a dialog. */
+.hn-field > label { font-size:14px; color:var(--text-link); white-space:nowrap; }
+.hn-input { display:flex; align-items:center; gap:8px; height:36px; padding:0 8px; background:var(--bg-surface); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); }
+.hn-input .hn-ico { width:20px;height:20px; color:var(--icon-muted); flex:none; }
+.hn-input input, .hn-input select { flex:1; min-width:0; border:0; background:transparent; outline:none; font:400 14px 'Roboto',sans-serif; color:var(--rmx-navy); }
+.hn-input input::placeholder { font-style:italic; color:var(--text-disabled); }
+.hn-search { width:210px; }
+/* Date range: two inputs, each with its own 28px calendar cell, joined into
+   one 36px control, the Icon Field anatomy, same as the Tasks screen's
+   date/time field. */
+.hn-daterange { display:flex; align-items:stretch; height:36px; border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); overflow:hidden; background:var(--bg-surface); }
+.hn-daterange input { width:90px; min-width:0; border:0; background:transparent; outline:none; padding:0 8px; font:400 14px 'Roboto',sans-serif; color:var(--rmx-navy); }
+.hn-daterange input::placeholder { font-style:italic; color:var(--text-disabled); }
+.hn-daterange .cell { width:28px; flex:none; display:flex; align-items:center; justify-content:center; border-left:1px solid var(--rmx-hairline); color:var(--icon-muted); }
+.hn-daterange .cell.hn-btn { cursor:pointer; }
+.hn-select { position:relative; display:flex; align-items:center; height:36px; padding:0 8px; background:var(--bg-surface); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); cursor:pointer; }
+.hn-select > span { flex:1; min-width:0; font-size:14px; color:var(--rmx-navy); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hn-select .hn-ico { width:20px;height:20px; color:var(--rmx-blue); flex:none; }
+.hn-select--users { width:170px; }
+.hn-select--cat { width:170px; }
+.hn-select--type { width:170px; }
+/* A dropdown is never a native <select>, an input-shaped trigger plus a
+   floating white panel. */
+/* The floating menus are appended to <body>, so they are siblings of the
+   overlay, not children -- they need to out-rank both it (520) and the Note
+   dialog (540) or they render behind the thing that opened them. */
+.hn-menu { position:absolute; top:calc(100% + 4px); left:0; min-width:100%; max-height:280px; overflow-y:auto; z-index:560; background:var(--bg-surface); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); box-shadow:0 3px 6px rgba(0,0,0,.15); padding:4px 0; }
+.hn-menu div { padding:8px; font-size:14px; color:var(--rmx-navy); white-space:nowrap; cursor:pointer; }
+.hn-menu div:hover { background:var(--bg-hover); }
+.hn-menu div.on { font-weight:600; }
+.hn-check { display:inline-flex; align-items:center; gap:8px; height:36px; font-size:14px; color:var(--text-primary); cursor:pointer; white-space:nowrap; }
+.hn-chkbox { width:20px; height:20px; flex:none; border:2px solid var(--icon-disabled); border-radius:var(--r-xs); background:var(--bg-surface); display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.hn-chkbox .hn-ico { width:16px;height:16px; color:#fff; display:none; }
+.hn-chkbox.checked { background:var(--icon-attention,#f58220); border-color:var(--icon-attention,#f58220); }
+.hn-chkbox.checked .hn-ico { display:block; }
+/* Checkbox State=Blue, the two filter checkboxes, read off the frame's own
+   instances (I4628:44305;...;4628:44246 and ...44247): a 2px #008dd5 box on
+   white at Radius/xs, with the label in Text/text-link instead of the grey a
+   Default checkbox uses. Checked follows the same variant, so the tick lands
+   on blue rather than the orange a Default checkbox gets. Scoped, not global:
+   Note Details' own checkboxes are Default grey in 3779:60444 and stay that
+   way. Emma's call, 2026-09-11. */
+.hn-check--blue { color:var(--text-link); }
+.hn-check--blue .hn-chkbox { border-color:var(--rmx-blue); }
+.hn-check--blue .hn-chkbox.checked { background:var(--rmx-blue); border-color:var(--rmx-blue); }
+.hn-row2 { flex:none; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+.hn-row2__right { display:flex; align-items:center; gap:16px; margin-left:auto; }
+.hn-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; height:36px; padding:0 16px; border:none; border-radius:var(--r-sm); font:400 14px 'Roboto',sans-serif; cursor:pointer; white-space:nowrap; }
+.hn-btn .hn-ico { width:20px;height:20px; }
+.hn-btn-primary { background:var(--rmx-blue); color:#fff; }
+.hn-btn-primary:hover { background:var(--rmx-blue-hover); }
+.hn-btn-primary:disabled { background:rgba(0,141,213,.5); cursor:default; }
+.hn-btn-secondary { background:var(--bg-surface); color:var(--rmx-blue); border:1px solid var(--rmx-blue); }
+/* Add is a split button: the action, then a divider, then its menu arrow. */
+.hn-btn-split { display:inline-flex; align-items:stretch; }
+.hn-btn-split .hn-btn { border-radius:var(--r-sm) 0 0 var(--r-sm); }
+.hn-btn-split .caret { width:28px; display:flex; align-items:center; justify-content:center; background:var(--rmx-blue); color:#fff; border-left:1px solid rgba(255,255,255,.4); border-radius:0 var(--r-sm) var(--r-sm) 0; cursor:pointer; }
+.hn-btn-split .caret:hover { background:var(--rmx-blue-hover); }
+
+/* ---- register ---- */
+.hn-register-wrap { flex:1; min-height:180px; overflow:auto; background:var(--bg-surface); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); }
+/* Sticky header, since the rows scroll inside the wrap now. */
+.hn-register thead th { position:sticky; top:0; z-index:1; }
+.hn-register { width:calc(var(--hc-type) + var(--hc-date) + var(--hc-note) + var(--hc-cat) + var(--hc-user) + var(--hc-kebab)); min-width:100%; border-collapse:collapse; table-layout:fixed; background:var(--bg-surface); }
+.hn-register th { position:relative; height:28px; background:var(--register-header); font-size:12.6px; font-weight:500; letter-spacing:1.1px; color:#fff; text-align:left; padding:4px 8px; border-right:.5px solid rgba(255,255,255,.5); }
+.hn-register th:last-child { border-right:none; }
+.hn-register td { height:36px; font-size:14px; color:var(--text-secondary); padding:0 8px; border-top:1px solid var(--register-hairline); border-bottom:1px solid var(--register-hairline); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.hn-register tbody tr { cursor:pointer; }
+.hn-register tbody tr:hover td { background:var(--bg-subtle); }
+.hn-register .c-type { width:var(--hc-type); }
+.hn-register .c-date { width:var(--hc-date); }
+.hn-register .c-note { width:var(--hc-note); }
+/* The Note column leads with the bubble of whoever caused the entry. The cell
+   still truncates to one line, so the bubble holds its size and the text is
+   what gives way. */
+.hn-note-cell { display:flex; align-items:center; gap:4px; min-width:0; }
+.hn-note-body { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hn-note-av { width:24px; height:24px; flex:none; border-radius:50%; color:#fff; font-size:12px; display:inline-flex; align-items:center; justify-content:center; }
+/* The same five fills the Tasks register draws its bubbles with. A flat blue
+   here made every author look like the same person. */
+.hn-note-av.hn-av-me    { background:var(--container-secondary, #008dd5); }
+.hn-note-av.hn-av-navy  { background:var(--container-secondary-dark, #13314c); }
+.hn-note-av.hn-av-green { background:var(--rmx-green, #6eb744); }
+.hn-note-av.hn-av-slate { background:var(--component-command-launch, #425a70); }
+.hn-note-av.hn-av-grey  { background:var(--container-tertiary-dark, #737373); }
+.hn-note-av.hn-av-role  { background:var(--lozenge-notice, #fdf0e4); border:1px solid var(--rmx-orange, #f58220); color:var(--rmx-navy, #13314c); }
+.hn-register .c-cat  { width:var(--hc-cat); }
+.hn-register .c-user { width:var(--hc-user); }
+.hn-register .c-kebab{ width:var(--hc-kebab); text-align:center; }
+.hn-register .kebab { color:var(--rmx-blue); cursor:pointer; font-size:20px; }
+.hn-register .attach { font-size:16px; color:var(--icon-muted); vertical-align:-3px; margin-right:4px; }
+.hn-empty { text-align:center; color:var(--text-primary); font-style:italic; font-size:12px; padding:22px 8px; }
+.hn-count { flex:none; text-align:right; font-size:14px; color:var(--text-primary); }
+/* @tag chip. An outlined pill carrying the person's name with no "@" left
+   showing -- orange when the tagged person is you, blue when it is anyone
+   else. Emma's call, 2026-09-10, off a screenshot of the real product. The
+   same chip renders in the Note field and in the register's Note column, so a
+   tag looks the same wherever you meet it. */
+/* 4px, not 6: the lozenge sits inline in a sentence, and 6px either side put
+   more air around the name than between the words next to it. 4px is also on
+   the grid, which 6 was not. Emma's call, 2026-10-01. */
+.hn-at { display:inline-block; padding:0 4px; border:1px solid currentColor; border-radius:var(--r-sm); line-height:18px; white-space:nowrap; user-select:none; }
+.hn-at--me    { color:var(--icon-attention,#f58220); }
+.hn-at--other { color:var(--rmx-blue); }
+
+/* ============================================================
+   Note Details Dialog, 3779:60444
+   ============================================================ */
+/* Above .hn-overlay (520) -- the Note dialog opens on top of the history it
+   came from, not behind it. */
+.hn-scrim { position:fixed; inset:0; z-index:540; background:rgba(19,49,76,.45); display:flex; align-items:center; justify-content:center; padding:24px; overflow:auto; }
+.hn-dialog { width:493px; max-width:96vw; max-height:92vh; display:flex; flex-direction:column; background:var(--bg-surface); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); box-shadow:var(--hn-shadow-lg); overflow:hidden; }
+.hn-dialog__header { display:flex; align-items:center; justify-content:space-between; gap:8px; height:48px; flex:none; padding:8px 16px; background:var(--bg-surface); border-bottom:1px solid var(--rmx-hairline); }
+/* 20px/28px navy Regular, Web/Heading/M/Regular */
+.hn-dialog__title { font-size:20px; line-height:28px; color:var(--text-secondary); white-space:nowrap; }
+.hn-dialog__header .hn-ico { width:24px;height:24px; color:var(--rmx-blue); cursor:pointer; }
+.hn-dialog__body { flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:16px; padding:16px; }
+.hn-dialog__footer { flex:none; display:flex; align-items:center; justify-content:flex-end; gap:16px; padding:8px 16px; background:var(--bg-subtle); border-top:1px solid var(--rmx-hairline); }
+.nd-field { display:flex; flex-direction:column; gap:4px; }
+.nd-field > label { font-size:14px; color:var(--text-primary); }
+/* Fields inside the dialog sit on component/input-default, not white. */
+.nd-input { display:flex; align-items:center; gap:8px; height:36px; padding:0 8px; background:var(--bg-subtle); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); }
+.nd-input > span { flex:1; min-width:0; font-size:14px; color:var(--rmx-navy); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nd-input .hn-ico { width:20px;height:20px; color:var(--rmx-blue); flex:none; }
+.nd-input--select { cursor:pointer; position:relative; }
+.nd-datetime { display:flex; align-items:stretch; height:36px; border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); overflow:hidden; }
+.nd-datetime .f { flex:1; min-width:93px; display:flex; align-items:center; padding:0 8px; background:var(--bg-subtle); font-size:14px; color:var(--rmx-navy); }
+.nd-datetime .c { width:28px; flex:none; display:flex; align-items:center; justify-content:center; background:var(--bg-subtle); border-left:1px solid var(--rmx-hairline); color:var(--icon-muted); }
+/* The Note box is a Text Box (multi-line), 12px/8px padding. @-tagging lives
+   in here: typing "@" opens the user menu. */
+.nd-note { position:relative; }
+.nd-note__box { min-height:120px; max-height:240px; overflow-y:auto; padding:8px 12px; background:var(--bg-subtle); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); font:400 14px/22px 'Roboto',sans-serif; color:var(--rmx-navy); outline:none; }
+.nd-note__box:focus { border-color:var(--rmx-blue); }
+
+.hn-at-menu { position:absolute; z-index:560; min-width:220px; max-height:220px; overflow-y:auto; background:var(--bg-surface); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); box-shadow:0 3px 6px rgba(0,0,0,.15); padding:4px 0; }
+.hn-at-menu div { display:flex; align-items:center; gap:8px; padding:8px; font-size:14px; color:var(--rmx-navy); cursor:pointer; }
+.hn-at-menu div:hover, .hn-at-menu div.sel { background:var(--bg-hover); }
+.hn-at-menu .av { width:24px; height:24px; flex:none; border-radius:50%; background:var(--rmx-blue); color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; }
+.hn-at-menu .un { color:var(--text-primary); font-size:12px; }
+.hn-at-hint { margin-top:4px; font-size:12px; color:var(--text-primary); }
+/* Attachments: a white bordered box holding the file rows and the dropzone. */
+.nd-attach { display:flex; flex-direction:column; gap:8px; padding:8px; background:var(--bg-surface); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); min-height:108px; }
+.nd-file { display:flex; align-items:center; gap:8px; padding:0 8px; background:var(--bg-subtle); }
+.nd-file a { flex:1; min-width:0; color:var(--text-link); font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nd-file .icons { display:flex; align-items:center; gap:12px; flex:none; }
+.nd-file .hn-ico { width:20px;height:20px; color:var(--rmx-blue); cursor:pointer; }
+.nd-drop { flex:1; display:flex; align-items:center; justify-content:center; gap:8px; min-height:52px; background:var(--bg-subtle); border:2px dashed var(--rmx-hairline); border-radius:var(--r-xs); }
+.nd-drop a { display:inline-flex; align-items:center; gap:4px; padding:0 8px 0 4px; border-radius:var(--r-sm); color:var(--text-link); font-size:14px; cursor:pointer; }
+.nd-drop .hn-ico { width:16px;height:16px; }
+.nd-drop .sep { width:1px; height:20px; background:var(--rmx-hairline); }
+/* Follow-up sits in its own container card. Its date/time and the
+   Follow-up Completed button are disabled until the checkbox is ticked --
+   which is what the frame draws: border-disabled hairlines, the greyed
+   field, and the button in brand-primary-disabled. */
+.nd-followup { display:flex; flex-direction:column; gap:16px; padding:16px; background:var(--bg-surface); border:1px solid var(--rmx-hairline); border-radius:var(--r-sm); }
+.nd-followup__row { display:flex; align-items:flex-start; gap:8px; }
+.nd-followup__row .nd-datetime { flex:1; min-width:0; }
+.nd-followup.off .nd-datetime { border-color:var(--register-hairline); }
+.nd-followup.off .nd-datetime .f, .nd-followup.off .nd-datetime .c { background:var(--bg-disabled); border-color:var(--register-hairline); }
+.nd-followup.off .nd-datetime .f { color:var(--text-disabled); font-style:italic; }
+.nd-fu-btn { align-self:flex-start; height:36px; min-height:36px; padding:0 16px; border:none; border-radius:var(--r-sm); background:var(--rmx-blue); color:#fff; font:400 14px 'Roboto',sans-serif; cursor:pointer; }
+.nd-followup.off .nd-fu-btn { background:rgba(0,141,213,.5); cursor:default; }
+.nd-checks { display:flex; flex-direction:column; gap:16px; }
+.nd-checks .hn-check { height:auto; }
+
+/* ---- toast ---- */
+/* Green, like every other toast on these screens -- it only ever says a note
+   was added or deleted. Emma's call, 2026-09-11. */
+.hn-toast { position:fixed; top:96px; left:50%; z-index:580; display:flex; align-items:center; gap:8px; padding:16px; border-radius:var(--r-sm); background:var(--rmx-green); color:#fff; font-size:16px; font-weight:600; line-height:24px; box-shadow:var(--hn-shadow-toast); max-width:360px; transform:translate(-50%,-8px); opacity:0; pointer-events:none; transition:all .18s ease; }
+.hn-toast.show { opacity:1; transform:translate(-50%,0); }
+
+@media (max-width: 899px) {
+  .hn__body { padding:12px; gap:12px; }
+  .hn-score__content { padding:12px 16px; }
+  .hn-score__lead { gap:16px; }
+}
+
+/* Pill, RMX's own: 20px tall, Radius/lg, white on a Border/secondary hairline.
+   Used in the Scoreboard when one item stands for more than one record. */
+.hn-pill { display:inline-flex; align-items:center; height:20px; padding:0 8px; margin-left:4px;
+  border:1px solid var(--rmx-hairline); border-radius:999px;
+  background:var(--container-primary,#fff); font-size:14px; color:var(--rmx-navy); }

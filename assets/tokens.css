@@ -1,0 +1,406 @@
+/* ============================================================
+   RMX Foundations tokens — GENERATED. DO NOT EDIT BY HAND.
+   ------------------------------------------------------------
+   Source: the RMXDS Design System artifact, version 2.8.1,
+   file project/tokens.css, which publishes every RMX Foundations token under
+   these exact names. Synced 2026-10-01 by scripts/sync-ds.mjs.
+
+   The artifact is READ-ONLY. This skill reads it and never writes to it.
+
+   Hand-written additions — the handful of values RMXDS does not carry, mostly
+   Orion measurements — live in tokens-local.css, which loads after this file.
+   Put nothing here; it is overwritten on every sync.
+
+   Dark mode ships but is inert until something sets data-theme="dark".
+   Nothing in this skill sets it: a Dark prototype is a conversation with Emma.
+   ============================================================ */
+
+:root, [data-theme="light"] {
+  --text-primary:                           #666666;  /* Default body copy and field labels. */
+  --text-secondary:                         #13314c;  /* Headings, tile and container titles, and values the user has entered. */
+  --text-black:                             #262626;  /* Neutral ink where navy would read as a link. */
+  --text-link:                              #008dd5;  /* Clickable text ONLY — never a static label. */
+  --text-label:                             #008dd5;  /* Static labels above inputs. */
+  --text-disabled:                          #b3b3b3;  /* Disabled text, and placeholder text (which is additionally italic). */
+  --text-inverse:                           #ffffff;  /* Text on a brand-filled ground: primary Button, Bulk Action, Toast. */
+  --text-ondark:                            #ffffff;  /* Text on the navy chrome: Header app bar, Action Bar rail, background-toast-help. */
+  --text-onlight:                           #13314c;  /* Text on a pale tint: background-brand-secondary, background-breadcrumb, background-swim-lane. */
+  --text-error:                             #eb343c;  /* Validation messages under a field. */
+  --text-success:                           #426e29;  /* Success copy. */
+  --icon-primary:                           #008dd5;  /* The brand icon fill — the default for an interactive icon. */
+  --icon-secondary:                         #ffffff;  /* Icons on a brand or navy fill, e.g. */
+  --icon-tertiary:                          #666666;  /* Neutral icons that match text-primary — the Flexible Icon Color=Default mapping. */
+  --icon-quaternary:                        #13314c;  /* Navy icons — the Flexible Icon Color=Dark Blue mapping, and the Mega Menu icon fill. */
+  --icon-attention:                         #f58220;  /* The CHECKED CHECKBOX fill, and Flexible Icon Color=Attention. */
+  --icon-notice:                            #faa61c;  /* Notice/caution icons. */
+  --icon-success:                           #6eb744;  /* Success icons and the Reminder tick. */
+  --icon-error:                             #eb343c;  /* Error icons. */
+  --icon-disabled:                          #b3b3b3;  /* Disabled icons, and Flexible Icon Color=Disabled. */
+  --icon-ondark:                            #ffffff;  /* Icons on the navy chrome — what header-icon-primary aliases. */
+  --icon-inverse:                           #13314c;  /* Icons that invert with the theme, on a surface that also inverts. */
+  --icon-inverse-dark:                      #ffffff;  /* White icon in Light; deep navy #204558 in Dark. */
+  --icon-inverse-light:                     #ffffff;  /* White icon on a dark ground in Light; inverts to navy #13314c in Dark. */
+  --icon-opacity:                           #ffffff80;  /* 50% white icon over imagery or a brand fill; 50% near-white in Dark. */
+  --icon-rm12:                              #3776bc;  /* The rmAppSuitePro mark only. */
+  --header-icon-primary:                    var(--icon-ondark);  /* Header app bar icons. */
+  --header-icon-secondary:                  var(--icon-primary);  /* The brand-blue icon inside the Header app bar. */
+  --border-primary:                         #cedbe7;  /* THE default hairline. */
+  --border-secondary:                       #008dd5;  /* Active, selected and focused borders; the active Tab underline; the 2px Tile header underline. */
+  --border-tertiary:                        #666666;  /* Neutral strokes that need more weight than border-primary. */
+  --border-quaternary:                      #13314c;  /* Navy strokes, e.g. */
+  --border-disabled:                        #ebf1f5;  /* Register row hairlines and disabled control strokes. */
+  --border-attention:                       #f58220;  /* The checked Checkbox stroke, paired with icon-attention as its fill. */
+  --border-notice:                          #f79b4d;  /* Notice/caution outlines, e.g. */
+  --border-error:                           #eb343c;  /* Error field and Callout strokes. */
+  --border-success:                         #a8d48f;  /* Success outlines. */
+  --border-scoreboard:                      #425a70;  /* The Scoreboard Header divider between items. */
+  --border-status-default:                  #333333;  /* The default Card status colour bar — what component-card-status aliases. */
+  --border-white:                           #ffffff;  /* A white hairline separating two filled surfaces, e.g. */
+  --border-register:                        var(--border-disabled);  /* Register row hairlines, from the Component collection's Border/register-border. */
+  --border-highlighted-row:                 var(--border-primary);  /* The edge of a highlighted register row. */
+  --border-tile-primary:                    var(--border-secondary);  /* The 2px brand underline beneath a Tile header. */
+  --border-tile-secondary:                  var(--border-quaternary);  /* The navy variant of the Tile header underline. */
+  --background-ui-primary:                  #f3f4f8;  /* The page ground in Express — what Tiles and Containers sit on. */
+  --background-ui-secondary:                #f2f2f2;  /* Disabled regions and empty media wells. */
+  --background-card:                        #ffffff;  /* The Card surface. */
+  --background-tile:                        #ffffff;  /* The Tile surface, and the default register row. */
+  --background-footer:                      #f5f8fa;  /* Overlay Footer, and the Date Range field ground. */
+  --background-disabled:                    #e5e5e5;  /* Disabled control fills. */
+  --background-brand-primary:               #008dd5;  /* THE brand blue. */
+  --background-brand-secondary:             #cce8f7;  /* The pale brand tint: brand Lozenge ground. */
+  --background-brand-primary-disabled:      #008dd580;  /* A disabled primary Button — 50% brand blue rather than a grey. */
+  --background-error:                       #fbd6d8;  /* Error field fill and error Lozenge ground. */
+  --background-notice:                      #feedd2;  /* Notice/Caution Lozenge ground. */
+  --background-success-primary:             #6eb744;  /* The saturated success fill: success Toast, and the Reminder surface. */
+  --background-success-secondary:           #e2f1da;  /* The pale success tint: success field fill and success Lozenge ground. */
+  --background-megamenu:                    #0071aa;  /* The Mega Menu ground — the same deep blue as background-primary-button-hover in Light. */
+  --background-preferences-menu:            #424e5b;  /* The Preferences Sidebar ground. */
+  --background-swim-lane:                   #e8f6fa;  /* The Swim Lane ground on a kanban board. */
+  --background-tenant:                      #e8f6fa;  /* The tenant detail header tint — what component-tenant-header aliases. */
+  --background-tooltip:                     #f58220;  /* The Hover Tip ground is ORANGE, not navy or grey. */
+  --background-breadcrumb:                  #e8f6fa;  /* The breadcrumb strip ground. */
+  --background-toast-help:                  #13314c;  /* The navy ground of a help Toast; charcoal #2f3031 in Dark. */
+  --background-pink:                        #fde8ef;  /* Accent tint for category colour-coding. */
+  --background-purple:                      #ede8fa;  /* Accent tint for category colour-coding. */
+  --background-teal:                        #d1f0ec;  /* Accent tint for category colour-coding. */
+  --background-primary-button:              #008dd5;  /* The primary Button fill at rest. */
+  --background-primary-button-hover:        #0071aa;  /* The primary Button on hover. */
+  --background-secondary-button:            #ffffff;  /* The secondary Button fill, outlined in border-secondary and labelled in text-link. */
+  --background-secondary-button-hover:      #ebf1f5;  /* The secondary Button on hover — the pale brand wash, same value as background-row-hover in Light. */
+  --background-tertiary-button:             #f79b4d;  /* The Marketing Button fill only. */
+  --background-tertiary-button-hover:       #f9b479;  /* The Marketing Button on hover. */
+  --background-input-primary:               #f5f8fa;  /* The default Input Field fill — Style=Express. */
+  --background-input-secondary:             #ffffff;  /* The white Input Field fill used by Orion. */
+  --background-input-disabled:              #f2f2f2;  /* A disabled Input Field fill; pair with text-disabled. */
+  --background-row-hover:                   #ebf1f5;  /* A register row under the cursor — the pale brand wash. */
+  --background-row-striped:                 #f5f8fa;  /* Every other register row when striping is on. */
+  --container-primary:                      #ffffff;  /* The default container fill: Overlay Header, Callout, Pill, Table header, secondary Button. */
+  --container-secondary-dark:               #13314c;  /* The navy chrome: Header app bar and the Action Bar rail. */
+  --container-secondary-light:              #425a70;  /* The Command Launch ground. */
+  --container-tertiary:                     #f5f8fa;  /* A recessed panel inside a Tile or Container. */
+  --container-tertiary-dark:                #737373;  /* The grey full-page register header row. */
+  --container-disabled:                     #e5e5e5;  /* A disabled container fill. */
+  --toggle-selected-track:                  #008dd5;  /* The Toggle Slider track when on. */
+  --toggle-selected-handle:                 #e8f6fa;  /* The Toggle Slider handle when on. */
+  --toggle-unselected-track:                #66666680;  /* The Toggle Slider track when off — 50% grey, not a solid. */
+  --toggle-unselected-handle:               #ffffff;  /* The Toggle Slider handle when off. */
+  --toggle-unselected-icon:                 #666666;  /* The glyph inside an off Toggle Slider handle. */
+  --toggle-disabled-track:                  #e5e5e5;  /* The Toggle Slider track when disabled. */
+  --toggle-disabled-handle:                 #b3b3b3;  /* The Toggle Slider handle when disabled. */
+  --toggle-disabled-unselected-handle:      #e5e5e5;  /* The Toggle Slider handle when disabled AND off. */
+  --toggle-disabled-selected-icon:          #ffffff80;  /* The glyph inside a disabled, on Toggle Slider handle (50% white). */
+  --toggle-disabled-unselected-icon:        #b3b3b3;  /* The glyph inside a disabled, off Toggle Slider handle. */
+  --component-main-header:                  var(--container-secondary-dark);  /* Header app bar ground. */
+  --component-context-header:               var(--background-brand-primary);  /* Context Bar ground. */
+  --component-command-launch:               var(--container-secondary-light);  /* Command Launch ground. */
+  --component-megamenu-selector:            var(--background-megamenu);  /* Mega Menu selector ground. */
+  --component-megamenu-text:                var(--background-megamenu);  /* Mega Menu text ground. */
+  --component-megamenu-icons:               var(--icon-quaternary);  /* Mega Menu icon fill. */
+  --component-preferences-menu:             var(--background-preferences-menu);  /* Preferences Sidebar ground. */
+  --component-register-header:              var(--container-tertiary-dark);  /* The grey register header row. */
+  --component-register-row-default:         var(--background-tile);  /* A register row at rest. */
+  --component-register-row-hover:           var(--background-row-hover);  /* A register row on hover. */
+  --component-register-row-striped:         var(--background-row-striped);  /* A striped register row. */
+  --component-card-default:                 var(--background-card);  /* Board Card fill. */
+  --component-card-status:                  var(--border-status-default);  /* The Card status colour bar. */
+  --component-tenant-header:                var(--background-tenant);  /* Tenant detail header tint. */
+  --component-breadcrumb:                   var(--background-breadcrumb);  /* Breadcrumb strip. */
+  --component-footer:                       var(--background-footer);  /* Overlay Footer. */
+  --component-date-range:                   var(--background-footer);  /* Date Range field ground. */
+  --component-input-default:                var(--background-input-primary);  /* Input Field fill, Style=Express. */
+  --component-input-secondary:              var(--background-input-secondary);  /* Orion Input Field fill. */
+  --component-input-disabled:               var(--background-input-disabled);  /* Disabled Input Field fill. */
+  --component-input-error:                  var(--background-error);  /* Input Field fill, State=Error. */
+  --component-input-success:                var(--background-success-secondary);  /* Input Field fill in a success state. */
+  --component-lozenge-brand:                var(--background-brand-secondary);  /* Lozenge State=Brand ground. */
+  --component-lozenge-success:              var(--background-success-secondary);  /* Lozenge State=Success ground. */
+  --component-lozenge-error:                var(--background-error);  /* Lozenge State=Error ground. */
+  --component-lozenge-notice:               var(--background-notice);  /* Lozenge State=Caution ground. */
+  --component-lozenge-disabled:             var(--background-disabled);  /* Lozenge State=Disabled ground. */
+  --component-lozenge-tooltip:              var(--background-tooltip);  /* The orange tooltip lozenge ground. */
+  --component-toast-brand:                  var(--background-brand-primary);  /* Toast State=Action, and the Bulk Action banner. */
+  --component-toast-success:                var(--background-success-primary);  /* The green surface of Toast State=Success and of the Checklist Reminder; Figma binds it on both. */
+  --component-toast-help:                   var(--background-toast-help);  /* Help Toast ground. */
+  --component-button-marketing:             var(--background-tertiary-button);  /* Marketing Button fill. */
+  --component-button-primary:               var(--background-brand-primary);  /* Primary Button fill (Component collection). */
+  --component-button-secondary:             var(--container-primary);  /* Secondary Button fill. */
+  --component-workspace-tile:               #ffffffd9;  /* The Workspace Tile fill — the ONE Component variable that does not alias Semantics. */
+  --dropshadow-sm:                          2px 2px 12px -5px rgba(76,76,76,.08), 0 4px 15px -5px rgba(76,76,76,.08), 0 -1px 20px -5px rgba(76,76,76,.02);  /* The lightest lift — three layers. */
+  --dropshadow-md:                          1px 2px 12px 1px rgba(76,76,76,.10), 0 4px 10px -10px rgba(76,76,76,.10), 0 -2px 20px -5px rgba(76,76,76,.08);  /* A floating panel: Toast, Dropdown Menu, Hover Tip, a lifted Card. */
+  --dropshadow-lg:                          1px 2px 12px 1px rgba(76,76,76,.14), 0 10px 10px -5px rgba(76,76,76,.15), 0 -2px 20px -10px rgba(76,76,76,.06), 0 0 5px -10px rgba(76,76,76,.05);  /* Four layers, the deepest level. */
+  --dropshadow-orion-light:                 0 0 12.6px rgba(0,141,213,.20);  /* The Orion blue glow — Action Bar and Orion surfaces, paired with the Orion border gradient. */
+  --spacing-none:                           0px;  /* Collapse a gap or padding to zero, e.g. */
+  --spacing-xxxs:                           2px;  /* Hairline separation inside a control, e.g. */
+  --spacing-xxs:                            4px;  /* The grid unit. */
+  --spacing-xs:                             8px;  /* The workhorse: Button padding, Cell Content padding and gap, Checkbox gap, Tab padding-x. */
+  --spacing-sm:                             12px;  /* Tighter-than-default block padding. */
+  --spacing-md:                             16px;  /* Container slot padding, Toast padding, app bar padding-x, Tab padding-y. */
+  --spacing-lg:                             20px;  /* Generous block padding inside an overlay. */
+  --spacing-xl:                             24px;  /* Separation between sibling Tiles or Containers. */
+  --spacing-xl-75:                          28px;  /* Authored 'Spacing/xl_75'. */
+  --spacing-2xl:                            32px;  /* Section separation on a detail page. */
+  --spacing-2-25xl:                         36px;  /* Authored 'Spacing/2_25xl'. */
+  --spacing-3xl:                            40px;  /* Context Bar height; Action Bar rail width. */
+  --spacing-3-75xl:                         44px;  /* Authored 'Spacing/3_75xl'. */
+  --spacing-4xl:                            48px;  /* Header app bar height, Tab height, Overlay Header height. */
+  --spacing-5xl:                            56px;  /* Tall control or picker row. */
+  --spacing-6xl:                            64px;  /* The page gutter; Scoreboard Header height. */
+  --spacing-7xl:                            72px;  /* Large vertical rhythm on a marketing or login surface. */
+  --spacing-8xl:                            80px;  /* 80px: the height a Reminder card hugs to in Figma (not set as a min-height), and the Large Workflow Step connector. */
+  --spacing-9xl:                            96px;  /* Large block separation. */
+  --spacing-10xl:                           104px;  /* Large block separation. */
+  --spacing-11xl:                           112px;  /* Large block separation. */
+  --spacing-12xl:                           120px;  /* Large block separation. */
+  --spacing-13xl:                           150px;  /* Fixed column or panel width. */
+  --spacing-14xl:                           175px;  /* Fixed panel width; matches layout.logo-size. */
+  --radius-none:                            0px;  /* Square corners: register cells, full-bleed bars, the app bar. */
+  --radius-xs:                              2px;  /* The smallest softening — a checkbox box. */
+  --radius-sm:                              4px;  /* THE default corner: Button, Input Field, Tile, Card, Lozenge, Toast, Callout. */
+  --radius-md:                              8px;  /* The Orion overlay, and the Orion Version History Card. */
+  --radius-lg:                              12px;  /* The Pill, and the Toggle Slider track shape. */
+  --radius-xl:                              16px;  /* Rare large corner. */
+  --radius-xxl:                             24px;  /* The Orion Action Bar. */
+  --radius-round:                           200px;  /* A fully round end. */
+  --cell-height:                            36px;  /* Authored 'Cell/Cell Heigth' (sic). */
+  --cell-height-xl:                         44px;  /* Registers collection, XL mode — the roomiest register density. */
+  --cell-height-sm:                         32px;  /* Registers collection, SM mode — a compact register. */
+  --cell-height-xs:                         28px;  /* Registers collection, XS mode — the densest register. */
+  --content-contentpadding:                 16px;  /* Context Bar side padding. */
+  --content-paragraphsize:                  16px;  /* Paragraph measure step on a marketing or login surface. */
+  --content-titlesize:                      48px;  /* The login/marketing title size. */
+  --display-display:                        1920px;  /* The full-bleed bar width — Header app bar and Context Bar are authored to this. */
+  --display-lg:                             1366px;  /* Breakpoints, LG Tablet Land mode. */
+  --display-md:                             1024px;  /* Breakpoints, MD Tablet Port mode. */
+  --display-sm:                             390px;  /* Breakpoints, SM Mobile mode. */
+  --logo-size:                              175px;  /* The logo lockup width in the app bar. */
+  --logo-size-md:                           150px;  /* Main Header/LogoSize at MD Tablet Port. */
+  --logo-size-sm:                           120px;  /* Main Header/LogoSize at SM Mobile. */
+  --icon-size-sm:                           16px;  /* Flexible Icon Size=Small. */
+  --icon-size-md:                           20px;  /* Flexible Icon Size=Medium — the default icon size. */
+  --icon-size-lg:                           24px;  /* Flexible Icon Size=Large. */
+  --icon-size-xl:                           32px;  /* Flexible Icon Size=X-Large. */
+  --toggle-track-width:                     36px;  /* Toggle Slider track width. */
+  --toggle-track-height:                    20px;  /* Toggle Slider track height. */
+  --toggle-track-shape:                     12px;  /* Toggle Slider track corner radius. */
+  --toggle-handle-width:                    16px;  /* Toggle Slider handle width. */
+  --toggle-handle-height:                   16px;  /* Toggle Slider handle height. */
+  --font-size-sm:                           12px;  /* Caption and dense secondary text. */
+  --font-size-md:                           14px;  /* Body. */
+  --font-size-lg:                           16px;  /* Container subtitle. */
+  --font-size-xl:                           18px;  /* Tile and Container titles. */
+  --font-size-2xl:                          20px;  /* Section title. */
+  --font-size-3xl:                          24px;  /* Page title. */
+  --font-size-4xl:                          32px;  /* Large display size. */
+  --font-size-5xl:                          40px;  /* Large display size. */
+  --font-size-6xl:                          48px;  /* The largest size. */
+  --line-height-sm:                         16px;  /* Pairs with font-size-sm. */
+  --line-height-md:                         20px;  /* Pairs with font-size-md — the body metric. */
+  --line-height-lg:                         24px;  /* Pairs with font-size-lg. */
+  --line-height-xl:                         28px;  /* Pairs with font-size-xl. */
+  --line-height-2xl:                        32px;  /* Pairs with font-size-2xl and font-size-3xl. */
+  --line-height-3xl:                        40px;  /* Pairs with font-size-4xl. */
+  --line-height-4xl:                        48px;  /* Pairs with font-size-5xl (40px). */
+  --line-height-5xl:                        56px;  /* Pairs with font-size-6xl (48px). */
+  --line-height-6xl:                        64px;  /* The display step — pairs with Web/Display/L (56px). */
+  --font-weight-regular:                    400;  /* Body copy and labels. */
+  --font-weight-medium:                     500;  /* Headings and tile titles. */
+  --font-weight-semibold:                   600;  /* Emphasis and data values. */
+  --font-weight-bold:                       700;  /* Reserved. */
+  --font-sans:                              "Roboto", "Roboto Ext", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --font-brand:                             "Lato", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --text-body:                              400 14px/20px var(--font-sans);  /* THE default. */
+  --text-body-medium:                       500 14px/20px var(--font-sans);  /* A label that needs weight without reading as data, e.g. */
+  --text-body-semibold:                     600 14px/20px var(--font-sans);  /* Emphasis and data values — the Text Placeholder SemiBold variant. */
+  --text-placeholder:                       italic 400 14px/20px var(--font-sans);  /* Placeholder text ONLY — the Text Placeholder Italic Disabled variant. */
+  --text-body-lg:                           400 16px/24px var(--font-sans);  /* Container subtitle. */
+  --text-caption:                           400 12px/16px var(--font-sans);  /* Dense secondary text: register sublabels, Pill and small Lozenge text. */
+  --text-caption-semibold:                  600 12px/16px var(--font-sans);  /* A small value or count, e.g. */
+  --text-heading-sm:                        500 16px/24px var(--font-sans);  /* The smallest heading — a subsection inside a Container. */
+  --text-heading-md:                        600 18px/24px var(--font-sans);  /* Legacy name for web-heading-s-semibold (18/24, 600): the Container title. */
+  --text-heading-lg:                        500 20px/28px var(--font-sans);  /* Legacy name for web-heading-m-medium (20/28, 500): an overlay or page-section title. */
+  --text-heading-xl:                        500 24px/32px var(--font-sans);  /* A page title. */
+  --text-heading-2xl:                       500 32px/40px var(--font-sans);  /* The largest paired size/line-height in Foundations. */
+  --text-web-display-xl:                    400 96px/1.17 var(--font-sans);  /* Foundations text style "Web/Display/XL": Roboto Regular 96px, line height Auto. */
+  --text-web-display-l-semibold:            600 56px/64px var(--font-sans);  /* Foundations text style "Web/Display/L/SemiBold". */
+  --text-web-display-m-semibold:            700 48px/56px var(--font-sans);  /* Foundations text style "Web/Display/M/SemiBold". */
+  --text-web-display-m-bold:                700 48px/56px var(--font-sans);  /* Foundations text style "Web/Display/M/Bold". */
+  --text-web-display-s-semibold:            600 40px/48px var(--font-sans);  /* Foundations text style "Web/Display/S/SemiBold". */
+  --text-web-display-s-bold:                700 40px/48px var(--font-sans);  /* Foundations text style "Web/Display/S/Bold". */
+  --text-web-heading-xl-regular:            400 32px/40px var(--font-sans);  /* Foundations text style "Web/Heading/XL/Regular". */
+  --text-web-heading-xl-medium:             500 32px/40px var(--font-sans);  /* Foundations text style "Web/Heading/XL/Medium". */
+  --text-web-heading-xl-semibold:           600 32px/40px var(--font-sans);  /* Foundations text style "Web/Heading/XL/SemiBold". */
+  --text-web-heading-l-regular:             400 24px/32px var(--font-sans);  /* Foundations text style "Web/Heading/L/Regular". */
+  --text-web-heading-l-medium:              500 24px/32px var(--font-sans);  /* Foundations text style "Web/Heading/L/Medium". */
+  --text-web-heading-l-semibold:            600 24px/32px var(--font-sans);  /* Foundations text style "Web/Heading/L/SemiBold". */
+  --text-web-heading-m-regular:             400 20px/28px var(--font-sans);  /* Foundations text style "Web/Heading/M/Regular". */
+  --text-web-heading-m-medium:              500 20px/28px var(--font-sans);  /* Foundations text style "Web/Heading/M/Medium". */
+  --text-web-heading-m-semibold:            600 20px/28px var(--font-sans);  /* Foundations text style "Web/Heading/M/SemiBold". */
+  --text-web-heading-s-regular:             400 18px/24px var(--font-sans);  /* Foundations text style "Web/Heading/S/Regular". */
+  --text-web-heading-s-medium:              500 18px/24px var(--font-sans);  /* Foundations text style "Web/Heading/S/Medium". */
+  --text-web-heading-s-semibold:            600 18px/24px var(--font-sans);  /* Foundations text style "Web/Heading/S/SemiBold". */
+  --text-web-paragraph-l-regular:           400 16px/24px var(--font-sans);  /* Foundations text style "Web/Paragraph/L/Regular". */
+  --text-web-paragraph-l-medium:            500 16px/24px var(--font-sans);  /* Foundations text style "Web/Paragraph/L/Medium". */
+  --text-web-paragraph-l-semibold:          600 16px/24px var(--font-sans);  /* Foundations text style "Web/Paragraph/L/SemiBold". */
+  --text-web-paragraph-s-regular:           400 14px/20px var(--font-sans);  /* Foundations text style "Web/Paragraph/S/Regular". */
+  --text-web-paragraph-s-italic:            italic 400 14px/20px var(--font-sans);  /* Foundations text style "Web/Paragraph/S/Italic". */
+  --text-web-paragraph-s-semibold:          600 14px/20px var(--font-sans);  /* Foundations text style "Web/Paragraph/S/SemiBold". */
+  --text-web-paragraph-s-special-underline: 400 14px/20px var(--font-sans);  /* Foundations text style "Web/Paragraph/S/Special/Underline". */
+  --text-web-label-l-regular:               400 16px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/L/Regular". */
+  --text-web-label-l-medium:                500 16px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/L/Medium". */
+  --text-web-label-l-semibold:              600 16px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/L/SemiBold". */
+  --text-web-label-l-italic:                italic 400 16px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/L/Italic". */
+  --text-web-label-m-regular:               400 14px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/M/Regular". */
+  --text-web-label-m-semibold:              600 14px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/M/SemiBold". */
+  --text-web-label-m-italic:                italic 400 14px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/M/Italic". */
+  --text-web-label-s-regular:               400 12px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/S/Regular". */
+  --text-web-label-s-medium:                500 12.6px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/S/Medium": Roboto Medium 12.6px with 9% letter spacing (written 0.09em, since CSS l… */
+  --text-web-label-s-semibold:              600 12px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/S/SemiBold". */
+  --text-web-label-s-italic:                italic 400 12px/1.17 var(--font-sans);  /* Foundations text style "Web/Label/S/Italic". */
+}
+
+[data-theme="dark"] {
+  --text-primary:                           #eff0f0;
+  --text-secondary:                         #eff0f0;
+  --text-black:                             #eff0f0;
+  --text-link:                              #4facdb;
+  --text-label:                             #eff0f0;
+  --text-disabled:                          #9ca1a5;
+  --text-inverse:                           #13314c;
+  --text-ondark:                            #eff0f0;
+  --text-onlight:                           #204558;
+  --text-error:                             #f3858a;
+  --text-success:                           #76886c;
+  --icon-primary:                           #4facdb;
+  --icon-secondary:                         #4facdb;
+  --icon-tertiary:                          #9ca1a5;
+  --icon-quaternary:                        #204558;
+  --icon-attention:                         #f9b276;
+  --icon-notice:                            #f9b276;
+  --icon-success:                           #bad3ab;
+  --icon-error:                             #f3858a;
+  --icon-disabled:                          #ced0d2;
+  --icon-ondark:                            #eff0f0;
+  --icon-inverse:                           #eff0f0;
+  --icon-inverse-dark:                      #204558;
+  --icon-inverse-light:                     #13314c;
+  --icon-opacity:                           #eff0f080;
+  --header-icon-primary:                    var(--icon-ondark);
+  --header-icon-secondary:                  var(--icon-primary);
+  --border-primary:                         #61686e;
+  --border-secondary:                       #4facdb;
+  --border-tertiary:                        #6b7278;
+  --border-quaternary:                      #6b7278;
+  --border-disabled:                        #61686e;
+  --border-attention:                       #f9b276;
+  --border-notice:                          #f9b276;
+  --border-error:                           #f3858a;
+  --border-success:                         #bad3ab;
+  --border-scoreboard:                      #2f6783;
+  --border-status-default:                  #9ca1a5;
+  --border-white:                           #eff0f0;
+  --border-register:                        var(--border-disabled);
+  --border-highlighted-row:                 var(--border-primary);
+  --border-tile-primary:                    var(--border-secondary);
+  --border-tile-secondary:                  var(--border-quaternary);
+  --background-ui-primary:                  #131c24;
+  --background-ui-secondary:                #202325;
+  --background-card:                        #404549;
+  --background-tile:                        #2f3031;
+  --background-footer:                      #2f3031;
+  --background-disabled:                    #e5e5e5;
+  --background-brand-primary:               #4facdb;
+  --background-brand-secondary:             #cce8f7;
+  --background-brand-primary-disabled:      #4facdb80;
+  --background-error:                       #fde7e8;
+  --background-notice:                      #fff8ed;
+  --background-success-primary:             #bad3ab;
+  --background-success-secondary:           #d1e8c3;
+  --background-megamenu:                    #4facdb;
+  --background-preferences-menu:            #6b7278;
+  --background-swim-lane:                   #737373;
+  --background-tenant:                      #425a70;
+  --background-tooltip:                     #f9b276;
+  --background-breadcrumb:                  #204558;
+  --background-toast-help:                  #2f3031;
+  --background-primary-button:              #4facdb;
+  --background-primary-button-hover:        #4facdb;
+  --background-secondary-button:            #2f3031;
+  --background-secondary-button-hover:      #ebf1f5;
+  --background-tertiary-button:             #f9b276;
+  --background-tertiary-button-hover:       #fbcea7;
+  --background-input-primary:               #363a3d;
+  --background-input-secondary:             #363a3d;
+  --background-input-disabled:              #363a3d;
+  --background-row-hover:                   #404549;
+  --background-row-striped:                 #202325;
+  --container-primary:                      #2f3031;
+  --container-secondary-dark:               #2f3031;
+  --container-secondary-light:              #425a70;
+  --container-tertiary:                     #eceff1;
+  --container-tertiary-dark:                #737373;
+  --container-disabled:                     #ced0d2;
+  --toggle-selected-track:                  #4facdb;
+  --toggle-selected-handle:                 #eff0f0;
+  --toggle-unselected-track:                #6b727880;
+  --toggle-unselected-handle:               #eff0f0;
+  --toggle-unselected-icon:                 #9ca1a5;
+  --toggle-disabled-track:                  #ced0d2;
+  --toggle-disabled-handle:                 #9ca1a5;
+  --toggle-disabled-unselected-handle:      #ced0d2;
+  --toggle-disabled-selected-icon:          #eff0f080;
+  --toggle-disabled-unselected-icon:        #ced0d2;
+  --component-main-header:                  var(--container-secondary-dark);
+  --component-context-header:               var(--background-brand-primary);
+  --component-command-launch:               var(--container-secondary-light);
+  --component-megamenu-selector:            var(--background-megamenu);
+  --component-megamenu-text:                var(--background-megamenu);
+  --component-megamenu-icons:               var(--icon-quaternary);
+  --component-preferences-menu:             var(--background-preferences-menu);
+  --component-register-header:              var(--container-tertiary-dark);
+  --component-register-row-default:         var(--background-tile);
+  --component-register-row-hover:           var(--background-row-hover);
+  --component-register-row-striped:         var(--background-row-striped);
+  --component-card-default:                 var(--background-card);
+  --component-card-status:                  var(--border-status-default);
+  --component-tenant-header:                var(--background-tenant);
+  --component-breadcrumb:                   var(--background-breadcrumb);
+  --component-footer:                       var(--background-footer);
+  --component-date-range:                   var(--background-footer);
+  --component-input-default:                var(--background-input-primary);
+  --component-input-secondary:              var(--background-input-secondary);
+  --component-input-disabled:               var(--background-input-disabled);
+  --component-input-error:                  var(--background-error);
+  --component-input-success:                var(--background-success-secondary);
+  --component-lozenge-brand:                var(--background-brand-secondary);
+  --component-lozenge-success:              var(--background-success-secondary);
+  --component-lozenge-error:                var(--background-error);
+  --component-lozenge-notice:               var(--background-notice);
+  --component-lozenge-disabled:             var(--background-disabled);
+  --component-lozenge-tooltip:              var(--background-tooltip);
+  --component-toast-brand:                  var(--background-brand-primary);
+  --component-toast-success:                var(--background-success-primary);
+  --component-toast-help:                   var(--background-toast-help);
+  --component-button-marketing:             var(--background-tertiary-button);
+  --component-button-primary:               var(--background-brand-primary);
+  --component-button-secondary:             var(--container-primary);
+}

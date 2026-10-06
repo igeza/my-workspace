@@ -1,0 +1,708 @@
+/* ============================================================
+   My Workspace, starter. Mentions tile only.
+   ------------------------------------------------------------
+   Extracted from my-workspace's workspace.css + workspace-original.css.
+   Kept: the page ground, welcome text, tile row, the Workspace tile shell
+   (overline, 44px header, scrolling body), the Mentions rows and their
+   avatars, and the full-bleed / sticky app bar and context bar.
+   Add a new tile by copying the Mentions <section> in index.html.
+   ============================================================ */
+
+:root {
+  /* Not exported by tokens.css (see my-workspace PROTOTYPE.md). */
+  --radius-md: 8px;
+}
+
+.rmx-appbar,
+.rmx-contextbar { width: 100%; }
+/* Command Launch is 454px by design and shrinks rather than overflowing the
+   clipped bar on a narrow window. */
+.rmx-appbar__search { width: min(454px, 100%); }
+
+/* Fixed on scroll, Emma's call, 2026-09-10. Neither bar's Figma anatomy
+   says anything about scroll behaviour (a static frame has none to say), so
+   this is prototype judgment, not a harvested value: real Express keeps both
+   bars in view while the page scrolls, and a long My Workspace should too.
+   Stacked in the order they already appear, app bar pinned to the very top,
+   Context Bar directly under it at the app bar's own 48px height, so
+   nothing overlaps and the page content scrolls underneath both. */
+.rmx-appbar { position: sticky; top: 0; z-index: 40; }
+.rmx-contextbar { position: sticky; top: 48px; z-index: 39; }
+
+/* ---- the page ---------------------------------------------
+   Main Content (4969:70316): VERTICAL, gap 24, padding 32/64,
+   1px border-primary on the bottom edge only. The ground is the
+   RMX_Background component instance (4969:70309) sitting behind
+   it, exported to a data URI in original-art.css.            */
+.ows-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xl);                 /* 24 */
+  padding: var(--spacing-2xl) 64px;       /* 32 / 64 */
+  border-bottom: 1px solid var(--border-primary);
+  min-height: calc(100vh - 88px);
+  /* The ground art is a 1920x844 band. Sized to the element it would be
+     stretched to whatever the page is tall -- on a long page that magnifies it
+     until it reads as flat colour, which is what it was doing. Attached to the
+     viewport instead, it stays the size the frame draws it at, edge to edge
+     and flush under the Context Bar, however far the page scrolls. Emma's
+     call, 2026-09-11. */
+  background-color: var(--container-primary);
+  background-image: var(--art-workspace-ground);
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* ---- welcome ----------------------------------------------
+   Welcome Text (4969:70317): VERTICAL, gap 8, both lines
+   centred. Heading/L/Regular over Heading/M/Regular.          */
+.ows-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);                 /* 8 */
+  text-align: center;
+}
+
+.ows-welcome__greeting,
+.ows-welcome__line {
+  margin: 0;
+  /* Both lines are #575353 in the Figma frame (4969:70317). That hex is
+     bound to no variable and no colour style, so there is no token for
+     it; --text-primary is the near miss at #666666. Literal by request,
+     see PROTOTYPE.md. */
+  color: #575353;
+}
+
+/* ---- the tile row -----------------------------------------
+   Tile Row (4969:70320): HORIZONTAL, gap 16, 1792 wide, tiles
+   580 tall at 558 / 558 / 314 / 314. The row is centre-aligned
+   in the frame, so on a wider window the tiles keep their
+   widths rather than stretching, hence the max-widths.       */
+.ows-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-md);                 /* 16 */
+  width: 100%;
+  max-width: 1792px;
+}
+
+/* ---- Tile, Style=Workspace --------------------------------
+   4969:70323 and siblings: background-tile, 1px border-primary,
+   radius 4, effect style dropshadow-md, VERTICAL, no padding.
+   Its three parts are the 4px Overline, the 44px header, and
+   the content slot.                                           */
+.rmx-tile[data-ows-tile] {
+  height: 580px;
+  box-shadow:
+    1px 2px 12px rgba(76, 76, 76, .10),
+    0 4px 10px rgba(76, 76, 76, .10),
+    0 -2px 20px rgba(76, 76, 76, .08);    /* dropshadow-md */
+  overflow: hidden;
+}
+
+/* Figma "My Mentions Tile - Open": three wide tiles, 586.5 each in a 1792 row. */
+.rmx-tile[data-ows-tile="wide"]   { flex: 1 1 520px; max-width: 587px; }
+.rmx-tile[data-ows-tile="narrow"] { flex: 1 1 314px; max-width: 314px; }
+.ows-overline {
+  flex: none;
+  height: 4px;
+}
+
+.ows-overline[data-accent="secondary"] { background: var(--border-secondary); }
+.ows-overline[data-accent="success"]   { background: var(--border-success, #a8d48f); }
+.ows-overline[data-accent="notice"]    { background: var(--border-notice, #f79b4d); }
+.ows-overline[data-accent="attention"] { background: var(--border-attention); }
+
+.rmx-tile[data-ows-tile] > .rmx-tile__header {
+  flex: none;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  height: 44px;
+  min-height: 0;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-bottom: 0;
+}
+
+/* rmx.css's .rmx-tile__title is the Content header's 14/600 navy, and it
+   loads after type.css, so it wins over the type class on the element. The
+   Workspace variant's own style is Web/Heading/M/Regular in text-primary. */
+.rmx-tile[data-ows-tile] .rmx-tile__title {
+  /* Web/Heading/M/Regular in text-primary, which is what the library and the
+     RMX Pages frame both say: every tile title on Main Content (4969:70323
+     and its three siblings) is Heading/M/Regular, 20/28, bound to
+     Text/text-primary. This screen drew 16/600 navy instead from 2026-09-10
+     to 2026-09-22, following production; Emma reversed that on 2026-09-22,
+     pointing at the frame. Item 4 is now settled on the design's side. */
+  font: var(--type-heading-m-regular);
+  color: var(--text-primary);
+}
+
+/* Icon/icon-tertiary, not icon-brand. The tile header's trailing kebab is
+   chrome, not an interactive accent: blue reads as a link sitting beside the
+   title and pulls the eye off the tile's own content. Emma's call,
+   2026-09-11; matches the My Mentions header, which is .ws-iconbtn and was
+   already tertiary. */
+[data-ows-tile-action] {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--icon-tertiary);
+  cursor: pointer;
+}
+
+/* content slot (I…;10590:12725): VERTICAL, gap 16, padding 16.
+   In the frame the content is taller than the slot and clips,
+   that is this page scrolling, so the slot scrolls here.
+
+   My Favorites is the one tile whose content sits 24 from the
+   right rather than 16 (its content measures 518 in a 558 tile;
+   My Reports measures 526 in the same width, and both narrow
+   tiles inset 16). Kept per-tile rather than averaged. */
+.rmx-tile[data-ows-tile] > .rmx-tile__body {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.rmx-tile[data-ows-tile] > [data-ows-inset="24"] {
+  padding-right: var(--spacing-xl);
+}
+
+/* ---------- header icon button + count ---------- */
+.ws-iconbtn {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--icon-tertiary);
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ws-iconbtn:hover { background: var(--border-disabled); color: var(--icon-brand); }
+.ws-body--list { padding: var(--spacing-xs); gap: 0; }
+.ws-tile-count {
+  font: var(--type-paragraph-s-regular);
+  color: var(--text-primary);
+}
+
+.rmx-appbar__home { display: inline-flex; align-items: center; color: inherit; text-decoration: none; flex: none; }
+
+/* Avatar Style=Inline: 24px with its initials at Label/S/Regular, which is the
+   library's own pairing for an avatar sitting in a line of text. */
+[data-rmx-component="Avatar"][data-ws-inline] {
+  width: 24px;
+  height: 24px;
+  font: var(--type-label-s-regular);
+}
+
+/* Avatar, solid circle, white uppercase initials, ~2.5:1 circle-to-text
+   (40px circle / 16px text), radius-round. */
+[data-rmx-component="Avatar"] {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-round);
+  color: var(--text-inverse);
+  font: var(--type-label-l-semibold);
+}
+[data-ws-avatar="brand"] { background: var(--container-secondary); }
+[data-ws-avatar="green"] { background: var(--icon-success); }
+[data-ws-avatar="orange"] { background: var(--icon-attention); }
+[data-ws-avatar="navy"] { background: var(--container-secondary-dark); }
+
+   Type=Action text measures 20px with zero padding. This screen uses
+   .rmx-text--link for action text, so nothing here depends on it. */
+
+/* Context Bar action text. The trailing slot takes Context Bar Items, one of
+   which is a text action (Content=Tour Action), that is what "My Dashboard"
+   is here, not an icon. It must not inherit the bar's white-on-white field
+   rule, and it keeps the bar's 20px icon size. */
+.rmx-contextbar__trailing > [data-rmx-component="Context Bar Item"] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--text-inverse);
+  font: var(--type-label-m-regular);
+}
+
+
+/* ---------- action text and links carry no underline ----------
+
+.rmx-appbar,
+.rmx-contextbar {
+  width: 100%;
+  max-width: var(--display-display);
+}
+
+/* Command Launch is 454 by design and shrinks rather than
+   overflowing the clipped bar. Same line as workspace.css. */
+.rmx-appbar__search { width: min(454px, 100%); }
+
+/* The Context Bar's trailing item here is a Button Type=Action
+   text, whose label the frame sets in Web/Label/M/Regular on
+   Text/text-OnDark. rmx.css puts no type on that button, so it
+   otherwise renders at the browser's 13.33px button default,
+   the one off-ramp type size on this screen. Worth raising. */
+.rmx-contextbar__trailing button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: var(--type-label-m-regular);
+  color: var(--text-ondark);
+  cursor: pointer;
+}
+
+/* Below about 760 the three columns cannot all hold their
+   contents and the Company Code block starts overlapping the
+   Command Launch field, so the bar drops the two things it can
+   lose, Company Code, then the icon cluster: and lets the
+   logo scale inside its column. THIS IS NOT A DESIGN: it is the
+   smallest set of changes that stops the component visibly
+   breaking, and it is the same stopgap screens/my-workspace.html
+   applies. A compact Header variant would replace all of it. */
+@media (max-width: 760px) {
+  .rmx-appbar__code { display: none; }
+}
+
+@media (max-width: 620px) {
+  .rmx-appbar__icons { display: none; }
+  .rmx-appbar__logo { width: 100%; max-width: 175px; height: auto; }
+}
+
+
+/* ---- the other four tiles: menu areas, cards, announcements, training, hidden links ---- */
+/* ---- menu areas (My Favorites, My Reports) ----------------
+   _My Favorites Content / _My Reports Content: HORIZONTAL,
+   gap 16, two columns; each column VERTICAL, gap 8.           */
+.ows-areas {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: flex-start;
+}
+
+.ows-areas__col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* Card, Color Bar?=false (…;3915:90610 and siblings):
+   container-primary, radius 4, dropshadow-sm. Its Row is
+   HORIZONTAL, gap 16, padding 8/16. */
+.ows-card {
+  display: flex;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--container-primary);
+  border-radius: var(--radius-sm);
+  box-shadow:
+    2px 2px 12px rgba(76, 76, 76, .08),
+    0 4px 15px rgba(76, 76, 76, .08),
+    0 -1px 20px rgba(76, 76, 76, .02);    /* dropshadow-sm */
+}
+
+/* Icon Wrapper: 42 square, radius 4, padding 6, holding a 32px
+   Flexible Icon (Icon Set=Express, Size=X-Large, Color=White).
+   The four fills are icon tokens, one per area, as measured. */
+.ows-card__icon {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  color: var(--icon-ondark);
+}
+
+.ows-card__icon > svg { flex: none; width: 32px; height: 32px; }
+
+.ows-card__icon[data-accent="success"]   { background: var(--icon-success); }
+.ows-card__icon[data-accent="attention"] { background: var(--icon-attention); }
+.ows-card__icon[data-accent="notice"]    { background: var(--icon-notice); }
+.ows-card__icon[data-accent="primary"]   { background: var(--icon-brand); }
+
+.ows-card__col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding-block: var(--spacing-xs);
+}
+
+/* Title: Web/Paragraph/S/SemiBold in text-primary, grey, not
+   navy. That is what the frame measures. */
+.ows-card__title { color: var(--text-primary); }
+
+/* Every menu entry is Button Type=Action text, 16px tall, its
+   label Web/Label/M/Regular in text-link. No underline, in
+   either state, Emma's rule, 2026-09-10. */
+.ows-page .rmx-text--link,
+.ows-hidden .rmx-text--link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xxs);
+  align-self: flex-start;
+  max-width: 100%;
+  line-height: 16px;
+  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* rmx.css underlines .rmx-text--link on hover. Blue action text carries no
+   underline in either state, Emma's rule, 2026-09-10. */
+.ows-page .rmx-text--link:hover,
+.ows-hidden .rmx-text--link:hover { text-decoration: none; }
+
+/* ---- Announcements ----------------------------------------
+   _Announcements Content: VERTICAL, gap 8. A Row of two
+   Web/Label/S/Regular action-text links, then the cards.      */
+.ows-annlinks {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+/* Announcement Dashboard Card, the same Card component, its
+   content slot at gap 8, padding 8/12. */
+.ows-ann {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--container-primary);
+  border-radius: var(--radius-sm);
+  box-shadow:
+    2px 2px 12px rgba(76, 76, 76, .08),
+    0 4px 15px rgba(76, 76, 76, .08),
+    0 -1px 20px rgba(76, 76, 76, .02);    /* dropshadow-sm */
+}
+
+.ows-ann__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.ows-ann__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
+  min-width: 0;
+}
+
+.ows-ann__title { color: var(--text-secondary); }
+.ows-ann__date  { color: var(--text-disabled); }
+
+/* Lozenge State=Success, Size=24, Type=Status, Background?=True
+  , but with its fill overridden in the frame to #195ca4, which
+   no Foundations variable carries. UNBOUND: kept because the
+   badge reads dark blue on the shipped page and State=Success
+   would render it green. Logged in PROTOTYPE.md.
+
+   The badge measures 47 x 20 in the frame with 4/8 padding
+   around a 16px label, 20 is the height that wins, so it is
+   set here and the vertical padding left to the flex centring. */
+.rmx-lozenge[data-ows-new] {
+  flex: none;
+  height: 20px;
+  padding-block: 0;
+  background: #195ca4;                    /* UNBOUND, frame value */
+  color: var(--text-inverse);
+  line-height: 1;
+}
+
+/* Type=Status carries no dot. rmx.css draws one on every Lozenge. */
+.rmx-lozenge[data-ows-new]::before { display: none; }
+
+/* Artwork: 258 x 102.494 with a cropped image fill. The crop is
+   baked into the asset, so this only has to hold the box. */
+.ows-ann__art {
+  width: 100%;
+  aspect-ratio: 258 / 102.494;
+  border-radius: var(--radius-sm);
+  background-color: var(--background-ui-secondary);
+  background-image: var(--art-announcement);
+  background-size: cover;
+  background-position: center;
+}
+
+.ows-ann__body {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.ows-ann__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+}
+
+/* ---- My Training ------------------------------------------
+   My Training Content is itself a Card; its content slot
+   carries a second white surface with effect style
+   dropshadow-lg, VERTICAL, gap 16, padding 24/12/32/12,
+   centre-aligned. The frame gives that inner surface a 5px
+   radius, which no token backs: radius-sm here, logged.      */
+.ows-training {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl) var(--spacing-sm) var(--spacing-2xl);
+  background: var(--container-primary);
+  border-radius: var(--radius-sm);
+  box-shadow:
+    1px 2px 12px rgba(76, 76, 76, .14),
+    0 10px 10px rgba(76, 76, 76, .15),
+    0 -2px 20px rgba(76, 76, 76, .06),
+    0 0 5px rgba(76, 76, 76, .05);        /* dropshadow-lg */
+  text-align: center;
+}
+
+/* RMU Logo: 144 x 40.5. The lockup is the real image asset out
+   of the frame (image hash 4eed47e8…), not type set to look
+   like it. */
+.ows-training__logo {
+  width: 144px;
+  height: 40.5px;
+  background-image: var(--art-rmu-lockup);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.ows-training__copy {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.ows-training__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);                 /* 12 */
+  width: 100%;
+}
+
+/* Input Field Style=Express measures container-primary, not the
+   component-input-default fill rmx.css gives every input. The
+   override is scoped to this card. Its placeholder is a Text
+   Placeholder Style=Regular in the frame, upright, not the
+   italic RMX placeholder. */
+.ows-training .rmx-field { width: 100%; }
+
+.ows-training .rmx-field__box {
+  background: var(--container-primary);
+  color: var(--text-primary);
+}
+
+.ows-training .rmx-field__box > input::placeholder {
+  font-style: normal;
+  color: var(--text-disabled);
+}
+
+.ows-training .rmx-field__box > svg { color: var(--icon-tertiary); }
+
+/* Button Type=Primary with its fill overridden to
+   Icon/icon-attention in the frame, a real token, so bound. */
+.rmx-btn[data-ows-cta] { background: var(--icon-attention); }
+
+/* ---- the two hidden-tile links ----------------------------
+   Hidden Tiles (4969:70392): HORIZONTAL, gap 16, pinned to the
+   bottom right. Each is Button Type=Action text with a leading
+   20px Material Icon in Color=Brand and a Web/Label/M/Regular
+   label in text-secondary, navy label, blue glyph.           */
+.ows-hidden {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-md);
+  width: 100%;
+  max-width: 1792px;
+  margin-top: auto;
+  padding-top: var(--spacing-2xl);
+}
+
+.ows-hidden [data-ows-hidden] { color: var(--text-secondary); }
+.ows-hidden [data-ows-hidden] > svg { color: var(--icon-brand); }
+
+/* ---- narrower windows ---- */
+@media (max-width: 1200px) { .ows-page { padding-inline: var(--spacing-2xl); } }
+@media (max-width: 900px) {
+  .ows-page { padding-inline: var(--spacing-md); }
+  .rmx-tile[data-ows-tile] { height: auto; max-height: 580px; }
+  .rmx-tile[data-ows-tile="wide"],
+  .rmx-tile[data-ows-tile="narrow"] { flex-basis: 100%; max-width: 100%; }
+  .ows-areas { flex-wrap: wrap; }
+  .ows-areas__col { flex-basis: 100%; }
+}
+
+
+/* ============================================================
+   My Mentions tile, Figma 1LM8O1v31liGvCHA2LBdTo, section "In Zeplin"
+   (My Mentions Tile - Open 2217:3866, Dismissed 2244:10100,
+   Add Response Note 2251:3875).
+   ============================================================ */
+[data-ws-avatar="blue"] { background: var(--icon-primary); }
+
+.mn-hdricons { display: inline-flex; align-items: center; gap: var(--spacing-sm); }
+
+/* Search: Input Field Style=Express, blue border, white fill (2243:9984). */
+.mn-search {
+  flex: none; display: flex; align-items: center; gap: var(--spacing-xs);
+  margin: var(--spacing-xs) var(--spacing-md);
+  height: 36px; padding: var(--spacing-xs);
+  background: var(--component-input-secondary);
+  border: 1px solid var(--border-secondary); border-radius: var(--radius-sm);
+}
+.mn-search > svg { flex: none; color: var(--text-link); }
+.mn-search input {
+  flex: 1; min-width: 0; border: 0; outline: 0; background: transparent;
+  font: var(--type-label-m-regular); color: var(--text-secondary);
+}
+.mn-search input::placeholder { font-style: italic; color: var(--text-disabled); }
+
+/* Tabs (2243:9988): two 132 wide, SemiBold, 2px blue underline on the active one. */
+.mn-tabs {
+  flex: none; display: flex; padding: 0 var(--spacing-md);
+  border-bottom: 1px solid var(--border-primary);
+}
+.mn-tab {
+  width: 132px; padding: var(--spacing-xs); border: 0; border-bottom: 2px solid transparent;
+  background: none; cursor: pointer;
+  font: 600 14px/normal Roboto, sans-serif; color: var(--text-primary);
+}
+.mn-tab[aria-selected="true"] { color: var(--text-secondary); border-bottom-color: var(--border-secondary); }
+
+/* Mentions Tile Content (2243:9992): 24 between mentions, 16 around. */
+.rmx-tile[data-ows-tile] > .mn-list {
+  display: flex; flex-direction: column; gap: var(--spacing-xl);
+  padding: var(--spacing-md); flex: 1 1 auto;
+}
+.mn-item { display: flex; flex-direction: column; gap: var(--spacing-xs); cursor: pointer; border-radius: var(--radius-sm); }
+.mn-item:focus-visible { outline: 2px solid var(--border-secondary); outline-offset: 4px; }
+.mn-item__head { display: flex; align-items: center; gap: var(--spacing-xxs); min-width: 0; }
+.mn-item__who { flex: none; font: var(--type-label-m-semibold); color: var(--text-secondary); }
+.mn-item__what { flex: 1; min-width: 0; font: var(--type-label-m-regular); color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mn-item__rec { color: var(--text-link); text-decoration: none; }
+.mn-item__rec:hover { text-decoration: underline; }
+.mn-item__time { flex: none; font: var(--type-label-s-regular); color: var(--text-primary); }
+.mn-item__menu {
+  flex: none; display: inline-flex; width: 20px; height: 20px; padding: 0; border: 0;
+  background: none; color: var(--text-link); cursor: pointer;
+}
+.mn-item__body {
+  padding-left: 28px; font: var(--type-label-m-regular); color: var(--text-primary);
+  white-space: pre-wrap;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.mn-empty { margin: var(--spacing-xl) 0; text-align: center; font: var(--type-paragraph-s-regular); color: var(--text-disabled); }
+
+/* Dropdown Menu (2248:3661) */
+.mn-menu {
+  position: fixed; z-index: 600; min-width: 196px; overflow: hidden;
+  background: var(--container-primary); border-radius: 4px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, .15);
+}
+.mn-menu[hidden] { display: none; }
+.mn-menu > button {
+  display: flex; align-items: center; width: 100%; height: 36px; padding: var(--spacing-xs);
+  border: 0; background: none; cursor: pointer; text-align: left;
+  font: var(--type-paragraph-s-regular); color: var(--text-link);
+}
+.mn-menu > button:hover { background: var(--container-tertiary); }
+.mn-menu > button[hidden] { display: none; }
+
+/* Add Response Note: Dialog Overlay, 492 wide (frame 2251:3875). */
+.mn-scrim {
+  position: fixed; inset: 0; z-index: 580; display: flex; align-items: center; justify-content: center;
+  padding: var(--spacing-xl); overflow: auto; background: rgba(19, 49, 76, .45);
+}
+.mn-scrim[hidden] { display: none; }
+.mn-dialog {
+  width: 492px; max-width: 100%;
+  background: var(--background-card); border: 1px solid var(--border-primary); border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.mn-dialog__header {
+  display: flex; align-items: center; justify-content: space-between; height: 48px;
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--container-primary); border-bottom: 1px solid var(--border-primary);
+}
+.mn-dialog__header h2 { margin: 0; color: var(--text-secondary); }
+.mn-dialog__close { display: inline-flex; padding: 0; border: 0; background: none; cursor: pointer; color: var(--text-link); }
+.mn-dialog__close .rmx-icon { width: 24px; height: 24px; }
+.mn-dialog__body { display: flex; flex-direction: column; gap: var(--spacing-md); padding: var(--spacing-md); }
+.mn-field { display: flex; flex-direction: column; gap: var(--spacing-xxs); }
+.mn-label { font: var(--type-label-m-regular); color: var(--text-primary); }
+.mn-orig {
+  display: flex; flex-direction: column; gap: var(--spacing-sm); min-height: 136px; padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--component-input-default); border: 1px solid var(--border-primary); border-radius: var(--radius-sm);
+  font: var(--type-label-m-regular); color: var(--text-secondary);
+}
+.mn-orig__meta { display: flex; justify-content: space-between; align-items: baseline; color: var(--text-primary); }
+.mn-orig__meta span:last-child { font: var(--type-label-s-regular); }
+.mn-orig__meta b { font-weight: 600; color: var(--text-secondary); }
+.mn-orig__text { margin: 0; }
+.mn-chip {
+  display: inline-block; padding: 0 var(--spacing-xs); line-height: 16px;
+  border: 1px solid var(--border-attention); border-radius: var(--radius-sm);
+  font-size: 12px; color: var(--icon-attention);
+}
+.mn-textarea {
+  box-sizing: border-box; width: 100%; height: 136px; padding: var(--spacing-xs) var(--spacing-sm); resize: vertical;
+  background: var(--component-input-default); border: 1px solid var(--border-primary); border-radius: var(--radius-sm);
+  font: var(--type-label-m-regular); color: var(--text-secondary);
+}
+.mn-textarea:focus { outline: 0; border-color: var(--border-secondary); }
+.mn-select { position: relative; }
+.mn-select__btn {
+  display: flex; align-items: center; justify-content: space-between; width: 100%; height: 36px; padding: var(--spacing-xs);
+  background: var(--component-input-default); border: 1px solid var(--border-primary); border-radius: var(--radius-sm);
+  font: var(--type-label-m-regular); color: var(--text-secondary); cursor: pointer;
+}
+.mn-select__menu {
+  position: absolute; z-index: 5; top: calc(100% + 4px); left: 0; right: 0;
+  background: var(--container-primary); border-radius: 4px; box-shadow: 0 3px 6px rgba(0, 0, 0, .15);
+}
+.mn-select__menu[hidden] { display: none; }
+.mn-select__menu > button {
+  display: block; width: 100%; height: 36px; padding: var(--spacing-xs); border: 0; background: none; text-align: left; cursor: pointer;
+  font: var(--type-paragraph-s-regular); color: var(--text-secondary);
+}
+.mn-select__menu > button:hover { background: var(--container-tertiary); }
+.mn-dialog__footer {
+  display: flex; justify-content: flex-end; gap: var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  background: var(--background-footer); border-top: 1px solid var(--border-primary);
+}

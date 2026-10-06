@@ -1,0 +1,37 @@
+/* ============================================================
+   Local additions to the RMXDS token sheet — HAND-WRITTEN, KEPT
+   ------------------------------------------------------------
+   tokens.css is generated from the RMXDS artifact and is overwritten on
+   every sync. This file is not. It holds the few values RMXDS does not
+   carry, so a sync can never delete them.
+
+   Everything here is measured off the live component library, not invented.
+   If RMXDS later ships one of these, delete it from here — the generated
+   sheet wins, and two files defining one name is how a rule stops meaning
+   anything.
+   ============================================================ */
+
+:root {
+  /* A selected register row. Measured 2026-08-27; RMXDS has row-default,
+     row-hover and row-striped but no selected. */
+  --component-row-selected: #e8f6fa;
+
+  /* The same 36px as --cell-height, under the name call sites use when they
+     mean a control rather than a cell. bundle.css re-exports it the same way. */
+  --control-height: var(--cell-height);
+
+  /* Orion. These are measurements off the Orion components, NOT Foundations
+     variables — Orion is drawn with effects and gradients that Foundations
+     does not tokenise. */
+  --orion-border-gradient: linear-gradient(90deg, #008dd5, #6eb744); /* a BORDER, not a fill */
+  --orion-glow:    0 0 12.6px rgba(0,141,213,.20);  /* = --dropshadow-orion-light */
+  --orion-glow-lg: 0 0 12.6px rgba(0,141,213,.25);  /* the Overlay, at .25 */
+  --orion-radius-overlay: 8px;   /* = --radius-md */
+  --orion-radius-bar:    24px;   /* = --radius-xxl */
+
+  /* Context Bar Item Content=Search — the entity search field on the blue
+     bar. Figma binds the primitive Light Alpha/Blue/70-600: #0071AA at 70%.
+     RMXDS has no semantic token for it, so it is derived from the token that
+     holds #0071AA. Read off RMX Pages > Tenant Details (4713:45960), 2026-10-01. */
+  --component-context-search: color-mix(in srgb, var(--background-primary-button-hover) 70%, transparent);
+}
