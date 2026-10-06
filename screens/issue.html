@@ -114,16 +114,18 @@
     document.querySelector('[data-is-ctx]').textContent = p.num + ' - ' + p.title;
     document.querySelector('[data-is-title]').textContent = p.title;
     document.querySelector('[data-is-desc]').textContent = p.desc;
-    /* Arriving from a mention: the mention is the newest History / Notes row, and its Note Details opens over the page. */
+    /* Arriving from a mention: the mention is the newest History / Notes row, and the History / Notes overlay opens over the page with it. */
     var d = new Date(); d.setDate(d.getDate() - p.ago);
     var two = function (n) { return ('0' + n).slice(-2); };
     var day = two(d.getMonth() + 1) + '/' + two(d.getDate()) + '/' + d.getFullYear();
     var text = '@Charlie ' + p.desc;
     document.getElementById('pdNotes').insertAdjacentHTML('afterbegin', '<tr><td>' + day + '</td><td>Mention</td><td>' + text + '</td></tr>');
     if (new URLSearchParams(location.search).get('note') === '1' && window.RMXHistory) {
-      RMXHistory.open({key: 'issue-' + p.num, kind: 'Issue', name: p.num + ' - ' + p.title, items: [],
+      RMXHistory.open({key: 'issue-' + p.num, kind: 'Issue', name: p.num + ' - ' + p.title,
+        items: [{icon: 'properties', text: 'Riverview Apartments'}, {icon: 'units', text: 'Unit ' + p.num.slice(1)}],
         notes: [{type: 'Mention', date: two(d.getMonth() + 1) + '/' + two(d.getDate()) + '/' + String(d.getFullYear()).slice(2) + ' 9:00 AM',
-                 category: '<Unassigned>', user: p.who, note: text, files: []}]}, {noteOnly: true, noteIndex: 0});
+                 category: '<Unassigned>', user: p.who, note: text, files: []},
+                {type: 'Lease Renewal Offer', date: '02/25/26 12:00 PM', category: '<Unassigned>', user: 'Charlie', note: 'Lease Renewal Offer: Offer Declined', files: []}]});
     }
   }
   document.addEventListener('click', function (e) {
