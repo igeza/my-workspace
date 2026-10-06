@@ -31,9 +31,9 @@
 .pd-score .rmx-split { height: 28px; }
 
 .pd-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--spacing-md); align-items: stretch; }
-.pd-c2 { grid-column: span 2; } .pd-c3 { grid-column: span 3; } .pd-c6 { grid-column: span 6; }
-@media (max-width: 1200px) { .pd-c2 { grid-column: span 3; } }
-@media (max-width: 760px) { .pd-c2, .pd-c3 { grid-column: span 6; } }
+.pd-c2 { grid-column: span 2; } .pd-c3 { grid-column: span 3; } .pd-c4 { grid-column: span 4; } .pd-c6 { grid-column: span 6; }
+@media (max-width: 1200px) { .pd-c2 { grid-column: span 3; } .pd-c4 { grid-column: span 3; } }
+@media (max-width: 760px) { .pd-c2, .pd-c3, .pd-c4 { grid-column: span 6; } }
 .pd-tile { min-width: 0; }
 .pd-tile .rmx-tile__header { min-height: 32px; border-bottom-width: 1px; }
 .pd-tile .pd-hl--notes { border-bottom: 2px solid var(--border-attention); }
