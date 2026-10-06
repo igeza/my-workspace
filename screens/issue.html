@@ -9,9 +9,9 @@
 <link rel="stylesheet" href="../assets/type.css?v=e816b046">
 <link rel="stylesheet" href="../assets/rmx.css?v=7eee26a9">
 <link rel="stylesheet" href="../assets/proto.css?v=93c42d60">
-<link rel="stylesheet" href="../assets/prospect.css?v=486ddad4">
+<link rel="stylesheet" href="../assets/prospect.css?v=149dccdc">
 <link rel="stylesheet" href="../assets/history-notes.css?v=97ce8fdb">
-<link rel="stylesheet" href="../assets/issue.css?v=c70f2df9">
+<link rel="stylesheet" href="../assets/issue.css?v=67cec485">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
 </head>
 <body class="rmx">
@@ -144,6 +144,8 @@
     RMXHistory.open(recFor(window.__rec, window.__who), {noteOnly: true, noteIndex: i});
   });
   document.addEventListener('click', function (e) {
+    var sg = e.target.closest('.pd-seg button');
+    if (sg) { [].forEach.call(sg.parentNode.children, function (b) { b.setAttribute('aria-pressed', String(b === sg)); }); return; }
     var c = e.target.closest('[data-pd-check]'); if (!c) return;
     e.preventDefault(); c.setAttribute('data-checked', String(c.getAttribute('data-checked') !== 'true'));
   });

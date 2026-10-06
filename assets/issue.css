@@ -66,7 +66,6 @@
 .is-ta { font: var(--type-label-m-regular); min-height: 56px; } .is-fill > .pd-tile__body > .is-ta--res { flex: 1; min-height: 76px; }
 .is-issue .pd-act { font: var(--type-label-m-regular); } .is-issue .pd-act .rmx-icon, .is-issue .pd-ext { width: 20px; height: 20px; }
 .is-issue .pd-table th { font: var(--type-label-s-semibold); letter-spacing: .08em; } .is-issue .pd-table td { font: var(--type-label-m-regular); }
-.is-issue .pd-seg button { font: var(--type-label-s-regular); padding: 4px 14px; }
 .is-issue .pd-tile__title { font: var(--type-label-m-semibold); }
 
 /* Prospect Details shares these sizes: 14px text, 36px fields, as the frames draw them. */
@@ -91,6 +90,5 @@
 
 /* Everything that was still 12px: table headers, tabs, the toggle and the context bar chips. */
 .is-issue .pd-table th { font: var(--type-label-m-semibold); letter-spacing: .06em; }
-.is-issue .pd-tabs button, .is-issue .pd-seg button { font: var(--type-label-m-semibold); }
-.is-issue .pd-seg button[aria-pressed="false"] { font-weight: 400; }
+.is-issue .pd-tabs button { font: var(--type-label-m-semibold); }
 .pd-ctx__name, .pd-ctx__pager, .pd-ctx__chip { font: var(--type-label-m-regular); }

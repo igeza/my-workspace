@@ -70,9 +70,6 @@
 .pd-table td { padding: 4px 6px; border-bottom: 1px solid var(--border-disabled); }
 .pd-table tbody tr:nth-child(even) { background: var(--container-tertiary); }
 .pd-table .r { text-align: right; }
-.pd-seg { display: inline-flex; align-self: flex-start; border: 1px solid var(--border-primary); border-radius: 2px; overflow: hidden; }
-.pd-seg button { padding: 2px 10px; border: 0; background: var(--container-primary); font: var(--type-label-s-regular); color: var(--text-secondary); cursor: pointer; }
-.pd-seg button[aria-pressed="true"] { background: var(--border-primary); }
 
 .pd-contact { display: flex; align-items: center; gap: var(--spacing-xs); font: var(--type-label-s-regular); color: var(--text-secondary); }
 .pd-contact b { font: var(--type-label-s-semibold); } .pd-phone { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; }
@@ -106,3 +103,15 @@
 .pd-tile__body:has(> .pd-table) .pd-table th:last-child, .pd-tile__body:has(> .pd-table) .pd-table td:last-child { padding-right: var(--spacing-md); }
 
 #pdNotes tr { cursor: pointer; } #pdNotes tr:hover td { background: var(--border-disabled) !important; }
+
+/* Toggle Switch (RMX Pages 5XEzI94nmZsWE7rQQ7OIHP, node 4257:200031): two 66x24 segments, 12px labels.
+   The selected one is filled (button-secondary-hover) with a blue border and SemiBold text; the other is white. */
+.pd-seg { display: inline-flex; align-self: flex-start; }
+.pd-seg button {
+  position: relative; width: 66px; height: 24px; padding: 0; cursor: pointer;
+  background: var(--container-primary); border: 1px solid var(--border-primary);
+  font: var(--type-label-s-regular); color: var(--text-primary);
+}
+.pd-seg button:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.pd-seg button:last-child { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-left: -1px; }
+.pd-seg button[aria-pressed="true"] { z-index: 1; background: var(--border-disabled); border-color: var(--border-secondary); font: var(--type-label-s-semibold); }
