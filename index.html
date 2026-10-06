@@ -635,7 +635,7 @@
     var text = '@' + ME + ' ' + m.body.replace(/<[^>]*>/g, '');
     RMXHistory.open({
       key: 'mention-' + m.id, kind: m.kind, name: m.name, items: [],
-      notes: [{type: 'Mention', date: noteDate(m.ago),
+      notes: [{type: 'Note', date: noteDate(m.ago),
                category: '<Unassigned>', user: m.who, note: text, files: []}]
     }, {noteOnly: true, noteIndex: 0});
   }

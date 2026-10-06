@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="../assets/rmx.css?v=7eee26a9">
 <link rel="stylesheet" href="../assets/proto.css?v=93c42d60">
 <link rel="stylesheet" href="../assets/history-notes.css?v=97ce8fdb">
-<link rel="stylesheet" href="../assets/prospect.css?v=f6cf4171">
+<link rel="stylesheet" href="../assets/prospect.css?v=8f0e7f02">
 <link rel="stylesheet" href="../assets/issue.css?v=c70f2df9">
 <style>html.rmx-arriving body{visibility:hidden}</style>
 <script>if(/[?&]note=1/.test(location.search)){document.documentElement.classList.add("rmx-arriving");setTimeout(function(){document.documentElement.classList.remove("rmx-arriving")},2000);}</script>
@@ -106,10 +106,11 @@
 (function () {
   var P = {
     'nicole-brandt': {name:'Nicole Brandt', ini:'NB', acct:'517', mail:'nbrandt@example.com',
-      who:'Kelsey Warner', note:['Mention', '@Charlie Nicole wants the quote repriced with the covered parking space included. Can you add it?']},
+      who:'Kelsey Warner', note:['Note', '@Charlie Nicole wants the quote repriced with the covered parking space included. Can you add it?']},
     'renee-vogel':   {name:'Renee Vogel',   ini:'RV', acct:'518', mail:'rvogel@example.com',
-      who:'Derek Shaw', note:['Mention', '@Charlie She really just wants a dog park, and nothing at Flagstone fits. Can you move the lead to Brookside?']}
+      who:'Derek Shaw', note:['Note', '@Charlie She really just wants a dog park, and nothing at Flagstone fits. Can you move the lead to Brookside?']}
   };
+  window.__rec = {key: 'prospect-516', kind: 'Prospect', name: 'Charlie Apegian', items: [{icon: 'properties', text: 'Riverview Apartments'}, {icon: 'units', text: '1B'}, {icon: 'mail-outline', text: 'capegian@lcs.com'}, {icon: 'call', text: '513-555-1235'}]};
   var p = P[new URLSearchParams(location.search).get('id')];
   if (p) {
     document.title = 'Prospect Details: ' + p.name;
@@ -125,16 +126,29 @@
     }
     var d = new Date(), t = ('0' + (d.getMonth() + 1)).slice(-2) + '/' + ('0' + d.getDate()).slice(-2) + '/' + d.getFullYear();
     document.getElementById('pdNotes').insertAdjacentHTML('afterbegin', '<tr><td>' + t + '</td><td>' + p.note[0] + '</td><td>' + p.note[1] + '</td></tr>');
+    window.__who = p.who;
+    window.__rec = {key: 'prospect-' + p.acct, kind: 'Prospect', name: p.name,
+      items: [{icon: 'properties', text: 'Riverview Apartments'}, {icon: 'units', text: '1B'}, {icon: 'mail-outline', text: p.mail}, {icon: 'call', text: '513-555-1235'}]};
     /* Arriving from a mention (?note=1): the prospect's History / Notes overlay opens over the page, with the mention in it. */
-    if (new URLSearchParams(location.search).get('note') === '1' && window.RMXHistory) {
-      var two = function (n) { return ('0' + n).slice(-2); };
-      RMXHistory.open({key: 'prospect-' + p.acct, kind: 'Prospect', name: p.name,
-        items: [{icon: 'properties', text: 'Riverview Apartments'}, {icon: 'units', text: '1B'}, {icon: 'mail-outline', text: p.mail}, {icon: 'call', text: '513-555-1235'}],
-        notes: [{type: 'Mention', date: two(d.getMonth() + 1) + '/' + two(d.getDate()) + '/' + String(d.getFullYear()).slice(2) + ' 9:00 AM', category: 'Leasing', user: p.who, note: p.note[1], files: []},
-                {type: 'Lease Renewal Offer', date: '02/25/26 12:00 PM', category: '<Unassigned>', user: 'Charlie', note: 'Lease Renewal Offer: Offer Declined', files: []},
-                {type: 'Text Message', date: '02/25/26 11:00 AM', category: '<Unassigned>', user: 'Charlie', note: 'The signable document for tenant is waiting to be signed.', files: []}]});
-    }
+    if (new URLSearchParams(location.search).get('note') === '1' && window.RMXHistory) RMXHistory.open(recFor(window.__rec, p.who));
   }
+
+  /* The History / Notes tile and the overlay show the same notes: build the overlay's record from the tile's rows. */
+  function tableNotes(who) {
+    return [].map.call(document.querySelectorAll('#pdNotes tr'), function (tr, i) {
+      var c = tr.children, m = c[0].textContent.match(/(\d\d)\/(\d\d)\/(\d{4})/);
+      return {type: c[1].textContent, date: m[1] + '/' + m[2] + '/' + m[3].slice(2) + ' 9:00 AM', category: '<Unassigned>',
+              user: (i === 0 && who) || 'Charlie', note: c[2].textContent, files: []};
+    });
+  }
+  function recFor(base, who) { base.notes = tableNotes(who); return base; }
+  /* Clicking a row opens that note's details over the page. */
+  var notesBody = document.getElementById('pdNotes');
+  notesBody.addEventListener('click', function (e) {
+    var tr = e.target.closest('tr'); if (!tr || !window.RMXHistory) return;
+    var i = [].indexOf.call(notesBody.children, tr);
+    RMXHistory.open(recFor(window.__rec, window.__who), {noteOnly: true, noteIndex: i});
+  });
   window.addEventListener('load', function () { document.documentElement.classList.remove('rmx-arriving'); });
   document.addEventListener('click', function (e) {
     var c = e.target.closest('[data-pd-check]'); if (!c) return;

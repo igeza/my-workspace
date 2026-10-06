@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../assets/type.css?v=e816b046">
 <link rel="stylesheet" href="../assets/rmx.css?v=7eee26a9">
 <link rel="stylesheet" href="../assets/proto.css?v=93c42d60">
-<link rel="stylesheet" href="../assets/prospect.css?v=f6cf4171">
+<link rel="stylesheet" href="../assets/prospect.css?v=8f0e7f02">
 <link rel="stylesheet" href="../assets/history-notes.css?v=97ce8fdb">
 <link rel="stylesheet" href="../assets/issue.css?v=c70f2df9">
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
@@ -108,6 +108,7 @@
     'unit-312-door-lock':       {num:'0312', title:'Door Lock', who:'Jordan Reed',   ago:7, desc:'The resident reported the lock is sticking again after the last service visit.'},
     'unit-402-smoke-detector':  {num:'0402', title:'Smoke Detector', who:'Liam Morgan', ago:7, desc:'The smoke detector in the hallway is beeping intermittently. Please send someone to check it.'}
   };
+  window.__rec = {key: 'issue-0012', kind: 'Issue', name: '0012 - Leaky Faucet', items: [{icon: 'properties', text: 'Riverview Apartments'}, {icon: 'units', text: 'Unit 12'}]};
   var p = I[new URLSearchParams(location.search).get('id')];
   if (p) {
     document.title = 'Issue Details: ' + p.num + ' - ' + p.title;
@@ -119,15 +120,29 @@
     var two = function (n) { return ('0' + n).slice(-2); };
     var day = two(d.getMonth() + 1) + '/' + two(d.getDate()) + '/' + d.getFullYear();
     var text = '@Charlie ' + p.desc;
-    document.getElementById('pdNotes').insertAdjacentHTML('afterbegin', '<tr><td>' + day + '</td><td>Mention</td><td>' + text + '</td></tr>');
-    if (new URLSearchParams(location.search).get('note') === '1' && window.RMXHistory) {
-      RMXHistory.open({key: 'issue-' + p.num, kind: 'Issue', name: p.num + ' - ' + p.title,
-        items: [{icon: 'properties', text: 'Riverview Apartments'}, {icon: 'units', text: 'Unit ' + p.num.slice(1)}],
-        notes: [{type: 'Mention', date: two(d.getMonth() + 1) + '/' + two(d.getDate()) + '/' + String(d.getFullYear()).slice(2) + ' 9:00 AM',
-                 category: '<Unassigned>', user: p.who, note: text, files: []},
-                {type: 'Lease Renewal Offer', date: '02/25/26 12:00 PM', category: '<Unassigned>', user: 'Charlie', note: 'Lease Renewal Offer: Offer Declined', files: []}]});
-    }
+    document.getElementById('pdNotes').insertAdjacentHTML('afterbegin', '<tr><td>' + day + '</td><td>Note</td><td>' + text + '</td></tr>');
+    window.__who = p.who;
+    window.__rec = {key: 'issue-' + p.num, kind: 'Issue', name: p.num + ' - ' + p.title,
+      items: [{icon: 'properties', text: 'Riverview Apartments'}, {icon: 'units', text: 'Unit ' + p.num.slice(1)}]};
+    if (new URLSearchParams(location.search).get('note') === '1' && window.RMXHistory) RMXHistory.open(recFor(window.__rec, p.who));
   }
+
+  /* The History / Notes tile and the overlay show the same notes: build the overlay's record from the tile's rows. */
+  function tableNotes(who) {
+    return [].map.call(document.querySelectorAll('#pdNotes tr'), function (tr, i) {
+      var c = tr.children, m = c[0].textContent.match(/(\d\d)\/(\d\d)\/(\d{4})/);
+      return {type: c[1].textContent, date: m[1] + '/' + m[2] + '/' + m[3].slice(2) + ' 9:00 AM', category: '<Unassigned>',
+              user: (i === 0 && who) || 'Charlie', note: c[2].textContent, files: []};
+    });
+  }
+  function recFor(base, who) { base.notes = tableNotes(who); return base; }
+  /* Clicking a row opens that note's details over the page. */
+  var notesBody = document.getElementById('pdNotes');
+  notesBody.addEventListener('click', function (e) {
+    var tr = e.target.closest('tr'); if (!tr || !window.RMXHistory) return;
+    var i = [].indexOf.call(notesBody.children, tr);
+    RMXHistory.open(recFor(window.__rec, window.__who), {noteOnly: true, noteIndex: i});
+  });
   document.addEventListener('click', function (e) {
     var c = e.target.closest('[data-pd-check]'); if (!c) return;
     e.preventDefault(); c.setAttribute('data-checked', String(c.getAttribute('data-checked') !== 'true'));
