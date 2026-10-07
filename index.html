@@ -584,8 +584,8 @@
           '<span class="mn-item__who">' + esc(m.who) + '</span>' +
           '<span class="mn-item__what">mentioned you on ' + m.kind + ' ' + (m.rec ? '<a href="' + (m.href || '#') + '" class="mn-item__rec" data-mn-rec="' + m.rec + '">' + esc(m.name) + '</a>' : '<span class="mn-item__rec">' + esc(m.name) + '</span>') + '</span>' +
           '<span class="mn-item__acts">' +
-            (m.state === 'open' ? '<button type="button" class="mn-item__act" data-tip="Quick Response" aria-label="Quick Response" data-mn-quick><svg class="rmx-icon"><use href="#sms"></use></svg></button>' : '') +
             (m.href ? '<button type="button" class="mn-item__act" data-tip="Open in New Tab" aria-label="Open in New Tab" data-mn-newtab><svg class="rmx-icon"><use href="#open-in-new"></use></svg></button>' : '') +
+            (m.state === 'open' ? '<button type="button" class="mn-item__act" data-tip="Quick Response" aria-label="Quick Response" data-mn-quick><svg class="rmx-icon"><use href="#sms"></use></svg></button>' : '') +
             (m.state === 'open'
               ? '<button type="button" class="mn-item__act" data-tip="Dismiss" aria-label="Dismiss" data-mn-dismiss><svg class="rmx-icon"><use href="#check"></use></svg></button>'
               : '<button type="button" class="mn-item__act" data-tip="Reopen" aria-label="Reopen" data-mn-reopen><svg class="rmx-icon"><use href="#refresh"></use></svg></button>') +
