@@ -793,3 +793,9 @@
 .mn-menu[hidden] { display: none; }
 .mn-menu > button { display: flex; align-items: center; width: 100%; height: 36px; padding: var(--spacing-xs); border: 0; background: none; cursor: pointer; text-align: left; white-space: nowrap; font: var(--type-paragraph-s-regular); color: var(--text-primary); }
 .mn-menu > button:hover { background: var(--container-tertiary); }
+
+/* Right-click menu: wider, with the generous padding of the browser's own link menu it stands in for. */
+.mn-menu--ctx { min-width: 0; border: 1px solid var(--border-primary); }
+.mn-menu--ctx > button { height: 40px; padding: 0 var(--spacing-xl); font: var(--type-label-m-regular); color: var(--text-secondary); }
+.mn-menu--ctx, .mn-menu--ctx > button { outline: 0; }
+.mn-menu--ctx > button:focus, .mn-menu--ctx > button:focus-visible { outline: 0; box-shadow: none; }

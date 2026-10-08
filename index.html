@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="assets/rmx.css?v=7eee26a9">
 <link rel="stylesheet" href="assets/proto.css?v=93c42d60">
 <link rel="stylesheet" href="assets/original-art.css?v=816797ce">
-<link rel="stylesheet" href="assets/workspace.css?v=5094ee76">
+<link rel="stylesheet" href="assets/workspace.css?v=3a141ca8">
 <link rel="stylesheet" href="assets/history-notes.css?v=97ce8fdb">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 </head>
@@ -438,6 +438,11 @@
 
 <iframe class="mn-taskframe" id="mnTaskFrame" title="Task Details" hidden></iframe>
 
+<!-- Right-click menu on a mention: opens its entity in a new tab with the mention over it. -->
+<div class="mn-menu mn-menu--ctx" id="mnCtxMenu" hidden role="menu">
+  <button type="button" role="menuitem">Open link in new tab</button>
+</div>
+
 <!-- Tile menu (Dropdown Menu): the one option so far dismisses every open mention. -->
 <div class="mn-menu" id="mnTileMenu" hidden role="menu" data-rmx-component="Dropdown Menu">
   <button type="button" role="menuitem" data-mn-dismissall>Dismiss All</button>
@@ -590,7 +595,6 @@
           '<span data-rmx-component="Avatar" data-ws-avatar="' + m.av + '" data-ws-inline>' + m.ini + '</span>' +
           '<span class="mn-item__line"><span class="mn-item__who">' + esc(m.who) + '</span> mentioned you on <span class="mn-item__ent">' + m.kind + ' ' + (m.rec ? '<a href="' + (m.href || '#') + '" class="mn-item__rec" data-mn-rec="' + m.rec + '">' + esc(m.name) + '</a>' : '<span class="mn-item__rec">' + esc(m.name) + '</span>') + '</span></span>' +
           '<span class="mn-item__acts">' +
-            (m.href ? '<button type="button" class="mn-item__act" data-tip="Open in New Tab" aria-label="Open in New Tab" data-mn-newtab><svg class="rmx-icon"><use href="#open-in-new"></use></svg></button>' : '') +
             (m.state === 'open' ? '<button type="button" class="mn-item__act" data-tip="Quick Response" aria-label="Quick Response" data-mn-quick><svg class="rmx-icon"><use href="#memorized-comments"></use></svg></button>' : '') +
             (m.state === 'open'
               ? '<button type="button" class="mn-item__act" data-tip="Dismiss" aria-label="Dismiss" data-mn-dismiss><svg class="rmx-icon"><use href="#check"></use></svg></button>'
@@ -647,6 +651,31 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeTileMenu(); });
   window.addEventListener('scroll', closeTileMenu, true);
 
+  /* ---------- right click: Open link in new tab ----------
+     A mention with a details page gets its own context menu; the new tab opens that entity with the mention over it
+     (the History / Notes overlay, or the task's details). Mentions without a page keep the browser's menu. */
+  var ctxMenu = document.getElementById('mnCtxMenu'), ctxFor = null;
+  function closeCtx(){ ctxMenu.hidden = true; ctxFor = null; }
+  list.addEventListener('contextmenu', function (e) {
+    var item = e.target.closest('.mn-item'); if (!item) return;
+    var m = byId(item.getAttribute('data-mn-id'));
+    if (!m || !m.href) return;
+    e.preventDefault();
+    ctxFor = m;
+    ctxMenu.hidden = false;
+    ctxMenu.style.left = Math.min(e.clientX, window.innerWidth - ctxMenu.offsetWidth - 8) + 'px';
+    ctxMenu.style.top = Math.min(e.clientY, window.innerHeight - ctxMenu.offsetHeight - 8) + 'px';
+  });
+  ctxMenu.addEventListener('click', function () {
+    if (!ctxFor) return;
+    var m = ctxFor; closeCtx();
+    window.open(m.href + (m.href.indexOf('?') === -1 ? '?' : '&') + (/tasks\.html/.test(m.href) ? 'notes=1' : 'note=1'), '_blank', 'noopener');
+  });
+  document.addEventListener('click', closeCtx);
+  document.addEventListener('contextmenu', function (e) { if (!e.target.closest('#mnList, [data-mn-list]')) closeCtx(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCtx(); });
+  window.addEventListener('scroll', closeCtx, true);
+
   /* ---------- Details ----------
      A task mention opens that task's details over the workspace (the Tasks
      screen framed with ?embed=1, which closes itself by postMessage). Any other
@@ -680,7 +709,6 @@
   list.addEventListener('click', function (e) {
     var item = e.target.closest('.mn-item'); if (!item) return;
     var m = byId(item.getAttribute('data-mn-id'));
-    if (e.target.closest('[data-mn-newtab]')) { window.open(m.href + (m.href.indexOf('?') === -1 ? '?' : '&') + (/tasks\.html/.test(m.href) ? 'notes=1' : 'note=1'), '_blank', 'noopener'); return; }
     if (e.target.closest('[data-mn-quick]')) { openNote(m); return; }
     if (e.target.closest('[data-mn-dismiss]')) { m.state = 'dismissed'; render(); return; }
     if (e.target.closest('[data-mn-reopen]')) { m.state = 'open'; render(); return; }
