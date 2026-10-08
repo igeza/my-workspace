@@ -630,8 +630,9 @@
 .mn-item__rec:hover { text-decoration: underline; }
 .mn-item__time { padding-left: 28px; font: var(--type-label-s-regular); color: var(--text-primary); }
 /* Quick Response and Dismiss (Reopen on dismissed ones) appear top right when the row is hovered or has focus. */
-.mn-item__acts { flex: none; display: none; align-items: center; gap: var(--spacing-xxs); }
-.mn-item:hover .mn-item__acts, .mn-item:focus-within .mn-item__acts { display: inline-flex; }
+/* The space for three icons (24px each, 4px apart) is always reserved, so the header text never reflows when they appear. */
+.mn-item__acts { flex: none; display: inline-flex; justify-content: flex-end; align-items: center; gap: var(--spacing-xxs); width: 80px; visibility: hidden; }
+.mn-item:hover .mn-item__acts, .mn-item:focus-within .mn-item__acts { visibility: visible; }
 .mn-item__act {
   display: inline-flex; width: 24px; height: 24px; padding: 2px; margin: -2px 0; border: 0; border-radius: var(--radius-sm);
   background: none; color: var(--text-link); cursor: pointer;
@@ -778,3 +779,6 @@
 .mn-item__line .mn-item__who { font: var(--type-label-m-semibold); color: var(--text-secondary); }
 .mn-item__head > [data-rmx-component="Avatar"] { margin-top: 0; }
 .mn-item__act { margin: 0; }
+
+/* The entity ("task New Resident Move In") moves to the second line whole; it never splits across the break. */
+.mn-item__ent { display: inline-block; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: top; }
