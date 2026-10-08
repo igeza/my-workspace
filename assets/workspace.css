@@ -805,9 +805,12 @@
 
 /* The Dismissed Mentions overlay: the old Dismissed tab as a dialog (587 wide, its list scrolls). */
 .mn-scrim--dis { z-index: 500; }
-.mn-dialog--dis { width: 587px; display: flex; flex-direction: column; max-height: calc(100vh - 110px); }
+.mn-dialog--dis { width: 587px; display: flex; flex-direction: column; height: min(728px, calc(100vh - 110px)); }
 .mn-dialog--dis .mn-search { margin-top: var(--spacing-md); }
-.mn-dis__list { flex: 1 1 auto; min-height: 220px; overflow-y: auto; padding: var(--spacing-xs) 0; }
+.mn-dis__list { flex: 1 1 0; min-height: 0; overflow-y: auto; scrollbar-gutter: stable; padding: var(--spacing-xs) 0; }
 
 .rmx-tile[data-ows-tile] > .rmx-tile__header:has(> .mn-count) { gap: 0; }
 .rmx-tile__header > .mn-count { margin-left: var(--spacing-xxs); }
+
+/* In the overlay a mention's text wraps in full instead of being cut to one line. */
+.mn-dis__list .mn-item__body { display: block; -webkit-line-clamp: unset; overflow: visible; }
