@@ -107,7 +107,15 @@
 
 /* Figma "My Mentions Tile - Open": three wide tiles, 586.5 each in a 1792 row. With Mentions
    hidden ("Collapsed") Favorites and Reports grow to 888 each, so the wide tiles have no max-width. */
-.rmx-tile[data-ows-tile="wide"]   { flex: 1 1 520px; }
+.rmx-tile[data-ows-tile="wide"]   { flex: 1 1 400px; }
+.rmx-tile[data-mn-tile] { max-width: 587px; }  /* wrapped onto its own row it stays a tile, not a banner */
+/* My Mentions sits beside Favorites and Reports whenever three tiles fit; each tile answers to its own width, so
+   Favorites and Reports stack their two menu columns into one when the tile gets narrow. */
+.rmx-tile[data-ows-tile] { container-type: inline-size; }
+@container (max-width: 520px) {
+  .ows-areas { flex-direction: column; }
+  .ows-areas__col { flex-basis: auto; width: 100%; }
+}
 .rmx-tile[data-ows-tile="narrow"] { flex: 1 1 314px; max-width: 314px; }
 .ows-overline {
   flex: none;
@@ -558,7 +566,7 @@
 .ows-hidden [data-ows-hidden] > svg { color: var(--icon-brand); }
 
 /* ---- narrower windows ---- */
-@media (max-width: 1200px) { .ows-page { padding-inline: var(--spacing-2xl); } }
+@media (max-width: 1400px) { .ows-page { padding-inline: var(--spacing-2xl); } }
 @media (max-width: 900px) {
   .ows-page { padding-inline: var(--spacing-md); }
   .rmx-tile[data-ows-tile] { height: auto; max-height: 580px; }
