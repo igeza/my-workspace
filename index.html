@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="assets/rmx.css?v=7eee26a9">
 <link rel="stylesheet" href="assets/proto.css?v=93c42d60">
 <link rel="stylesheet" href="assets/original-art.css?v=816797ce">
-<link rel="stylesheet" href="assets/workspace.css?v=53e72020">
+<link rel="stylesheet" href="assets/workspace.css?v=70daaaa7">
 <link rel="stylesheet" href="assets/history-notes.css?v=97ce8fdb">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 </head>
@@ -326,6 +326,7 @@
     <span class="rmx-tile__title rmx-type-heading-m-regular">My Mentions</span>
     <span class="mn-hdricons">
       <button type="button" data-ows-tile-action data-ows-hide aria-label="Hide My Mentions"><svg class="rmx-icon"><use href="#visibility-off"></use></svg></button>
+      <button type="button" data-ows-tile-action aria-label="My Mentions options" aria-haspopup="menu" data-mn-tilemenu><svg class="rmx-icon"><use href="#more-vert"></use></svg></button>
     </span>
   </header>
   <div class="mn-tabs" role="tablist" data-rmx-component="Tabs">
@@ -435,6 +436,11 @@
 </main>
 
 <iframe class="mn-taskframe" id="mnTaskFrame" title="Task Details" hidden></iframe>
+
+<!-- Tile menu (Dropdown Menu): the one option so far dismisses every open mention. -->
+<div class="mn-menu" id="mnTileMenu" hidden role="menu" data-rmx-component="Dropdown Menu">
+  <button type="button" role="menuitem" data-mn-dismissall>Dismiss All</button>
+</div>
 
 <!-- Add Response Note, Dialog Overlay (Figma "Add Response Note" 2251:3875, updated 2026-10) -->
 <div class="mn-scrim" id="mnNote" hidden>
@@ -616,6 +622,29 @@
   tile.querySelector('[data-mn-search]').addEventListener('input', function (e) {
     query = e.target.value.trim().toLowerCase(); render();
   });
+
+  /* ---------- tile menu: Dismiss All ---------- */
+  var tileMenu = document.getElementById('mnTileMenu');
+  function closeTileMenu(){ tileMenu.hidden = true; }
+  tile.querySelector('[data-mn-tilemenu]').addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (!tileMenu.hidden) { closeTileMenu(); return; }
+    var r = e.currentTarget.getBoundingClientRect();
+    tileMenu.hidden = false;
+    tileMenu.style.top = (r.bottom + 4) + 'px';
+    tileMenu.style.left = Math.max(8, r.right - tileMenu.offsetWidth) + 'px';
+  });
+  tileMenu.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-mn-dismissall]')) return;
+    closeTileMenu();
+    var n = 0;
+    mentions.forEach(function (m) { if (m.state === 'open') { m.state = 'dismissed'; n++; } });
+    render();
+    if (n && window.RMX) RMX.toast(n === 1 ? '1 mention dismissed' : n + ' mentions dismissed', 'success');
+  });
+  document.addEventListener('click', closeTileMenu);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeTileMenu(); });
+  window.addEventListener('scroll', closeTileMenu, true);
 
   /* ---------- Details ----------
      A task mention opens that task's details over the workspace (the Tasks
