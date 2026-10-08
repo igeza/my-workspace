@@ -515,7 +515,7 @@
 </div>
 
 <script src="assets/app.js?v=7be399e0"></script>
-<script src="assets/history-notes.js?v=4d7fcd03"></script>
+<script src="assets/history-notes.js?v=06c632a5"></script>
 <script>
 /* ---- hiding a tile, and getting it back ----
    Announcements and My Training start hidden -- which is what the two links in
@@ -557,7 +557,7 @@
    (assets/history-notes.js, keyed by `rec`); clicking anywhere else on the row
    opens Add Response Note. Add & Dismiss moves it to the Dismissed tab. */
 (function () {
-  var ME = 'Charlie';
+  var ME = 'Charlie', ME_FULL = 'Charlie Apegian';
   var MS = 60000, H = 3600000, D = 86400000;
   var mentions = [
     {id:1, state:'open', who:'Nathan Cole',   ini:'NC', av:'blue',   kind:'task',     name:'New Resident Move In', rec:'task-t-movein-credit', href:'screens/tasks.html?open=t-movein-credit',   when:'20 min ago', ago:20*MS, body:'Dana Whitcomb moves in on the <span data-mn-day="1"></span>. Can you set up her  community account?'},
@@ -615,7 +615,7 @@
               : '<button type="button" class="mn-item__act" data-tip="Reopen" aria-label="Reopen" data-mn-reopen><svg class="rmx-icon"><use href="#refresh"></use></svg></button>') +
           '</span>' +
         '</div>' +
-        '<div class="mn-item__body"><span class="hn-at hn-at--me" contenteditable="false">' + ME + '</span> ' + (m.tags || []).map(function (n) { return '<span class="hn-at hn-at--other" contenteditable="false">' + esc(n) + '</span> '; }).join('') + m.body + '</div>' +
+        '<div class="mn-item__body"><span class="hn-at hn-at--me" contenteditable="false">' + ME_FULL + '</span> ' + (m.tags || []).map(function (n) { return '<span class="hn-at hn-at--other" contenteditable="false">' + esc(n) + '</span> '; }).join('') + m.body + '</div>' +
         '<div class="mn-item__time">' + m.when + '</div>' +
       '</div>';
   }
@@ -768,7 +768,7 @@
     dlg.querySelector('[data-mn-recname]').textContent = m.name;
     dlg.querySelector('[data-mn-from]').textContent = m.who;
     dlg.querySelector('[data-mn-when]').textContent = stamp(m.ago);
-    dlg.querySelector('[data-mn-orig]').innerHTML = '<span class="mn-chip">' + ME + '</span> ' + (m.tags || []).map(function (n) { return '<span class="mn-chip mn-chip--other">' + esc(n) + '</span> '; }).join('') + m.body;
+    dlg.querySelector('[data-mn-orig]').innerHTML = '<span class="mn-chip">' + ME_FULL + '</span> ' + (m.tags || []).map(function (n) { return '<span class="mn-chip mn-chip--other">' + esc(n) + '</span> '; }).join('') + m.body;
     fillDays(dlg);
     dlg.querySelector('[data-mn-resp]').value = '';
     setFollow(false);

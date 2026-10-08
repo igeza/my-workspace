@@ -366,7 +366,7 @@ function knownNames(){
    spelling a note used, the lozenge reads "@Charlie" and the note keeps saying
    what it said. */
 function mentionLabel(token, name){
-  return isMe(token) ? 'Charlie' : name;
+  return isMe(token) ? 'Charlie Apegian' : name;
 }
 function mentionTokens(users){
   var out = [];
@@ -378,7 +378,7 @@ function mentionTokens(users){
     out.push({ token: u.name, label: mentionLabel(u.name, u.name), mine: !!u.me });
     if (u.uname) out.push({ token: u.uname, label: mentionLabel(u.uname, u.name), mine: !!u.me });
   });
-  out.push({ token: 'Charlie', label: 'Charlie' });
+  out.push({ token: 'Charlie', label: 'Charlie Apegian' });
   /* One entry per spelling: the signed-in user is both a taggable user and the
      built-in alias, and two entries for the same word wrap its chip twice. */
   var seen = {};
