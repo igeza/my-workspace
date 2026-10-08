@@ -623,7 +623,7 @@
 /* The whole row, edge to edge, lights up on hover. */
 .mn-item:hover, .mn-item:focus-visible { background: var(--container-tertiary); }
 .mn-item:focus-visible { outline: 2px solid var(--border-secondary); outline-offset: -2px; }
-.mn-item__head { display: flex; align-items: center; gap: var(--spacing-xxs); min-width: 0; }
+.mn-item__head { display: flex; align-items: flex-start; gap: var(--spacing-xxs); min-width: 0; }
 .mn-item__who { flex: none; font: var(--type-label-m-semibold); color: var(--text-secondary); }
 .mn-item__what { flex: 1; min-width: 0; font: var(--type-label-m-regular); color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mn-item__rec { color: var(--text-link); text-decoration: none; }
@@ -769,3 +769,12 @@
 /* Task Details over the workspace: the Tasks screen in ?embed=1 mode, whose own scrim is the whole visible surface. */
 .mn-taskframe { position: fixed; inset: 0; z-index: 590; width: 100%; height: 100%; border: 0; background: transparent; }
 .mn-taskframe[hidden] { display: none; }
+
+/* The "<person> mentioned you on <entity>" line wraps (two lines at most) instead of cutting the entity off on narrow tiles. */
+.mn-item__line {
+  flex: 1; min-width: 0; font: var(--type-label-m-regular); color: var(--text-primary);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.mn-item__line .mn-item__who { font: var(--type-label-m-semibold); color: var(--text-secondary); }
+.mn-item__head > [data-rmx-component="Avatar"] { margin-top: 0; }
+.mn-item__act { margin: 0; }
