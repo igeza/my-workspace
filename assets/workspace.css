@@ -791,5 +791,5 @@
 /* Dropdown Menu (2248:3661) */
 .mn-menu { position: fixed; z-index: 600; min-width: 196px; width: max-content; overflow: hidden; background: var(--container-primary); border-radius: 4px; box-shadow: 0 3px 6px rgba(0, 0, 0, .15); }
 .mn-menu[hidden] { display: none; }
-.mn-menu > button { display: flex; align-items: center; width: 100%; height: 36px; padding: var(--spacing-xs); border: 0; background: none; cursor: pointer; text-align: left; white-space: nowrap; font: var(--type-paragraph-s-regular); color: var(--text-link); }
+.mn-menu > button { display: flex; align-items: center; width: 100%; height: 36px; padding: var(--spacing-xs); border: 0; background: none; cursor: pointer; text-align: left; white-space: nowrap; font: var(--type-paragraph-s-regular); color: var(--text-primary); }
 .mn-menu > button:hover { background: var(--container-tertiary); }
