@@ -5,16 +5,16 @@
 <meta name="rmx-skill" content="4.5.2">
 <meta name="rmx-tokens" content="a6dff32542cd">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My Workspace</title>
+<title>My Workspace (tabs version)</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/tokens.css?v=49ab08d8">
-<link rel="stylesheet" href="assets/type.css?v=e816b046">
-<link rel="stylesheet" href="assets/rmx.css?v=7eee26a9">
-<link rel="stylesheet" href="assets/proto.css?v=93c42d60">
-<link rel="stylesheet" href="assets/original-art.css?v=816797ce">
-<link rel="stylesheet" href="assets/workspace.css?v=d355a637">
-<link rel="stylesheet" href="assets/history-notes.css?v=97ce8fdb">
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../assets/tokens.css?v=49ab08d8">
+<link rel="stylesheet" href="../assets/type.css?v=e816b046">
+<link rel="stylesheet" href="../assets/rmx.css?v=7eee26a9">
+<link rel="stylesheet" href="../assets/proto.css?v=93c42d60">
+<link rel="stylesheet" href="../assets/original-art.css?v=816797ce">
+<link rel="stylesheet" href="../assets/workspace.css?v=3a141ca8">
+<link rel="stylesheet" href="../assets/history-notes.css?v=97ce8fdb">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png"><link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 </head>
 <body class="rmx">
 <!-- Icons this page uses, real RMX geometry copied from my-workspace. The
@@ -162,7 +162,7 @@
           <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="#" data-rmx-component="Button" data-rmx-todo="Issues is not built in this prototype">Issues</a>
           <!-- A real link: Tasks is a built screen, and this tile is where you would
                reach for it. Emma's call, 2026-09-11. -->
-          <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="screens/tasks.html" data-rmx-component="Button">Tasks</a>
+          <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="../screens/tasks.html" data-rmx-component="Button">Tasks</a>
           <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="#" data-rmx-component="Button" data-rmx-todo="Appointments is not built in this prototype">Appointments</a>
           <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="#" data-rmx-component="Button" data-rmx-todo="New Issue is not built in this prototype">New Issue</a>
           <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="#" data-rmx-component="Button" data-rmx-todo="Make-Ready Board is not built in this prototype">Make-Ready Board</a>
@@ -175,7 +175,7 @@
         <div class="ows-card__col">
           <span class="ows-card__title rmx-type-paragraph-s-semibold">Rental Info</span>
           <!-- Tenants opens the register; a row opens Tenant Detail. -->
-          <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="screens/tenants.html" data-rmx-component="Button">Tenants</a>
+          <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="../screens/tenants.html" data-rmx-component="Button">Tenants</a>
           <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="#" data-rmx-component="Button" data-rmx-todo="Prospects is not built in this prototype">Prospects</a>
           <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="#" data-rmx-component="Button" data-rmx-todo="Units is not built in this prototype">Units</a>
           <a class="rmx-text rmx-text--link rmx-type-label-m-regular" href="#" data-rmx-component="Button" data-rmx-todo="Properties is not built in this prototype">Properties</a>
@@ -320,18 +320,26 @@
 </section>
 
 <!-- My Mentions, Tile Style=Workspace. Third in the row, Figma "My Mentions Tile - Open" (2217:3866).
-     Header carries a crossed-eye (hides the tile; the hidden-tile link at the bottom brings it back). A counter beside the title shows how many are open; the kebab has Dismiss All and View Dismissed (an overlay). The mentions are rendered by the script below. The tabbed version is tagged my-mentions-tabs and archived in archive/index-with-tabs.html. -->
+     Header carries a crossed-eye (hides the tile; the hidden-tile link at the bottom brings it back). Search, Open / Dismissed tabs, then the mentions, rendered by the script below. -->
 <section class="rmx-tile" data-ows-tile="wide" data-rmx-component="Tile" data-ows-hideable="My Mentions" data-mn-tile>
   <div class="ows-overline" data-accent="notice"></div>
   <header class="rmx-tile__header" data-rmx-component="_Tile Headers">
     <span class="rmx-tile__title rmx-type-heading-m-regular">My Mentions</span>
-    <span class="mn-count" data-mn-count aria-label="open mentions">4</span>
     <span class="mn-hdricons">
       <button type="button" data-ows-tile-action data-ows-hide aria-label="Hide My Mentions"><svg class="rmx-icon"><use href="#visibility-off"></use></svg></button>
       <button type="button" data-ows-tile-action aria-label="My Mentions options" aria-haspopup="menu" data-mn-tilemenu><svg class="rmx-icon"><use href="#more-vert"></use></svg></button>
     </span>
   </header>
+  <div class="mn-tabs" role="tablist" data-rmx-component="Tabs">
+    <button type="button" class="mn-tab" role="tab" aria-selected="true" data-mn-tab="open">Open (<span data-mn-open-count>4</span>)</button>
+    <button type="button" class="mn-tab" role="tab" aria-selected="false" data-mn-tab="dismissed">Dismissed</button>
+  </div>
+  <div class="mn-search" data-mn-searchbar hidden data-rmx-component="Input Field">
+    <svg class="rmx-icon"><use href="#search"></use></svg>
+    <input type="text" placeholder="Search mentions" aria-label="Search mentions" data-mn-search>
+  </div>
   <div class="rmx-tile__body mn-list" data-mn-list></div>
+  <div class="mn-foot" data-mn-foot hidden></div>
 </section>
 
 <!-- Announcements, Tile Style=Workspace. Overline stroke notice, header 44px,
@@ -435,26 +443,9 @@
   <button type="button" role="menuitem">Open link in new tab</button>
 </div>
 
-<!-- Tile menu (Dropdown Menu): Dismiss All, and View Dismissed, which opens the overlay below. -->
+<!-- Tile menu (Dropdown Menu): the one option so far dismisses every open mention. -->
 <div class="mn-menu" id="mnTileMenu" hidden role="menu" data-rmx-component="Dropdown Menu">
   <button type="button" role="menuitem" data-mn-dismissall>Dismiss All</button>
-  <button type="button" role="menuitem" data-mn-viewdismissed>View Dismissed</button>
-</div>
-
-<!-- Dismissed Mentions overlay: what the Dismissed tab used to show, opened from the tile menu. -->
-<div class="mn-scrim mn-scrim--dis" id="mnDis" hidden>
-  <section class="mn-dialog mn-dialog--dis" role="dialog" aria-modal="true" aria-labelledby="mnDisTitle" data-rmx-component="Dialog Overlay">
-    <header class="mn-dialog__header">
-      <h2 id="mnDisTitle" class="rmx-type-heading-m-regular">Dismissed Mentions</h2>
-      <button type="button" class="mn-dialog__close" data-mn-disclose aria-label="Close"><svg class="rmx-icon"><use href="#close"></use></svg></button>
-    </header>
-    <div class="mn-search" data-rmx-component="Input Field">
-      <svg class="rmx-icon"><use href="#search"></use></svg>
-      <input type="text" placeholder="Search mentions" aria-label="Search dismissed mentions" data-mn-search>
-    </div>
-    <div class="mn-dis__list mn-list--dismissed" data-mn-dislist></div>
-    <div class="mn-foot" data-mn-foot></div>
-  </section>
 </div>
 
 <!-- Add Response Note, Dialog Overlay (Figma "Add Response Note" 2251:3875, updated 2026-10) -->
@@ -514,8 +505,8 @@
   </section>
 </div>
 
-<script src="assets/app.js?v=7be399e0"></script>
-<script src="assets/history-notes.js?v=34af3ae1"></script>
+<script src="../assets/app.js?v=7be399e0"></script>
+<script src="../assets/history-notes.js?v=34af3ae1"></script>
 <script>
 /* ---- hiding a tile, and getting it back ----
    Announcements and My Training start hidden -- which is what the two links in
@@ -560,33 +551,46 @@
   var ME = 'Charlie';
   var MS = 60000, H = 3600000, D = 86400000;
   var mentions = [
-    {id:1, state:'open', who:'Nathan Cole',   ini:'NC', av:'blue',   kind:'task',     name:'New Resident Move In', rec:'task-t-movein-credit', href:'screens/tasks.html?open=t-movein-credit',   when:'20 min ago', ago:20*MS, body:'Dana Whitcomb moves in on the <span data-mn-day="1"></span>. Can you set up her  community account?'},
-    {id:2, state:'open', who:'Kelsey Warner', ini:'KW', av:'green',  kind:'prospect', name:'Nicole Brandt',        rec:'prospect-nicole-brandt', href:'screens/prospect.html?id=nicole-brandt', when:'1h ago',     ago:1*H,  body:'Nicole wants the quote repriced with the covered parking space included. Can you add it?'},
-    {id:3, state:'open', who:'Derek Shaw',    ini:'DS', av:'orange', kind:'prospect', name:'Renee Vogel',          rec:'prospect-renee-vogel', href:'screens/prospect.html?id=renee-vogel',   when:'3h ago',     ago:3*H,  body:'She really just wants a dog park, and nothing at Flagstone fits. Can you move the lead to Brookside? Also she had some questions about some of the amenities.'},
-    {id:4, state:'open', who:'Erin Caldwell', ini:'EC', av:'navy',   kind:'tenant',   name:'Marcia Clark',         rec:'tenant-marcia-clark', href:'screens/tenants.html?view=details',    when:'yesterday',  ago:1*D,  body:'She’s adding a roommate within six months and wants the steps in writing.'},
+    {id:1, state:'open', who:'Nathan Cole',   ini:'NC', av:'blue',   kind:'task',     name:'New Resident Move In', rec:'task-t-movein-credit', href:'../screens/tasks.html?open=t-movein-credit',   when:'20 min ago', ago:20*MS, body:'Dana Whitcomb moves in on the <span data-mn-day="1"></span>. Can you set up her  community account?'},
+    {id:2, state:'open', who:'Kelsey Warner', ini:'KW', av:'green',  kind:'prospect', name:'Nicole Brandt',        rec:'prospect-nicole-brandt', href:'../screens/prospect.html?id=nicole-brandt', when:'1h ago',     ago:1*H,  body:'Nicole wants the quote repriced with the covered parking space included. Can you add it?'},
+    {id:3, state:'open', who:'Derek Shaw',    ini:'DS', av:'orange', kind:'prospect', name:'Renee Vogel',          rec:'prospect-renee-vogel', href:'../screens/prospect.html?id=renee-vogel',   when:'3h ago',     ago:3*H,  body:'She really just wants a dog park, and nothing at Flagstone fits. Can you move the lead to Brookside? Also she had some questions about some of the amenities.'},
+    {id:4, state:'open', who:'Erin Caldwell', ini:'EC', av:'navy',   kind:'tenant',   name:'Marcia Clark',         rec:'tenant-marcia-clark', href:'../screens/tenants.html?view=details',    when:'yesterday',  ago:1*D,  body:'She’s adding a roommate within six months and wants the steps in writing.'},
     {id:5, state:'dismissed', who:'Nathan Cole',  ini:'NC', av:'blue',   kind:'owner', name:'Sally Klydon',            rec:'owner-sally-klydon',     when:'3 days ago', ago:3*D, body:'Sally asked for the September owner statement before Friday. Can you send it over once it is posted to her portal?'},
-    {id:6, state:'dismissed', who:'Priya Nair',   ini:'PN', av:'green',  kind:'issue', name:'Unit 204 - Leaking Faucet', rec:'issue-unit-204-leaking-faucet', href:'screens/issue.html?id=unit-204-leaking-faucet',  when:'4 days ago', ago:4*D, body:'The vendor can only come Thursday morning. Can you let the resident know before then?'},
-    {id:7, state:'dismissed', who:'Marcus Chen',  ini:'MC', av:'orange', kind:'issue', name:'Unit 104 - HVAC Filter',  rec:'issue-unit-104-hvac-filter', href:'screens/issue.html?id=unit-104-hvac-filter',                     when:'5 days ago', ago:5*D, body:'Please confirm whether the replacement filter is covered under warranty before we order another.'},
+    {id:6, state:'dismissed', who:'Priya Nair',   ini:'PN', av:'green',  kind:'issue', name:'Unit 204 - Leaking Faucet', rec:'issue-unit-204-leaking-faucet', href:'../screens/issue.html?id=unit-204-leaking-faucet',  when:'4 days ago', ago:4*D, body:'The vendor can only come Thursday morning. Can you let the resident know before then?'},
+    {id:7, state:'dismissed', who:'Marcus Chen',  ini:'MC', av:'orange', kind:'issue', name:'Unit 104 - HVAC Filter',  rec:'issue-unit-104-hvac-filter', href:'../screens/issue.html?id=unit-104-hvac-filter',                     when:'5 days ago', ago:5*D, body:'Please confirm whether the replacement filter is covered under warranty before we order another.'},
     {id:8, state:'dismissed', who:'Ava Singh',    ini:'AS', av:'navy',   kind:'owner', name:'Daniel Rivera',           rec:null,                     when:'6 days ago', ago:6*D, body:'Daniel asked for the updated owner statement and wants the final numbers before the board call.'},
-    {id:9, state:'dismissed', who:'Jordan Reed',  ini:'JR', av:'blue',   kind:'issue', name:'Unit 312 - Door Lock',    rec:'issue-unit-312-door-lock', href:'screens/issue.html?id=unit-312-door-lock',                     when:'1 week ago', ago:7*D, body:'The resident reported the lock is sticking again after the last service visit.'},
-    {id:10, state:'dismissed', who:'Liam Morgan', ini:'LM', av:'green',  kind:'issue', name:'Unit 402 - Smoke Detector', rec:'issue-unit-402-smoke-detector', href:'screens/issue.html?id=unit-402-smoke-detector',                   when:'1 week ago', ago:7*D, body:'The smoke detector in the hallway is beeping intermittently. Please send someone to check it.'}
+    {id:9, state:'dismissed', who:'Jordan Reed',  ini:'JR', av:'blue',   kind:'issue', name:'Unit 312 - Door Lock',    rec:'issue-unit-312-door-lock', href:'../screens/issue.html?id=unit-312-door-lock',                     when:'1 week ago', ago:7*D, body:'The resident reported the lock is sticking again after the last service visit.'},
+    {id:10, state:'dismissed', who:'Liam Morgan', ini:'LM', av:'green',  kind:'issue', name:'Unit 402 - Smoke Detector', rec:'issue-unit-402-smoke-detector', href:'../screens/issue.html?id=unit-402-smoke-detector',                   when:'1 week ago', ago:7*D, body:'The smoke detector in the hallway is beeping intermittently. Please send someone to check it.'}
   ];
   /* The Dismissed tab pages in the real product ("6 of 27 Mentions"). Only these
      are loaded here, so the footer counts them against a fixed total. */
   var DISMISSED_TOTAL = 27;
-  var query = '';
+  var tab = 'open', query = '';
 
   var list = document.querySelector('[data-mn-list]');
   var tile = document.querySelector('[data-mn-tile]');
-  var dis = document.getElementById('mnDis');
-  var disList = dis.querySelector('[data-mn-dislist]');
   if (!list || !tile) return;
 
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function text(m){ return (m.who + ' ' + m.kind + ' ' + m.name + ' ' + m.body.replace(/<[^>]*>/g, '')).toLowerCase(); }
 
-  function rowHTML(m) {
-    return '<div class="mn-item" data-mn-id="' + m.id + '" tabindex="0" role="button">' +
+  function render() {
+    var openCount = mentions.filter(function (m) { return m.state === 'open'; }).length;
+    tile.querySelector('[data-mn-open-count]').textContent = openCount;
+    [].forEach.call(tile.querySelectorAll('[data-mn-tab]'), function (b) {
+      b.setAttribute('aria-selected', String(b.getAttribute('data-mn-tab') === tab));
+    });
+    var dis = mentions.filter(function (m) { return m.state === 'dismissed'; }).length;
+    tile.querySelector('[data-mn-searchbar]').hidden = tab !== 'dismissed';
+    var foot = tile.querySelector('[data-mn-foot]');
+    foot.hidden = tab !== 'dismissed';
+    foot.textContent = dis + ' of ' + Math.max(DISMISSED_TOTAL, dis) + ' Mentions';
+    list.classList.toggle('mn-list--dismissed', tab === 'dismissed');
+    var rows = mentions.filter(function (m) {
+      return m.state === tab && (!query || text(m).indexOf(query) !== -1);
+    });
+    list.innerHTML = rows.length ? rows.map(function (m) {
+      return '<div class="mn-item" data-mn-id="' + m.id + '" tabindex="0" role="button">' +
         '<div class="mn-item__head">' +
           '<span data-rmx-component="Avatar" data-ws-avatar="' + m.av + '" data-ws-inline>' + m.ini + '</span>' +
           '<span class="mn-item__line"><span class="mn-item__who">' + esc(m.who) + '</span> mentioned you on <span class="mn-item__ent">' + m.kind + ' ' + (m.rec ? '<a href="' + (m.href || '#') + '" class="mn-item__rec" data-mn-rec="' + m.rec + '">' + esc(m.name) + '</a>' : '<span class="mn-item__rec">' + esc(m.name) + '</span>') + '</span></span>' +
@@ -600,18 +604,8 @@
         '<div class="mn-item__body"><span class="hn-at hn-at--me" contenteditable="false">@' + ME + '</span> ' + m.body + '</div>' +
         '<div class="mn-item__time">' + m.when + '</div>' +
       '</div>';
-  }
-
-  function render() {
-    var open = mentions.filter(function (m) { return m.state === 'open'; });
-    var gone = mentions.filter(function (m) { return m.state === 'dismissed'; });
-    tile.querySelector('[data-mn-count]').textContent = open.length;
-    list.innerHTML = open.length ? open.map(rowHTML).join('') : '<p class="mn-empty">You have no open mentions.</p>';
+    }).join('') : '<p class="mn-empty">' + (query ? 'No mentions match your search.' : (tab === 'open' ? 'You have no open mentions.' : 'Nothing dismissed.')) + '</p>';
     fillDays(list);
-    var rows = gone.filter(function (m) { return !query || text(m).indexOf(query) !== -1; });
-    disList.innerHTML = rows.length ? rows.map(rowHTML).join('') : '<p class="mn-empty">' + (query ? 'No mentions match your search.' : 'Nothing dismissed.') + '</p>';
-    fillDays(disList);
-    dis.querySelector('[data-mn-foot]').textContent = gone.length + ' of ' + Math.max(DISMISSED_TOTAL, gone.length) + ' Mentions';
   }
 
   /* Days-from-today, so "moves in on the 19th" never goes stale. Same offset as
@@ -625,13 +619,14 @@
   }
   function byId(id){ return mentions.filter(function (m) { return m.id === +id; })[0]; }
 
-  /* ---------- Dismissed overlay ---------- */
-  function openDis() { query = ''; dis.querySelector('[data-mn-search]').value = ''; render(); dis.hidden = false; dis.querySelector('[data-mn-search]').focus(); }
-  function closeDis() { dis.hidden = true; }
-  dis.querySelector('[data-mn-search]').addEventListener('input', function (e) { query = e.target.value.trim().toLowerCase(); render(); });
-  dis.querySelector('[data-mn-disclose]').addEventListener('click', closeDis);
-  dis.addEventListener('click', function (e) { if (e.target === dis) closeDis(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !dis.hidden && document.getElementById('mnNote').hidden) closeDis(); });
+  /* ---------- tabs + search ---------- */
+  tile.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-mn-tab]');
+    if (t) { tab = t.getAttribute('data-mn-tab'); render(); }
+  });
+  tile.querySelector('[data-mn-search]').addEventListener('input', function (e) {
+    query = e.target.value.trim().toLowerCase(); render();
+  });
 
   /* ---------- tile menu: Dismiss All ---------- */
   var tileMenu = document.getElementById('mnTileMenu');
@@ -645,7 +640,6 @@
     tileMenu.style.left = Math.max(8, r.right - tileMenu.offsetWidth) + 'px';
   });
   tileMenu.addEventListener('click', function (e) {
-    if (e.target.closest('[data-mn-viewdismissed]')) { closeTileMenu(); openDis(); return; }
     if (!e.target.closest('[data-mn-dismissall]')) return;
     closeTileMenu();
     var n = 0;
@@ -662,7 +656,7 @@
      (the History / Notes overlay, or the task's details). Mentions without a page keep the browser's menu. */
   var ctxMenu = document.getElementById('mnCtxMenu'), ctxFor = null;
   function closeCtx(){ ctxMenu.hidden = true; ctxFor = null; }
-  function onContext(e) {
+  list.addEventListener('contextmenu', function (e) {
     var item = e.target.closest('.mn-item'); if (!item) return;
     var m = byId(item.getAttribute('data-mn-id'));
     if (!m || !m.href) return;
@@ -671,16 +665,14 @@
     ctxMenu.hidden = false;
     ctxMenu.style.left = Math.min(e.clientX, window.innerWidth - ctxMenu.offsetWidth - 8) + 'px';
     ctxMenu.style.top = Math.min(e.clientY, window.innerHeight - ctxMenu.offsetHeight - 8) + 'px';
-  }
-  list.addEventListener('contextmenu', onContext);
-  disList.addEventListener('contextmenu', onContext);
+  });
   ctxMenu.addEventListener('click', function () {
     if (!ctxFor) return;
     var m = ctxFor; closeCtx();
     window.open(m.href + (m.href.indexOf('?') === -1 ? '?' : '&') + (/tasks\.html/.test(m.href) ? 'notes=1' : 'note=1'), '_blank', 'noopener');
   });
   document.addEventListener('click', closeCtx);
-  document.addEventListener('contextmenu', function (e) { if (!e.target.closest('.mn-item')) closeCtx(); });
+  document.addEventListener('contextmenu', function (e) { if (!e.target.closest('#mnList, [data-mn-list]')) closeCtx(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeCtx(); });
   window.addEventListener('scroll', closeCtx, true);
 
@@ -693,7 +685,7 @@
     var task = /^task-/.test(m.rec || '') ? m.rec.slice(5) : null;
     if (task) {
       taskFrame.hidden = false;
-      taskFrame.src = 'screens/tasks.html?open=' + encodeURIComponent(task) + '&embed=1';
+      taskFrame.src = '../screens/tasks.html?open=' + encodeURIComponent(task) + '&embed=1';
       return;
     }
     if (!window.RMXHistory) return;
@@ -714,7 +706,7 @@
   });
 
   /* ---------- row click ---------- */
-  function onRowClick(e) {
+  list.addEventListener('click', function (e) {
     var item = e.target.closest('.mn-item'); if (!item) return;
     var m = byId(item.getAttribute('data-mn-id'));
     if (e.target.closest('[data-mn-quick]')) { openNote(m); return; }
@@ -726,13 +718,12 @@
        without a page yet fall back to their History / Notes overlay. */
     if (rec) { if (m.href) return; e.preventDefault(); if (window.RMXHistory) RMXHistory.open(rec.getAttribute('data-mn-rec')); return; }
     openDetails(m);
-  }
-  function onRowKey(e) {
+  });
+  list.addEventListener('keydown', function (e) {
     if ((e.key !== 'Enter' && e.key !== ' ') || e.target.closest('a,button')) return;
     var item = e.target.closest('.mn-item'); if (!item) return;
     e.preventDefault(); openDetails(byId(item.getAttribute("data-mn-id")));
-  }
-  [list, disList].forEach(function (l) { l.addEventListener('click', onRowClick); l.addEventListener('keydown', onRowKey); });
+  });
 
   /* ---------- Add Response Note ---------- */
   var dlg = document.getElementById('mnNote'), cur = null, cat = '';

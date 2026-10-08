@@ -799,3 +799,12 @@
 .mn-menu--ctx > button { height: 40px; padding: 0 var(--spacing-xl); font: var(--type-label-m-regular); color: var(--text-secondary); }
 .mn-menu--ctx, .mn-menu--ctx > button { outline: 0; }
 .mn-menu--ctx > button:focus, .mn-menu--ctx > button:focus-visible { outline: 0; box-shadow: none; }
+
+/* Counter beside the title: a plain grey number, like the original tile counts. */
+.mn-count { font: var(--type-paragraph-s-regular); color: var(--text-primary); margin-right: auto; padding-left: var(--spacing-xs); }
+
+/* The Dismissed Mentions overlay: the old Dismissed tab as a dialog (587 wide, its list scrolls). */
+.mn-scrim--dis { z-index: 500; }
+.mn-dialog--dis { width: 587px; display: flex; flex-direction: column; max-height: calc(100vh - 110px); }
+.mn-dialog--dis .mn-search { margin-top: var(--spacing-md); }
+.mn-dis__list { flex: 1 1 auto; min-height: 220px; overflow-y: auto; padding: var(--spacing-xs) 0; }
