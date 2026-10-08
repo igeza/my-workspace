@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="assets/rmx.css?v=7eee26a9">
 <link rel="stylesheet" href="assets/proto.css?v=93c42d60">
 <link rel="stylesheet" href="assets/original-art.css?v=816797ce">
-<link rel="stylesheet" href="assets/workspace.css?v=d355a637">
+<link rel="stylesheet" href="assets/workspace.css?v=fc43d6ea">
 <link rel="stylesheet" href="assets/history-notes.css?v=97ce8fdb">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 </head>
@@ -325,7 +325,7 @@
   <div class="ows-overline" data-accent="notice"></div>
   <header class="rmx-tile__header" data-rmx-component="_Tile Headers">
     <span class="rmx-tile__title rmx-type-heading-m-regular">My Mentions</span>
-    <span class="mn-count" data-mn-count aria-label="open mentions">4</span>
+    <span class="mn-count" data-mn-count aria-label="open mentions">(4)</span>
     <span class="mn-hdricons">
       <button type="button" data-ows-tile-action data-ows-hide aria-label="Hide My Mentions"><svg class="rmx-icon"><use href="#visibility-off"></use></svg></button>
       <button type="button" data-ows-tile-action aria-label="My Mentions options" aria-haspopup="menu" data-mn-tilemenu><svg class="rmx-icon"><use href="#more-vert"></use></svg></button>
@@ -605,7 +605,7 @@
   function render() {
     var open = mentions.filter(function (m) { return m.state === 'open'; });
     var gone = mentions.filter(function (m) { return m.state === 'dismissed'; });
-    tile.querySelector('[data-mn-count]').textContent = open.length;
+    tile.querySelector('[data-mn-count]').textContent = '(' + open.length + ')';
     list.innerHTML = open.length ? open.map(rowHTML).join('') : '<p class="mn-empty">You have no open mentions.</p>';
     fillDays(list);
     var rows = gone.filter(function (m) { return !query || text(m).indexOf(query) !== -1; });
