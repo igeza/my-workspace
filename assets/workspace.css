@@ -820,3 +820,5 @@
 .mn-dis__list::-webkit-scrollbar, .rmx-tile[data-ows-tile] > .mn-list::-webkit-scrollbar { width: 8px; background: transparent; }
 .mn-dis__list::-webkit-scrollbar-track, .rmx-tile[data-ows-tile] > .mn-list::-webkit-scrollbar-track { background: transparent; border: 0; box-shadow: none; }
 .mn-dis__list::-webkit-scrollbar-thumb, .rmx-tile[data-ows-tile] > .mn-list::-webkit-scrollbar-thumb { background: var(--border-stronger); border-radius: 4px; border: 0; }
+
+.mn-chip--other { border-color: var(--border-secondary); color: var(--text-link); }

@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="assets/rmx.css?v=7eee26a9">
 <link rel="stylesheet" href="assets/proto.css?v=93c42d60">
 <link rel="stylesheet" href="assets/original-art.css?v=816797ce">
-<link rel="stylesheet" href="assets/workspace.css?v=e9a18f1a">
+<link rel="stylesheet" href="assets/workspace.css?v=1daa7284">
 <link rel="stylesheet" href="assets/history-notes.css?v=97ce8fdb">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 </head>
@@ -515,7 +515,7 @@
 </div>
 
 <script src="assets/app.js?v=7be399e0"></script>
-<script src="assets/history-notes.js?v=34af3ae1"></script>
+<script src="assets/history-notes.js?v=4d7fcd03"></script>
 <script>
 /* ---- hiding a tile, and getting it back ----
    Announcements and My Training start hidden -- which is what the two links in
@@ -561,7 +561,7 @@
   var MS = 60000, H = 3600000, D = 86400000;
   var mentions = [
     {id:1, state:'open', who:'Nathan Cole',   ini:'NC', av:'blue',   kind:'task',     name:'New Resident Move In', rec:'task-t-movein-credit', href:'screens/tasks.html?open=t-movein-credit',   when:'20 min ago', ago:20*MS, body:'Dana Whitcomb moves in on the <span data-mn-day="1"></span>. Can you set up her  community account?'},
-    {id:2, state:'open', who:'Kelsey Warner', ini:'KW', av:'green',  kind:'prospect', name:'Nicole Brandt',        rec:'prospect-nicole-brandt', href:'screens/prospect.html?id=nicole-brandt', when:'1h ago',     ago:1*H,  body:'Nicole wants the quote repriced with the covered parking space included. Can you add it?'},
+    {id:2, state:'open', tags:['Laura Bennett'], who:'Kelsey Warner', ini:'KW', av:'green',  kind:'prospect', name:'Nicole Brandt',        rec:'prospect-nicole-brandt', href:'screens/prospect.html?id=nicole-brandt', when:'1h ago',     ago:1*H,  body:'Nicole wants the quote repriced with the covered parking space included. Can you add it?'},
     {id:3, state:'open', who:'Derek Shaw',    ini:'DS', av:'orange', kind:'prospect', name:'Renee Vogel',          rec:'prospect-renee-vogel', href:'screens/prospect.html?id=renee-vogel',   when:'3h ago',     ago:3*H,  body:'She really just wants a dog park, and nothing at Flagstone fits. Can you move the lead to Brookside? Also she had some questions about some of the amenities.'},
     {id:4, state:'open', who:'Erin Caldwell', ini:'EC', av:'navy',   kind:'tenant',   name:'Marcia Clark',         rec:'tenant-marcia-clark', href:'screens/tenants.html?view=details',    when:'yesterday',  ago:1*D,  body:'She’s adding a roommate within six months and wants the steps in writing.'},
     {id:5, state:'dismissed', who:'Nathan Cole',  ini:'NC', av:'blue',   kind:'owner', name:'Sally Klydon',            rec:'owner-sally-klydon',     when:'3 days ago', ago:3*D, body:'Sally asked for the September owner statement before Friday. Can you send it over once it is posted to her portal?'},
@@ -615,7 +615,7 @@
               : '<button type="button" class="mn-item__act" data-tip="Reopen" aria-label="Reopen" data-mn-reopen><svg class="rmx-icon"><use href="#refresh"></use></svg></button>') +
           '</span>' +
         '</div>' +
-        '<div class="mn-item__body"><span class="hn-at hn-at--me" contenteditable="false">@' + ME + '</span> ' + m.body + '</div>' +
+        '<div class="mn-item__body"><span class="hn-at hn-at--me" contenteditable="false">' + ME + '</span> ' + (m.tags || []).map(function (n) { return '<span class="hn-at hn-at--other" contenteditable="false">' + esc(n) + '</span> '; }).join('') + m.body + '</div>' +
         '<div class="mn-item__time">' + m.when + '</div>' +
       '</div>';
   }
@@ -715,7 +715,7 @@
       return;
     }
     if (!window.RMXHistory) return;
-    var text = '@' + ME + ' ' + m.body.replace(/<[^>]*>/g, '');
+    var text = '@' + ME + ' ' + (m.tags || []).map(function (n) { return '@' + n + ' '; }).join('') + m.body.replace(/<[^>]*>/g, '');
     RMXHistory.open({
       key: 'mention-' + m.id, kind: m.kind, name: m.name, items: [],
       notes: [{type: 'Note', date: noteDate(m.ago),
@@ -768,7 +768,7 @@
     dlg.querySelector('[data-mn-recname]').textContent = m.name;
     dlg.querySelector('[data-mn-from]').textContent = m.who;
     dlg.querySelector('[data-mn-when]').textContent = stamp(m.ago);
-    dlg.querySelector('[data-mn-orig]').innerHTML = '<span class="mn-chip">' + ME + '</span> ' + m.body;
+    dlg.querySelector('[data-mn-orig]').innerHTML = '<span class="mn-chip">' + ME + '</span> ' + (m.tags || []).map(function (n) { return '<span class="mn-chip mn-chip--other">' + esc(n) + '</span> '; }).join('') + m.body;
     fillDays(dlg);
     dlg.querySelector('[data-mn-resp]').value = '';
     setFollow(false);
