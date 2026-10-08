@@ -623,7 +623,7 @@
 /* The whole row, edge to edge, lights up on hover. */
 .mn-item:hover, .mn-item:focus-visible { background: var(--container-tertiary); }
 .mn-item:focus-visible { outline: 2px solid var(--border-secondary); outline-offset: -2px; }
-.mn-item__head { display: flex; align-items: flex-start; gap: var(--spacing-xxs); min-width: 0; }
+.mn-item__head { display: flex; align-items: center; gap: var(--spacing-xxs); min-width: 0; }
 .mn-item__who { flex: none; font: var(--type-label-m-semibold); color: var(--text-secondary); }
 .mn-item__what { flex: 1; min-width: 0; font: var(--type-label-m-regular); color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mn-item__rec { color: var(--text-link); text-decoration: none; }
@@ -633,7 +633,7 @@
 /* The icons sit over the right end of the header line on hover, so the line uses the whole width and the row never changes size. */
 .mn-item__head { position: relative; }
 .mn-item__acts {
-  position: absolute; top: 0; right: 0; display: inline-flex; align-items: center; gap: var(--spacing-xxs);
+  position: absolute; top: 50%; right: 0; transform: translateY(-50%); display: inline-flex; align-items: center; gap: var(--spacing-xxs);
   padding-left: var(--spacing-md); visibility: hidden;
   background: linear-gradient(to right, transparent, var(--container-tertiary) var(--spacing-md));
 }
