@@ -6,8 +6,8 @@
 Writes:
   dist/index.html, dist/screens/*.html   every page with its CSS and JS inlined.
                                          Pages still link to each other, so the dist folder works offline.
-  dist/my-workspace-standalone.html      the workspace page alone, one file. Links to the other screens point at the
-                                         hosted prototype, and Task Details opens in a new tab there.
+  dist/my-workspace-standalone.html      the workspace page alone, one file. Every other screen is embedded, so it
+                                         navigates and opens new tabs without leaving the file or touching the network.
 """
 import os, re, glob, shutil
 
@@ -40,12 +40,54 @@ for p in pages:
     open(os.path.join(DIST, rel), 'w', encoding='utf-8').write(out)
     print(rel, round(len(out) / 1024), 'KB')
 
-# One-file workspace: other screens live on the hosted prototype.
-s = read(os.path.join(DIST, 'index.html'))
-s = s.replace("'screens/", "'" + HOSTED + "screens/").replace('"screens/', '"' + HOSTED + 'screens/')
-# Task Details frames the Tasks screen; a single file has no sibling page to frame, so open it on the hosted copy.
-s = s.replace("taskFrame.hidden = false;\n      taskFrame.src = '" + HOSTED + "screens/tasks.html?open=' + encodeURIComponent(task) + '&embed=1';",
-              "window.open('" + HOSTED + "screens/tasks.html?open=' + encodeURIComponent(task), '_blank', 'noopener');")
-s = re.sub(r'(href=")(screens/)', r'\1' + HOSTED + r'\2', s)
-open(os.path.join(DIST, 'my-workspace-standalone.html'), 'w', encoding='utf-8').write(s)
-print('my-workspace-standalone.html', round(len(s) / 1024), 'KB')
+# One-file workspace: every screen is embedded in the file, so nothing leaves it (no hosted links, no network).
+import json
+ROUTER = r"""
+(function () {
+  var NAMES = {'index': 1, 'issue': 1, 'prospect': 1, 'tasks': 1, 'tenants': 1};
+  function parse(u) {
+    var m = /(?:^|\/)(screens\/)?(index|issue|prospect|tasks|tenants)\.html(\?[^#]*)?/.exec(String(u || ''));
+    return m ? {name: m[2], qs: m[3] || ''} : null;
+  }
+  window.__rmxDoc = function (name, qs, router) {
+    var h = window.__RMX_PAGES[name];
+    var pre = '<script>window.__QS=' + JSON.stringify(qs || '') + ';' + (router ? 'window.__rmxInstall&&window.__rmxInstall();' : '') + '<\/script>';
+    return h.replace('<head>', '<head>' + pre);
+  };
+  function go(t) { document.open(); document.write(window.__rmxDoc(t.name, t.qs, true)); document.close(); window.scrollTo(0, 0); }
+  function fresh(t) {
+    var w = window.__rmxOpen('about:blank', '_blank');
+    if (!w) return;
+    w.__RMX_PAGES = window.__RMX_PAGES; w.__rmxInstall = window.__rmxInstall; w.__rmxDoc = window.__rmxDoc; w.__rmxOpen = window.__rmxOpen;
+    w.document.open(); w.document.write(window.__rmxDoc(t.name, t.qs, true)); w.document.close();
+  }
+  window.__rmxOpen = window.__rmxOpen || window.open.bind(window);
+  window.open = function (u) { var t = parse(u); if (t) { fresh(t); return null; } return window.__rmxOpen.apply(window, arguments); };
+  window.__rmxInstall = function () {
+    window.open = function (u) { var t = parse(u); if (t) { fresh(t); return null; } return window.__rmxOpen.apply(window, arguments); };
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+      var t = parse(a.getAttribute('href')); if (!t) return;
+      e.preventDefault();
+      if (a.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey) fresh(t); else go(t);
+    }, true);
+  };
+  window.__rmxInstall();
+})();
+"""
+pages_js = {}
+for n in ['index', 'issue', 'prospect', 'tasks', 'tenants']:
+    f = os.path.join(DIST, 'index.html' if n == 'index' else 'screens/%s.html' % n)
+    h = read(f).replace('location.search', '(window.__QS||location.search)')
+    pages_js[n] = h
+s = pages_js['index']
+s = s.replace("taskFrame.src = 'screens/tasks.html?open=' + encodeURIComponent(task) + '&embed=1';",
+              "taskFrame.srcdoc = window.__rmxDoc('tasks', '?open=' + encodeURIComponent(task) + '&embed=1', false);")
+s = s.replace("taskFrame.removeAttribute('src')", "taskFrame.removeAttribute('srcdoc')")
+pages_js['index'] = s
+# the data blob is escaped so it can sit inside a <script>
+blob = json.dumps(pages_js).replace('</', '<\\/').replace('<!--', '<\\!--')
+boot = '<script>window.__RMX_PAGES=' + blob + ';</script>\n<script>' + ROUTER + '</script>\n'
+out = pages_js['index'].replace('<head>', '<head>' + boot, 1)
+open(os.path.join(DIST, 'my-workspace-standalone.html'), 'w', encoding='utf-8').write(out)
+print('my-workspace-standalone.html', round(len(out) / 1024), 'KB')
