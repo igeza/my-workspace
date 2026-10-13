@@ -22,3 +22,6 @@ Run it: `python3 dev-server.py 3000 .` then open http://localhost:3000, or see t
 ## Not in this starter
 - The mega menu. The app bar button does nothing yet. `check.mjs --fix` added `megamenu.js/css` to `assets/` but `index.html` doesn't load them.
 - Announcements and My Training start hidden, as in the original; the links at bottom right bring them back.
+
+## Self-contained builds
+`python3 tools/bundle.py` writes `dist/`: every page with its CSS and JS inlined (`dist/index.html` and `dist/screens/*.html`, still linked to each other, so the folder works offline), and `dist/my-workspace-standalone.html`, the workspace as a single file. In the single file, links to the other screens point at https://igeza.github.io/my-workspace/ and Task Details opens there in a new tab.
