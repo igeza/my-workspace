@@ -15,6 +15,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIST = os.path.join(ROOT, 'dist')
 HOSTED = 'https://igeza.github.io/my-workspace/'
 
+import base64
+def _b64(f): return base64.b64encode(open(os.path.join(ROOT, 'assets', f), 'rb').read()).decode()
+FAVICON = ('<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,' + _b64('favicon.svg') + '">'
+           '<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,' + _b64('favicon-32.png') + '">'
+           '<link rel="apple-touch-icon" href="data:image/png;base64,' + _b64('apple-touch-icon.png') + '">')
+
 def read(p): return open(p, encoding='utf-8').read()
 
 def inline(path):
@@ -29,6 +35,7 @@ def inline(path):
     s = re.sub(r'<link rel="stylesheet" href="((?:\.\./)?assets/[^"]+)">', css, s)
     s = re.sub(r'<script src="((?:\.\./)?assets/[^"]+)"></script>', js, s)
     s = re.sub(r'<link rel="(?:icon|apple-touch-icon)"[^>]*>', '', s)
+    s = s.replace('<head>', '<head>' + FAVICON, 1)
     return s
 
 if os.path.exists(DIST): shutil.rmtree(DIST)
